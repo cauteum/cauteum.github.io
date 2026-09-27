@@ -8,14 +8,17 @@
   <section class="ws-hero">
     <div class="md-grid md-typeset">
       <div class="ws-hero__inner">
-        <div class="ws-hero__image">
-          <img src="{{ 'assets/images/hero.svg' | url }}" alt="" width="640" height="460" draggable="false">
-        </div>
         <div class="ws-hero__content">
+          <span class="ws-hero__eyebrow">{{ hero.eyebrow }}</span>
           <h1>{{ hero.title }}</h1>
           <p>{{ hero.text }}</p>
-          <a href="{{ hero.primary.link }}" class="md-button md-button--primary">{{ hero.primary.label }}</a>
-          <a href="{{ hero.secondary.link }}" class="md-button">{{ hero.secondary.label }}</a>
+          <div class="ws-hero__actions">
+            <a href="{{ hero.primary.link }}" class="md-button md-button--primary">{{ hero.primary.label }}</a>
+            <a href="{{ hero.secondary.link }}" class="md-button">{{ hero.secondary.label }}</a>
+          </div>
+        </div>
+        <div class="ws-hero__image">
+          <img src="{{ 'assets/images/hero.svg' | url }}" alt="" width="640" height="460" draggable="false">
         </div>
       </div>
     </div>

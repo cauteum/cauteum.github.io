@@ -4,11 +4,12 @@ hide:
   - navigation
   - toc
 hero:
+  eyebrow: CONTROL THE AGENT'S REACH
   title: Sandboxes for coding agents
   text: >-
     Run Cursor, Claude, Codex or any agent you bring in a container that sees
-    only your project and reaches only the hosts you allow. Secrets never
-    enter the sandbox.
+    your project and reaches only the hosts you allow. Provider credentials
+    stay outside the sandbox.
   primary:
     label: Get started
     link: get-started/
@@ -29,8 +30,9 @@ them straight on your machine and they get your whole home directory, SSH
 keys, cloud credentials and an open internet connection. One bad prompt or
 poisoned package is enough to leak or break something.
 
-whaleshell runs the agent in a container that sees **only your project** and
-can reach **only the hosts you allow**. Secrets stay outside the container.
+whaleshell runs the agent in a container with a restricted workspace and
+**policy-controlled network access**. Credentials managed through providers
+stay outside the container.
 
 <div class="grid cards" markdown>
 
@@ -52,8 +54,8 @@ can reach **only the hosts you allow**. Secrets stay outside the container.
 
     ---
 
-    The agent sees placeholders. Real tokens are added by the proxy, only on
-    allowed requests.
+    For configured providers, the agent sees placeholders. The proxy inserts
+    real tokens only into allowed requests.
 
 -   :material-sync:{ .lg .middle } __Live policy__
 

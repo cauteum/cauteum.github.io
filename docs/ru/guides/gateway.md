@@ -20,6 +20,12 @@ whaleshell gateway info
 Compose: `packaging/compose/docker-compose.yml`.
 
 Адрес по умолчанию: `127.0.0.1:7443`.
+При `WHALESHELL_GATEWAY_ALLOW_UNAUTHENTICATED=1` или флаге
+`--allow-unauthenticated-users` gateway запускается только на loopback-адресе.
+На публичном или LAN-адресе запуск завершается ошибкой. Поле
+`allow_unauthenticated` видно в `whaleshell gateway info`, а `whaleshell status`
+показывает предупреждение. Reverse proxy и проброс порта могут открыть
+loopback-сервис другим машинам — учитывайте это при развёртывании.
 
 ## Зоны ответственности
 
