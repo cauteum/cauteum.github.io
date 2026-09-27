@@ -47,8 +47,8 @@ cd /path/to/whaleshell
 export GOWORK=$PWD/go.work
 
 go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
-./whaleshell install
-whaleshell version
+./whaleshell-cli/whaleshell install
+./whaleshell-cli/whaleshell version
 ```
 
 ## Start a container engine

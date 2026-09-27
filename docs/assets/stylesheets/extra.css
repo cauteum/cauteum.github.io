@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell */
 /* SPDX-License-Identifier: MIT */
 
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
+
 /* ---------- Landing hero ---------- */
 
 .ws-hero {
@@ -9,18 +11,23 @@
 
   position: relative;
   overflow: hidden;
-  padding-top: 1rem;
+  padding: clamp(2rem, 5vw, 5rem) 0 1rem;
   color: #fff;
-  background: linear-gradient(to bottom, var(--md-primary-fg-color), #6a3fb5);
+  background:
+    radial-gradient(circle at 82% 20%, rgba(188, 146, 255, 0.3), transparent 35%),
+    linear-gradient(135deg, #181a44 0%, #383171 54%, #7650ab 100%);
 }
 
 .ws-hero__inner {
-  margin: 0 0.8rem;
+  display: grid;
+  gap: clamp(1rem, 3vw, 3rem);
+  align-items: center;
+  padding: 0 0.8rem;
 }
 
 .ws-hero__image {
-  max-width: 28rem;
-  margin: 0 auto;
+  width: min(100%, 27rem);
+  margin: 0 auto 1.5rem;
   transform: translateY(calc(var(--ws-hero-progress) * 4rem));
 }
 
@@ -32,38 +39,81 @@
 
 .ws-hero__content {
   position: relative;
-  padding-bottom: 5rem;
+  z-index: 3;
+  max-width: 31rem;
+  padding-bottom: 1.5rem;
   opacity: calc(1 - var(--ws-hero-progress) * 0.9);
 }
 
+.ws-hero__eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid rgba(224, 203, 255, 0.35);
+  border-radius: 0.3rem;
+  color: #e4d6ff;
+  background: rgba(15, 16, 52, 0.22);
+  font: 600 0.64rem/1.25 "IBM Plex Mono", monospace;
+  letter-spacing: 0.09em;
+ }
+
 .ws-hero .md-typeset h1 {
-  margin: 0 0 1rem;
+  max-width: 13ch;
+  margin: 0 0 1.2rem;
+  font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
   font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
   color: #fff;
 }
 
 .ws-hero__content p {
-  font-size: 0.9rem;
-  opacity: 0.9;
+  max-width: 47ch;
+  margin: 0 0 1.5rem;
+  font-size: clamp(0.9rem, 1.5vw, 1.08rem);
+  line-height: 1.65;
+  color: #e8e3f6;
 }
 
-.ws-hero .md-typeset .md-button {
-  margin: 0.5rem 0.5rem 0 0;
+.ws-hero__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.7rem;
+  align-items: stretch;
+ }
+
+.ws-hero .md-typeset .ws-hero__actions .md-button {
+  display: inline-flex;
+  min-height: 2.9rem;
+  margin: 0;
+  padding: 0.65rem 1.05rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.48);
 }
 
-.ws-hero .md-typeset .md-button--primary {
-  color: #3f3290;
+.ws-hero .md-typeset .ws-hero__actions .md-button--primary {
+  color: #282056;
   background-color: #fff;
   border-color: #fff;
 }
 
-.ws-hero .md-typeset .md-button:is(:hover, :focus) {
-  color: #fff;
-  background-color: var(--md-accent-fg-color);
-  border-color: var(--md-accent-fg-color);
+.ws-hero .md-typeset .ws-hero__actions .md-button:is(:hover, :focus-visible) {
+  color: #24204e;
+  background-color: #e4d6ff;
+  border-color: #e4d6ff;
+}
+
+.ws-hero .md-typeset .ws-hero__actions .md-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .ws-hero__wave {
@@ -79,28 +129,38 @@
 }
 
 @media screen and (max-width: 29.99em) {
-  .ws-hero .md-typeset h1 {
-    font-size: 1.4rem;
+  .ws-hero__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .ws-hero .md-typeset .ws-hero__actions .md-button {
+    padding-right: 0.4rem;
+    padding-left: 0.4rem;
   }
 }
 
 @media screen and (min-width: 60em) {
   .ws-hero__inner {
-    display: flex;
-    align-items: center;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    min-height: 23rem;
   }
 
   .ws-hero__content {
-    max-width: 20rem;
-    padding-bottom: 7rem;
+    padding-bottom: 5.5rem;
   }
 
   .ws-hero__image {
-    order: 1;
-    width: 32rem;
+    width: 100%;
     max-width: none;
-    margin: 0 0 0 auto;
-    padding-bottom: 3rem;
+    margin: 0 0 2rem auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-hero__image {
+    transform: none;
   }
 }
 

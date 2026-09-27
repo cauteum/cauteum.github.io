@@ -20,6 +20,12 @@ whaleshell gateway info
 Compose: `packaging/compose/docker-compose.yml`.
 
 Listen address defaults to `127.0.0.1:7443`.
+If you enable `WHALESHELL_GATEWAY_ALLOW_UNAUTHENTICATED=1` or pass
+`--allow-unauthenticated-users`, the gateway accepts only a loopback listen
+address. It refuses to start on a public or LAN address in this mode.
+`whaleshell gateway info` reports `allow_unauthenticated`, and
+`whaleshell status` displays a warning. Keep reverse proxies and port
+forwarding in mind: they can expose a loopback listener to other machines.
 
 ## Responsibilities
 

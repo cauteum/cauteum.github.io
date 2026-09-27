@@ -22,6 +22,16 @@ SPDX-License-Identifier: MIT
 - Docker default seccomp kept; `no-new-privileges`; `CapDrop=NET_RAW`
 - Landlock via `whaleshell-init` when kernel ABI ≥ 1 (often ABI 0 on Desktop)
 
+The egress proxy resolves a destination once and connects to the filtered IP.
+Reserved, loopback and link-local addresses stay blocked even when a policy
+specifies `allowed_ips`. If an upstream corporate HTTP proxy is configured,
+that proxy resolves the destination itself. Treat it as part of the trusted
+network boundary; routes with `allowed_ips` are refused in this mode.
+
+On Docker Desktop for macOS, the proxy may not receive a reliable peer binary
+identity. A binary-specific policy needs a platform that can supply that
+identity; container boundaries and mount restrictions still apply.
+
 ## Credentials
 
 Prefer `provider create` over `--env`. Cursor uses `agent login` instead of
