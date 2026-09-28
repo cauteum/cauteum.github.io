@@ -89,6 +89,7 @@ plugins:
             Limitations: Ограничения
             Guides: Руководства
             Credential providers: Credential-провайдеры
+            Provider profiles: Профили провайдеров
             Policy: Политика
             Cursor agent: Cursor Agent
             Recreate a sandbox: Пересоздание sandbox
@@ -172,6 +173,7 @@ nav:
       - MicroVM: providers/microvm.md
   - Guides:
       - Credential providers: guides/credentials.md
+      - Provider profiles: guides/provider-profiles.md
       - Gateway: guides/gateway.md
       - Policy: guides/policy.md
       - Cursor agent: guides/cursor.md
