@@ -20,8 +20,9 @@ whaleshell profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell
 whaleshell profile lint -f ./providers/codex.yaml
 ```
 
-Lint проверяет профиль локально. Он не подключается к провайдеру и не проверяет,
-действителен ли credential.
+Lint проверяет OpenShell-схему и runtime-функции, нужные `provider create`.
+Для неподдерживаемых refresh strategies и token grants он возвращает ошибку с
+указанием поля. Lint не подключается к провайдеру и не проверяет credential.
 
 ## Импортируйте профиль
 
@@ -91,11 +92,19 @@ sandbox попадают placeholders; egress proxy раскрывает их т
 с профилем endpoints. Список endpoints и пути binaries должны соответствовать
 образу — профиль не добавляет отсутствующий executable.
 
-Upstream Codex OAuth fixture можно импортировать и сохранить его metadata, но
-whaleshell пока не обновляет ChatGPT login и не реализует Codex workload identity
-federation. Импортёр понимает поля OpenShell, представленные versioned fixtures,
-включая refresh и token-grant metadata; сохранение metadata не включает runtime
-flow, который пока не реализован.
+Refresh стратегии OpenShell `oauth2_refresh_token` и
+`oauth2_client_credentials` связаны с созданием provider. Материал обновления
+хранится в зашифрованном хранилище gateway, поля ответа записываются в указанные
+credential keys, а получение sandbox secrets обновляет токен перед истечением.
+Первое обновление можно вызвать вручную:
+`whaleshell provider refresh rotate NAME --credential-key ACCESS_TOKEN`.
+
+Upstream Codex OAuth fixture описывает credentials `CODEX_AUTH_*`, но whaleshell
+не получает и не обновляет ChatGPT login и пока не реализует Codex workload
+identity federation. Token grants, AWS STS role assumption, Google
+service-account JWT и SigV4 signing также не поддерживаются runtime. Такие
+профили можно импортировать и экспортировать, но `profile lint` и
+`provider create` сообщат о неподдерживаемом поле.
 
 ## Каталоги workspace и global
 

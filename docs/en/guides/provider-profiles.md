@@ -21,8 +21,10 @@ whaleshell profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell
 whaleshell profile lint -f ./providers/codex.yaml
 ```
 
-Lint validates the profile locally. It does not contact the provider or prove
-that a credential works.
+Lint checks the OpenShell schema and runtime features required by
+`provider create`. Unsupported refresh strategies or token grants get a
+field-specific error. Lint does not contact the provider or prove that a
+credential works.
 
 ## Import a profile
 
@@ -92,11 +94,19 @@ resolves them only for profile-bound endpoints. Keep `endpoints` and `binaries`
 aligned with the image: a profile cannot add an executable path that the image
 does not contain.
 
-The upstream Codex OAuth fixture can be imported and its metadata round-tripped,
-but whaleshell does not yet refresh a ChatGPT login or implement Codex workload
-identity federation. The importer understands the OpenShell fields represented
-by the versioned provider fixtures, including refresh and token-grant metadata;
-retaining metadata does not enable an unsupported runtime flow.
+OpenShell `oauth2_refresh_token` and `oauth2_client_credentials` profile
+refreshes are wired into provider creation. Refresh material is stored in the
+gateway's encrypted store, mapped response fields update their declared
+credential keys, and sandbox secret resolution refreshes an expiring token.
+The first rotation can also be requested with `whaleshell provider refresh
+rotate NAME --credential-key ACCESS_TOKEN`.
+
+The upstream Codex OAuth fixture describes `CODEX_AUTH_*` credentials, but
+whaleshell does not acquire or refresh a ChatGPT login or implement Codex
+workload identity federation. Token grants, AWS STS role assumption, Google
+service-account JWT, and SigV4 signing are also outside the current runtime.
+Profiles that request those features remain importable and exportable, while
+`profile lint` and `provider create` report the unsupported field.
 
 ## Workspace and global catalogs
 
