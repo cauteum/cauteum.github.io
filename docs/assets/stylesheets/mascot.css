@@ -118,6 +118,39 @@
   animation: ws-mascot-ride 5.4s cubic-bezier(0.42, 0, 0.28, 1) infinite;
 }
 
+.ws-scene__fountain {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 74%;
+  width: 12%;
+  height: 21%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ws-fountain__jet {
+  fill: none;
+  stroke: #a6f1f2;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 26 50;
+  opacity: 0;
+  animation: ws-jet 5.4s ease-out infinite;
+}
+
+.ws-fountain__drop {
+  fill: #a6f1f2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ws-spray 5.4s ease-out infinite;
+}
+
+.ws-fountain__drop--left { --spray-x: -16px; }
+.ws-fountain__drop--center { --spray-x: 0px; animation-delay: 0.08s; }
+.ws-fountain__drop--right { --spray-x: 16px; animation-delay: 0.16s; }
+
 .ws-scene__bubble {
   position: absolute;
   z-index: 1;
@@ -165,6 +198,19 @@
   82%, 100% { transform: translateY(410%); opacity: 0; }
 }
 
+@keyframes ws-jet {
+  0%, 16%, 100% { opacity: 0; stroke-dashoffset: 52; }
+  22% { opacity: 1; }
+  38% { opacity: 0.9; stroke-dashoffset: 0; }
+  50%, 62% { opacity: 0; stroke-dashoffset: -38; }
+}
+
+@keyframes ws-spray {
+  0%, 18%, 100% { opacity: 0; transform: translate(0, 5px) scale(0.45); }
+  24% { opacity: 1; transform: translate(0, 0) scale(1); }
+  48% { opacity: 0; transform: translate(var(--spray-x), -30px) scale(0.72); }
+}
+
 @keyframes ws-cursor { 50% { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -172,6 +218,7 @@
   .ws-scene__wake,
   .ws-scene__terminal::after,
   .ws-scene__result,
+  .ws-scene__fountain *,
   .ws-scene__bubble,
   .ws-scene__cursor { animation: none; }
 }
