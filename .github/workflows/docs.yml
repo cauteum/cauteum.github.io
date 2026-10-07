@@ -35,7 +35,7 @@ jobs:
                    assets/stylesheets/extra.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
                    assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
                    assets/images/mascot.svg assets/images/mascot.png \
-                   assets/images/mascot-violet.png assets/images/mascot-violet-atlas.png \
+                   assets/images/mascot-violet.svg \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -49,12 +49,12 @@ jobs:
             grep -q 'id="how-it-works"' "$page"
             grep -q 'class="mermaid"' "$page"
             grep -q 'class="ws-scene"' "$page"
-            grep -q 'assets/images/mascot-violet.png' "$page"
+            grep -q 'assets/images/mascot-violet.svg' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
-          grep -q 'mascot-violet.png' site/index.html
-          grep -q 'mascot-violet.png' site/ru/index.html
+          grep -q 'mascot-violet.svg' site/index.html
+          grep -q 'mascot-violet.svg' site/ru/index.html
           grep -q 'extra.css' site/ru/index.html
           grep -q 'mascot.css' site/ru/index.html
           grep -q 'hero.js' site/ru/index.html
@@ -73,7 +73,11 @@ jobs:
           grep -q 'ws-doc-mascot--cloud' site/concepts/architecture/index.html
           grep -q 'ws-doc-mascot--shield' site/ru/concepts/security/index.html
           grep -q 'ws-doc-mascot--container' site/providers/docker/index.html
-          grep -q 'mascot-violet-atlas.png' site/assets/stylesheets/mascot.css
+          grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
+          grep -q 'mascot-eye' site/assets/images/mascot-violet.svg
+          grep -q 'class="mascot-context"' site/ru/concepts/security/index.html
+          test ! -e site/assets/images/mascot-violet-atlas.png
+          test ! -e site/assets/images/mascot-violet.png
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
