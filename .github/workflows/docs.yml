@@ -33,7 +33,8 @@ jobs:
                    providers/docker/index.html providers/docker/resources/index.html ru/providers/docker/resources/index.html \
                    providers/kubernetes/index.html ru/providers/microvm/index.html \
                    assets/stylesheets/extra.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
-                   assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg assets/images/mascot.svg \
+                   assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
+                   assets/images/mascot.svg assets/images/mascot.png \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
