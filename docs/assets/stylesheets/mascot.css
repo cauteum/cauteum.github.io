@@ -25,7 +25,7 @@
   width: 39%;
   height: 8%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgb(90 230 235 / 23%), transparent 70%);
+  background: radial-gradient(ellipse, rgb(183 143 255 / 26%), transparent 70%);
   animation: ws-wake 5.4s ease-in-out infinite;
 }
 
@@ -43,7 +43,7 @@
   position: absolute;
   inset: -35% 0 auto;
   height: 32%;
-  background: linear-gradient(transparent, rgb(126 239 228 / 5%), transparent);
+  background: linear-gradient(transparent, rgb(190 157 255 / 8%), transparent);
   content: "";
   pointer-events: none;
   animation: ws-terminal-scan 8s ease-in-out infinite;
@@ -139,7 +139,7 @@
   height: 29%;
   border: 2px solid #001523;
   border-radius: 50%;
-  background: #19d9e8;
+  background: #9a70f5;
   transform: scaleY(0);
   transform-origin: center;
   animation: ws-blink 7.2s ease-in-out infinite;
@@ -151,7 +151,7 @@
 
 .ws-fountain__jet {
   fill: none;
-  stroke: #a6f1f2;
+  stroke: #d6c0ff;
   stroke-width: 10;
   stroke-linecap: round;
   stroke-dasharray: 26 50;
@@ -160,7 +160,7 @@
 }
 
 .ws-fountain__drop {
-  fill: #a6f1f2;
+  fill: #d6c0ff;
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
@@ -184,6 +184,30 @@
 .ws-scene__bubble--one { top: 21%; right: 3%; }
 .ws-scene__bubble--two { top: 28%; right: 0; width: 0.35rem; height: 0.35rem; animation-delay: 0.5s; }
 .ws-scene__bubble--three { top: 34%; right: 7%; width: 0.42rem; height: 0.42rem; animation-delay: 1.2s; }
+
+.ws-doc-mascot {
+  float: right;
+  width: clamp(7rem, 17vw, 10rem);
+  aspect-ratio: 1;
+  margin: -0.25rem 0 0.8rem 1.25rem;
+  background-image: url("../images/mascot-violet-atlas.png");
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  filter: drop-shadow(0 0.8rem 1rem rgb(113 75 210 / 20%));
+  animation: ws-doc-mascot-float 6.8s ease-in-out infinite;
+}
+
+.ws-doc-mascot--terminal { background-position: 0 0; }
+.ws-doc-mascot--container { background-position: 50% 0; }
+.ws-doc-mascot--gear { background-position: 100% 0; }
+.ws-doc-mascot--server { background-position: 0 100%; }
+.ws-doc-mascot--cloud { background-position: 50% 100%; }
+.ws-doc-mascot--shield { background-position: 100% 100%; }
+
+@keyframes ws-doc-mascot-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-0.4rem) rotate(1deg); }
+}
 
 @keyframes ws-mascot-ride {
   0%, 100% { transform: translateY(0) rotate(-2.5deg) scale(1); }
@@ -240,6 +264,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ws-hero__image .ws-scene__mascot-wrap,
+  .ws-doc-mascot,
   .ws-scene__wake,
   .ws-scene__terminal::after,
   .ws-scene__result,
@@ -247,4 +272,11 @@
   .ws-scene__blink,
   .ws-scene__bubble,
   .ws-scene__cursor { animation: none; }
+}
+
+@media screen and (max-width: 42em) {
+  .ws-doc-mascot {
+    width: 7rem;
+    margin: 0.25rem 0 0.5rem 0.75rem;
+  }
 }

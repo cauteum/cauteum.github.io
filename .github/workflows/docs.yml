@@ -35,6 +35,7 @@ jobs:
                    assets/stylesheets/extra.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
                    assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
                    assets/images/mascot.svg assets/images/mascot.png \
+                   assets/images/mascot-violet.png assets/images/mascot-violet-atlas.png \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -69,6 +70,10 @@ jobs:
           grep -q 'ws-badge--soon' site/ru/providers/docker/index.html
           grep -q 'under-construction.svg' site/ru/providers/microvm/index.html
           grep -q 'class="mermaid"' site/concepts/architecture/index.html
+          grep -q 'ws-doc-mascot--cloud' site/concepts/architecture/index.html
+          grep -q 'ws-doc-mascot--shield' site/ru/concepts/security/index.html
+          grep -q 'ws-doc-mascot--container' site/providers/docker/index.html
+          grep -q 'mascot-violet-atlas.png' site/assets/stylesheets/mascot.css
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
