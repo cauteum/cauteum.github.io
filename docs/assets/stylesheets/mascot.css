@@ -1,0 +1,123 @@
+/* SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+/* The mascot is the only moving element in the landing hero. */
+.ws-hero__image .ws-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 640 / 460;
+  isolation: isolate;
+}
+
+.ws-scene__halo {
+  position: absolute;
+  inset: 4% 5% 2% 10%;
+  border: 1px solid rgb(194 236 255 / 11%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(180 229 246 / 12%), transparent 67%);
+}
+
+.ws-scene__terminal {
+  position: absolute;
+  inset: 27% 4% 13% 8%;
+  overflow: hidden;
+  border: 1px solid rgb(155 185 219 / 28%);
+  border-radius: 0.75rem;
+  background: #1b2028;
+  box-shadow: 0 1.25rem 2.5rem rgb(9 14 42 / 35%);
+}
+
+.ws-scene__bar {
+  display: flex;
+  height: 14%;
+  min-height: 1.4rem;
+  align-items: center;
+  justify-content: center;
+  color: #adb8c6;
+  background: #2a3039;
+  font: 500 clamp(0.52rem, 1.25vw, 0.75rem)/1 "IBM Plex Mono", monospace;
+}
+
+.ws-scene__dots {
+  position: absolute;
+  left: 5%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #ff605c;
+  box-shadow: 0.9rem 0 #ffbd44, 1.8rem 0 #00ca4e;
+}
+
+.ws-scene__screen {
+  display: grid;
+  gap: clamp(0.35rem, 1.6vw, 1rem);
+  padding: 8% 5%;
+  color: #e5ebf1;
+  font: 500 clamp(0.43rem, 1.45vw, 0.8rem)/1.3 "IBM Plex Mono", monospace;
+  white-space: nowrap;
+}
+
+.ws-scene__prompt,
+.ws-scene__result {
+  color: #8fe4bf;
+}
+
+.ws-scene__continuation {
+  margin-top: -0.35em;
+  padding-left: 1.2em;
+}
+
+.ws-scene__result span {
+  color: #a9b9c8;
+}
+
+.ws-scene__cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  vertical-align: -0.14em;
+  background: #a9f0e9;
+  animation: ws-cursor 1.2s steps(1) infinite;
+}
+
+.ws-hero__image .ws-scene__mascot {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  width: 43%;
+  height: auto;
+  filter: drop-shadow(0 0.6rem 0.55rem rgb(9 18 44 / 24%));
+  animation: ws-whale-bob 5s ease-in-out infinite;
+}
+
+.ws-scene__bubble {
+  position: absolute;
+  z-index: 1;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: rgb(194 239 252 / 58%);
+  animation: ws-bubble 5s ease-in-out infinite;
+}
+
+.ws-scene__bubble--one { top: 21%; right: 3%; }
+.ws-scene__bubble--two { top: 28%; right: 0; width: 0.35rem; height: 0.35rem; animation-delay: 0.5s; }
+
+@keyframes ws-whale-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-0.55rem) rotate(1deg); }
+}
+
+@keyframes ws-bubble {
+  0%, 100% { opacity: 0.35; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-0.7rem); }
+}
+
+@keyframes ws-cursor { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-hero__image .ws-scene__mascot,
+  .ws-scene__bubble,
+  .ws-scene__cursor { animation: none; }
+}
