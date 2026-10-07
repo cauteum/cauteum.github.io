@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Профили провайдеров
@@ -49,6 +49,13 @@ whaleshell profile update -f codex.yaml
 
 ## Запустите Codex с API key
 
+`--from-existing` сканирует только credentials из `discovery.credentials` и
+собирает все непустые объявленные env aliases. Пустой список отключает discovery
+credentials. Отсутствующие значения не вызывают ошибку discovery; команда
+`provider create --from-existing` завершается ошибкой, если не найдены credentials или configuration.
+Для `google-vertex-ai` discovery также читает пять Vertex-переменных project/region/base URL/publisher; явные `--config` values имеют приоритет. Поля профиля `source` и
+`scope` задаёт сервер при экспорте; при импорте/обновлении они игнорируются.
+
 Upstream Codex fixture описывает поля `CODEX_AUTH_*`. Для прямого
 неинтерактивного запуска Codex CLI документированная переменная — `CODEX_API_KEY`;
 для этого сценария используйте отдельный профиль под ваш образ. См. [официальную
@@ -61,6 +68,8 @@ cat > codex-api.yaml <<'YAML'
 id: codex-api
 display_name: Codex API key
 category: agent
+discovery:
+  credentials: [api_key]
 credentials:
   - name: api_key
     env_vars: [CODEX_API_KEY]

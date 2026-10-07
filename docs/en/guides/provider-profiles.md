@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Provider profiles
@@ -50,6 +50,13 @@ whaleshell profile update -f codex.yaml
 
 ## Run Codex with an API key
 
+`--from-existing` scans only credentials named in `discovery.credentials` and
+collects every non-empty declared environment alias. An empty discovery list
+disables credential discovery. Missing credentials do not fail discovery;
+`provider create --from-existing` fails if no credentials or configuration were found.
+For `google-vertex-ai`, discovery also reads the five Vertex project/region/base URL/publisher configuration variables; explicit `--config` values take precedence. Profile
+`source` and `scope` are server-set export metadata, ignored on import/update.
+
 The OpenShell Codex fixture describes `CODEX_AUTH_*` fields. For a direct
 non-interactive Codex CLI run, the documented public environment variable is
 `CODEX_API_KEY`; use a small image-matched profile for this flow. See the
@@ -62,6 +69,8 @@ cat > codex-api.yaml <<'YAML'
 id: codex-api
 display_name: Codex API key
 category: agent
+discovery:
+  credentials: [api_key]
 credentials:
   - name: api_key
     env_vars: [CODEX_API_KEY]

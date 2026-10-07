@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" width="640" height="460" role="img" aria-label="whaleshell: a whale guarding a sandboxed terminal">
   <!-- SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell -->
-  <!-- SPDX-License-Identifier: MIT -->
+  <!-- SPDX-License-Identifier: Apache-2.0 -->
   <defs>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
       <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#0b0d2e" flood-opacity=".35"/>
