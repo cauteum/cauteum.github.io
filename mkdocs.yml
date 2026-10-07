@@ -58,6 +58,9 @@ theme:
     - search.suggest
     - toc.follow
 
+hooks:
+  - hooks/search_index.py
+
 plugins:
   - search
   - i18n:

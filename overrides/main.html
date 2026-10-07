@@ -1,0 +1,23 @@
+{#- SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell -#}
+{#- SPDX-License-Identifier: Apache-2.0 -#}
+{% extends "base.html" %}
+
+{% block scripts %}
+  {% if page and page.url.startswith("ru/") %}
+    <script>
+      (() => {
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function (method, url, ...options) {
+          const requestURL = new URL(url, document.baseURI);
+          const indexPath = "/search/search_index.json";
+          if (requestURL.pathname.endsWith(indexPath)) {
+            const siteRoot = requestURL.pathname.slice(0, -indexPath.length);
+            requestURL.pathname = `${siteRoot}/ru${indexPath}`;
+          }
+          return originalOpen.call(this, method, requestURL.href, ...options);
+        };
+      })();
+    </script>
+  {% endif %}
+  {{ super() }}
+{% endblock %}
