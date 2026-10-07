@@ -32,8 +32,8 @@ jobs:
                    ru/get-started/index.html ru/get-started/gateway/index.html ru/get-started/first-sandbox/index.html \
                    providers/docker/index.html providers/docker/resources/index.html ru/providers/docker/resources/index.html \
                    providers/kubernetes/index.html ru/providers/microvm/index.html \
-                   assets/stylesheets/extra.css assets/images/under-construction.svg \
-                   assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
+                   assets/stylesheets/extra.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
+                   assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg assets/images/mascot.svg \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -46,14 +46,15 @@ jobs:
             grep -q 'class="ws-hero"' "$page"
             grep -q 'id="how-it-works"' "$page"
             grep -q 'class="mermaid"' "$page"
-            src=$(grep -o 'src="[^"]*hero\.svg"' "$page" | head -1 | cut -d'"' -f2)
-            test -s "site/${lang}${src}"
+            grep -q 'class="ws-scene"' "$page"
+            grep -q 'assets/images/mascot.svg' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
-          grep -q 'logo.svg' site/index.html
-          grep -q 'favicon.svg' site/ru/index.html
+          grep -q 'mascot.svg' site/index.html
+          grep -q 'mascot.svg' site/ru/index.html
           grep -q 'extra.css' site/ru/index.html
+          grep -q 'mascot.css' site/ru/index.html
           grep -q 'hero.js' site/ru/index.html
           grep -q 'ws-hero__wave' site/ru/index.html
           grep -q 'hreflang="ru"' site/index.html

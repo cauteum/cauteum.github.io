@@ -12,8 +12,8 @@ copyright: Copyright &copy; 2026 whaleshell &middot; MIT License
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/images/logo.svg
-  favicon: assets/images/favicon.svg
+  logo: assets/images/mascot.svg
+  favicon: assets/images/mascot.svg
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -99,6 +99,7 @@ plugins:
 
 extra_css:
   - assets/stylesheets/extra.css
+  - assets/stylesheets/mascot.css
 
 extra_javascript:
   - assets/javascripts/hero.js

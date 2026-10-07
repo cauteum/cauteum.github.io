@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <!-- SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell -->
+  <!-- SPDX-License-Identifier: Apache-2.0 -->
+  <title id="title">Whaleshell mascot</title>
+  <desc id="desc">A bright whale waves a flipper and sends up three drops of water.</desc>
+  <style>
+    .fin { transform-box: fill-box; transform-origin: 8% 88%; animation: wave 4.2s ease-in-out infinite; }
+    .eyes { transform-box: fill-box; transform-origin: center; animation: blink 6.8s ease-in-out infinite; }
+    .drop { transform-box: fill-box; transform-origin: center bottom; animation: splash 4.2s ease-in-out infinite; }
+    .drop:nth-child(2) { animation-delay: .12s; }
+    .drop:nth-child(3) { animation-delay: .24s; }
+    @keyframes wave { 0%, 18%, 48%, 100% { transform: rotate(0deg); } 28% { transform: rotate(-11deg); } 38% { transform: rotate(7deg); } }
+    @keyframes blink { 0%, 43%, 47%, 100% { transform: scaleY(1); } 45% { transform: scaleY(.1); } }
+    @keyframes splash { 0%, 12%, 50%, 100% { opacity: 1; transform: translateY(0); } 27% { opacity: .25; transform: translateY(-7px); } }
+    @media (prefers-reduced-motion: reduce) { .fin, .eyes, .drop { animation: none; } }
+  </style>
+  <defs>
+    <linearGradient id="sea" x1=".15" y1=".1" x2=".82" y2=".92" objectBoundingBox="true">
+      <stop stop-color="#75e6eb"/>
+      <stop offset=".57" stop-color="#36c9da"/>
+      <stop offset="1" stop-color="#12b2d0"/>
+    </linearGradient>
+  </defs>
+  <g fill="#a6f1f2">
+    <path class="drop" d="M50 24c-2-4-5-6-8-6-2 0-3 1-3 3 0 3 5 4 8 6z"/>
+    <path class="drop" d="M60 20c-1-5-1-9 2-9s4 4 3 9l-2 8z"/>
+    <path class="drop" d="M75 24c2-4 5-6 8-6 2 0 3 1 3 3 0 3-5 4-8 6z"/>
+  </g>
+  <path d="M63 22v12" fill="none" stroke="#a6f1f2" stroke-width="5" stroke-linecap="round"/>
+  <g class="fin">
+    <path d="M93 68c8-7 12-15 16-27 1-4 4-6 7-4 2 1 2 4 1 8 4-6 8-7 10-4 2 2 0 6-2 10-5 13-12 24-23 33z" fill="#38c7d8" stroke="#142940" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M108 48c-2 5-5 11-8 15" fill="none" stroke="#7ae5e8" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M13 75c0-26 21-43 50-43 27 0 45 17 45 43 0 25-20 42-48 42-27 0-47-16-47-42z" fill="url(#sea)" stroke="#142940" stroke-width="5"/>
+  <path d="M19 87c10 17 26 26 44 26 19 0 32-9 39-24-16 8-33 11-48 11-14 0-26-4-35-13z" fill="#eafbfb"/>
+  <path d="M72 96c9 2 15 7 17 13-8 1-15-3-20-10" fill="#159ebc" stroke="#142940" stroke-width="3" stroke-linejoin="round"/>
+  <g class="eyes">
+    <circle cx="43" cy="64" r="14" fill="#fff" stroke="#142940" stroke-width="4"/>
+    <circle cx="68" cy="61" r="17" fill="#fff" stroke="#142940" stroke-width="4"/>
+    <circle cx="48" cy="65" r="5" fill="#142940"/>
+    <circle cx="72" cy="62" r="6" fill="#142940"/>
+    <circle cx="49.5" cy="63" r="2" fill="#fff"/>
+    <circle cx="74" cy="59.5" r="2" fill="#fff"/>
+  </g>
+  <path d="M25 88c8 5 18 5 25 0" fill="none" stroke="#142940" stroke-width="4" stroke-linecap="round"/>
+  <path d="M36 92v8c0 2 2 3 4 3h6c2 0 4-1 4-3v-8" fill="#fff" stroke="#142940" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M43 93v9" stroke="#142940" stroke-width="2"/>
+  <circle cx="23" cy="78" r="3" fill="#83e5e9" opacity=".7"/>
+</svg>
