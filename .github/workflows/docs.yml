@@ -48,12 +48,12 @@ jobs:
             grep -q 'id="how-it-works"' "$page"
             grep -q 'class="mermaid"' "$page"
             grep -q 'class="ws-scene"' "$page"
-            grep -q 'assets/images/mascot.svg' "$page"
+            grep -q 'assets/images/mascot.png' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
-          grep -q 'mascot.svg' site/index.html
-          grep -q 'mascot.svg' site/ru/index.html
+          grep -q 'mascot.png' site/index.html
+          grep -q 'mascot.png' site/ru/index.html
           grep -q 'extra.css' site/ru/index.html
           grep -q 'mascot.css' site/ru/index.html
           grep -q 'hero.js' site/ru/index.html
