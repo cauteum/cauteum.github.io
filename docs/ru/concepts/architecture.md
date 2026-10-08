@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Архитектура
@@ -25,6 +25,11 @@ flowchart TD
 | Enforcement | Proxy sidecar, Landlock/seccomp через `whaleshell-init` |
 
 ## Путь create
+
+Docker и Podman используют отдельные Moby client/API SDK modules и требуют
+совместимый Engine API версии не ниже 1.40. Клиент автоматически согласует
+версию API. Обновление SDK dependencies касается клиентского кода; daemon
+Docker или Podman обновляется отдельно.
 
 1. CLI резолвит образ, policy, providers, soft defaults.
 2. Driver обеспечивает образы Engine (sandbox + slim proxy).

@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Security
@@ -31,6 +31,16 @@ network boundary; routes with `allowed_ips` are refused in this mode.
 On Docker Desktop for macOS, the proxy may not receive a reliable peer binary
 identity. A binary-specific policy needs a platform that can supply that
 identity; container boundaries and mount restrictions still apply.
+
+## Boundaries still being verified
+
+The October 2026 security review fixed known paths through the Docker bridge gateway, live CONNECT tunnels after policy updates, missing SSH hardening wrappers, Docker inspect errors, reserved mount targets, and gateway-owned credentials reappearing from host environment. Those fixes have focused tests. The following runtime checks remain open:
+
+- Confirm that `UpdateConfig` changes the decision of a running proxy on Docker and on rootful and rootless Podman, including gateway or proxy restart.
+- Exercise the native host-gateway blocking route on Podman 6.x. Proxy-backed sandbox creation is rejected on Podman versions that cannot enforce that route.
+- Test the Docker IPv6 path on a dual-stack Engine and harden workspace bind handling against a path-changing race between validation and mount.
+
+These limits matter when a policy relies on immediate access revocation. See [OpenShell compatibility](../reference/openshell-compatibility.md) for the wider contract status.
 
 ## Credentials
 

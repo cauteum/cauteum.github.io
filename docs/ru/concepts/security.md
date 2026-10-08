@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Безопасность
@@ -32,6 +32,16 @@ IP. Зарезервированные, loopback и link-local адреса ос
 бинаря, открывшего соединение. Правило, зависящее от конкретного бинаря,
 требует платформу с такой идентификацией; граница контейнера и ограничения
 монтирования продолжают действовать.
+
+## Что ещё проверяем
+
+После проверки безопасности в октябре 2026 года исправлены известные пути через gateway внутренней Docker-сети, действующие CONNECT-потоки после смены политики, отсутствие SSH hardening wrapper, ошибки Docker inspect, системные mount targets и возврат удалённых gateway credentials из host environment. Для исправлений есть целевые тесты. Остаются проверки на работающем backend:
+
+- Подтвердить, что `UpdateConfig` меняет решение запущенного proxy на Docker и на rootful/rootless Podman, в том числе после перезапуска gateway или proxy.
+- Проверить блокирующий маршрут к host gateway на Podman 6.x. На версиях Podman, которые не могут обеспечить это ограничение, создание sandbox с proxy отклоняется.
+- Проверить Docker IPv6 на dual-stack Engine и защитить путь workspace от гонки между проверкой и bind mount.
+
+Эти ограничения существенны для политики с немедленным отзывом доступа. Общий статус приведён в разделе [совместимости с OpenShell](../reference/openshell-compatibility.md).
 
 ## Credentials
 

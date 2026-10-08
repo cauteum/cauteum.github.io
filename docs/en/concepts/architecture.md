@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Architecture
@@ -25,6 +25,11 @@ flowchart TD
 | Enforcement | Proxy sidecar, Landlock/seccomp via `whaleshell-init` |
 
 ## Create path
+
+Docker and Podman share the split Moby client/API SDK and require a compatible
+Engine API version of at least 1.40. The client negotiates the API version
+automatically. Updating SDK dependencies covers the client code; update the
+Docker or Podman daemon separately.
 
 1. CLI resolves image, policy, providers, soft defaults.
 2. Driver ensures Engine images (sandbox + slim proxy).

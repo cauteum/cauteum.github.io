@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Запуск gateway
@@ -26,7 +26,7 @@ Compose — когда нужна постоянная установка ряд
 # опционально постоянный ключ хранилища секретов:
 # export WHALESHELL_SECRETS_KEK="$(openssl rand -base64 32)"
 
-docker compose -f packaging/compose/docker-compose.yml up -d --build
+docker compose -f whaleshell-gateway/compose/docker-compose.yml up -d --build
 whaleshell gateway add http://127.0.0.1:7443 --local --name local
 whaleshell gateway select local
 whaleshell gateway info

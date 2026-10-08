@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Требования Docker
@@ -42,7 +42,7 @@ whaleshell gateway add http://127.0.0.1:7443 --local --name local
 whaleshell gateway select local
 ```
 
-Compose: `packaging/compose/docker-compose.yml`.
+Compose gateway: `whaleshell-gateway/compose/docker-compose.yml`.
 
 ## Память Desktop
 
