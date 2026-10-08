@@ -19,10 +19,39 @@
         </div>
         <div class="ws-hero__image">
           <img class="ws-hero__mascot" src="{{ 'assets/images/mascot-cutouts/clean.png' | url }}" alt="{{ hero.mascot_alt }}" width="720" height="647" draggable="false">
-          <div class="ws-mac-terminal" aria-hidden="true">
-            <div class="ws-mac-terminal__bar"><span class="ws-mac-terminal__lights"></span><span>zsh — whaleshell</span></div>
-            <div class="ws-mac-terminal__body"><span class="ws-mac-terminal__prompt">❯</span> whaleshell sandbox create<br><span class="ws-mac-terminal__success">✓</span> sandbox ready <span class="ws-mac-terminal__cursor"></span></div>
+          <div class="ws-mac-terminal ws-flow" aria-label="{{ hero.flow_label }}">
+            <div class="ws-mac-terminal__bar"><span class="ws-mac-terminal__lights" aria-hidden="true"></span><span>zsh — whaleshell</span></div>
+            <div class="ws-flow__tabs" role="tablist" aria-label="{{ hero.flow_label }}">
+              <button class="ws-flow__tab" type="button" role="tab" id="ws-flow-tab-0" aria-controls="ws-flow-panel-0" aria-selected="true" tabindex="0" data-flow-tab="0"><span>01</span> {{ hero.tab_create }}</button>
+              <button class="ws-flow__tab" type="button" role="tab" id="ws-flow-tab-1" aria-controls="ws-flow-panel-1" aria-selected="false" tabindex="-1" data-flow-tab="1"><span>02</span> {{ hero.tab_run }}</button>
+              <button class="ws-flow__tab" type="button" role="tab" id="ws-flow-tab-2" aria-controls="ws-flow-panel-2" aria-selected="false" tabindex="-1" data-flow-tab="2"><span>03</span> {{ hero.tab_observe }}</button>
+            </div>
+            <div class="ws-flow__screen">
+              <div class="ws-flow__panel" role="tabpanel" id="ws-flow-panel-0" aria-labelledby="ws-flow-tab-0" data-flow-panel="0">
+                <div class="ws-flow__line"><span class="ws-mac-terminal__prompt">❯</span> whaleshell sandbox create \</div>
+                <div class="ws-flow__line ws-flow__indent">--name codex-work --from codex \</div>
+                <div class="ws-flow__line ws-flow__indent">--workspace "$PWD" --provider codex</div>
+                <div class="ws-flow__line ws-flow__muted">pulling image · starting proxy · applying policy</div>
+                <div class="ws-flow__line ws-flow__success">✓ sandbox codex-work ready</div>
+              </div>
+              <div class="ws-flow__panel" role="tabpanel" id="ws-flow-panel-1" aria-labelledby="ws-flow-tab-1" data-flow-panel="1" hidden>
+                <div class="ws-flow__line"><span class="ws-mac-terminal__prompt">❯</span> whaleshell sandbox exec codex-work \</div>
+                <div class="ws-flow__line ws-flow__indent">-- codex</div>
+                <div class="ws-flow__line ws-flow__muted">opening /workspace inside the sandbox</div>
+                <div class="ws-flow__line ws-flow__success">✓ Codex is running in codex-work</div>
+                <div class="ws-flow__line"><span class="ws-mac-terminal__prompt">›</span> Inspect this project and suggest a plan<span class="ws-mac-terminal__cursor" aria-hidden="true"></span></div>
+              </div>
+              <div class="ws-flow__panel" role="tabpanel" id="ws-flow-panel-2" aria-labelledby="ws-flow-tab-2" data-flow-panel="2" hidden>
+                <div class="ws-flow__line"><span class="ws-mac-terminal__prompt">❯</span> whaleshell term</div>
+                <div class="ws-flow__line ws-flow__title">whaleshell term <span>sandboxes</span></div>
+                <div class="ws-flow__line ws-flow__muted">agent observation · live sandbox list</div>
+                <div class="ws-flow__line ws-flow__selected">&gt; codex-work <span>running</span> codex</div>
+                <div class="ws-flow__line ws-flow__muted">l live logs · enter connect · q quit</div>
+              </div>
+            </div>
+            <div class="ws-flow__progress" aria-hidden="true"><span></span><span></span><span></span></div>
           </div>
+          <p class="ws-flow__note">{{ hero.flow_note }}</p>
         </div>
       </div>
     </div>

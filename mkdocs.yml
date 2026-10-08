@@ -12,8 +12,8 @@ copyright: Copyright &copy; 2026 whaleshell &middot; Apache-2.0 License
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/images/mascot-violet.svg
-  favicon: assets/images/mascot-violet.svg
+  logo: assets/images/mascot-cutouts/nav.png
+  favicon: assets/images/mascot-cutouts/nav.png
   icon:
     repo: fontawesome/brands/github
   palette:

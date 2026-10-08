@@ -11,6 +11,11 @@ hero:
     your project and reaches only the hosts you allow. Provider credentials
     stay outside the sandbox.
   mascot_alt: Purple Whaleshell whale mascot
+  flow_label: Codex sandbox workflow preview
+  tab_create: Create
+  tab_run: Run Codex
+  tab_observe: Monitor
+  flow_note: Illustrated CLI flow. The monitor is the terminal TUI, not a web dashboard.
   primary:
     label: Get started
     link: get-started/
