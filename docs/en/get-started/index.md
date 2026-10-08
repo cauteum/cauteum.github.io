@@ -14,8 +14,8 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The current CLI beta is `v0.1.0-beta.2`. Pin it when installing: the
-installer's unpinned default can select an older stable release instead.
+The current CLI beta is `v0.1.0-beta.2`. Pin it when installing so this guide
+keeps working even when a newer prerelease is published.
 Open a terminal and run:
 
 ```bash
