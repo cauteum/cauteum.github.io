@@ -15,7 +15,7 @@ hero:
   tab_create: Create
   tab_run: Run Codex
   tab_observe: Monitor
-  flow_note: Illustrated CLI flow. The monitor is the terminal TUI, not a web dashboard.
+  flow_note: Illustrated flow after Codex provider setup. Monitoring uses the terminal TUI, not a web dashboard.
   primary:
     label: Get started
     link: get-started/

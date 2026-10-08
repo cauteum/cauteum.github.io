@@ -26,19 +26,12 @@ whaleshell version
 
 Бинарь ставится в `~/.local/bin` — этот каталог должен быть в `PATH`.
 
-=== "Другая версия"
+Для установки в другой каталог:
 
-    ```bash
-    curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-beta.1 sh
-    ```
-
-=== "Другой каталог"
-
-    ```bash
-    curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
-    ```
+```bash
+curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
+  | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+```
 
 ### из исходников
 

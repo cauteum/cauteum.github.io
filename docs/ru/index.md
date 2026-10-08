@@ -15,7 +15,7 @@ hero:
   tab_create: Создание
   tab_run: Запуск Codex
   tab_observe: Мониторинг
-  flow_note: Иллюстрация работы CLI. Мониторинг — терминальный TUI, не веб-дашборд.
+  flow_note: Пример после настройки Codex-провайдера. Мониторинг — терминальный TUI, не веб-дашборд.
   primary:
     label: Быстрый старт
     link: get-started/
