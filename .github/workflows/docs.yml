@@ -36,6 +36,9 @@ jobs:
                    assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
                    assets/images/mascot.svg assets/images/mascot.png \
                    assets/images/mascot-violet.svg \
+                   assets/images/mascot-scenes/working.png assets/images/mascot-scenes/containers.png \
+                   assets/images/mascot-scenes/remote.png assets/images/mascot-scenes/fast.png \
+                   assets/images/mascot-scenes/flexible.png assets/images/mascot-scenes/happy.png \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -49,7 +52,7 @@ jobs:
             grep -q 'id="how-it-works"' "$page"
             grep -q 'class="mermaid"' "$page"
             grep -q 'class="ws-scene"' "$page"
-            grep -q 'assets/images/mascot-violet.svg' "$page"
+            grep -q 'assets/images/mascot-scenes/working.png' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
@@ -70,13 +73,12 @@ jobs:
           grep -q 'ws-badge--soon' site/ru/providers/docker/index.html
           grep -q 'under-construction.svg' site/ru/providers/microvm/index.html
           grep -q 'class="mermaid"' site/concepts/architecture/index.html
-          grep -q 'ws-doc-mascot--cloud' site/concepts/architecture/index.html
-          grep -q 'ws-doc-mascot--shield' site/ru/concepts/security/index.html
-          grep -q 'ws-doc-mascot--container' site/providers/docker/index.html
+          grep -q 'mascot-scenes/containers.png' site/concepts/architecture/index.html
+          grep -q 'mascot-scenes/flexible.png' site/ru/concepts/security/index.html
+          grep -q 'mascot-scenes/containers.png' site/providers/docker/index.html
+          grep -q 'mascot-scenes/remote.png' site/get-started/first-sandbox/index.html
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'mascot-eye' site/assets/images/mascot-violet.svg
-          grep -q 'class="ws-doc-mascot__prop"' site/ru/concepts/security/index.html
-          grep -q 'class="ws-doc-mascot__whale"' site/ru/concepts/security/index.html
           test ! -e site/assets/images/mascot-violet-atlas.png
           test ! -e site/assets/images/mascot-violet.png
       - uses: actions/upload-pages-artifact@v3
