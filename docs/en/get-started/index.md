@@ -14,27 +14,30 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The release binary is the fastest way in. Open up a terminal and run:
+The current CLI beta is `v0.1.0-beta.2`. Pin it when installing: the
+installer's unpinned default can select an older stable release instead.
+Open a terminal and run:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
+  | WHALESHELL_VERSION=v0.1.0-beta.2 sh
 whaleshell version
 ```
 
 The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 
-=== "Pin a version"
+=== "Install a different version"
 
     ```bash
     curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-alpha.1 sh
+      | WHALESHELL_VERSION=v0.1.0-beta.1 sh
     ```
 
 === "Another directory"
 
     ```bash
     curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+      | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
     ```
 
 ### from source

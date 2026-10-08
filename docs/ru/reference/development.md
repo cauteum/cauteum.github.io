@@ -10,7 +10,7 @@ Git-репозиторий; выполняйте Git-команды внутри
 в нём, а не в публикуемых `go.mod`. Для workspace-модулей указывайте версию:
 
 ```bash
-go work edit -replace=github.com/whaleshell/whaleshell-core@v0.1.0-alpha.2=./whaleshell-core
+go work edit -replace=github.com/whaleshell/whaleshell-core@v0.1.0-beta.1=./whaleshell-core
 git -C whaleshell-cli status
 ```
 
@@ -24,6 +24,8 @@ git -C whaleshell-cli status
 ## Выпуски
 
 Модули используют теги semantic versioning. Alpha, beta и release candidate — предварительные выпуски; `nightly` — обновляемая сборка из `main`. У каждого модуля свой выпуск. При изменении публичного пути или API сначала выпустите зависимости, обновите версии у потребителей и проверьте чистую сборку с `GOWORK=off` без локальных `replace`. Опубликованные теги не переписывайте.
+
+Актуальная бета CLI — `v0.1.0-beta.2`. Core, runtime, proxy, gateway и driver имеют тег `v0.1.0-beta.1`; display, providers и SDK остаются на `v0.1.0-alpha.2`, поскольку нового выпуска для них не требовалось. Python-пакет имеет тег `v0.1.0-beta.1` (версия Python `0.1.0b1`); на PyPI он не опубликован. Ориентируйтесь на `go.mod` каждого модуля, а не на общую версию для всего проекта.
 
 Локальный каталог logging-модуля называется `whaleshell-slogx`, но опубликованный путь пока остаётся `github.com/whaleshell/slogx`. Публичный путь следует менять только вместе с новым репозиторием и проверенной миграцией потребителей.
 

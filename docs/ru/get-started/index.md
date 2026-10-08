@@ -14,27 +14,30 @@ whaleshell — один CLI, который запускает coding-агент
 
 ### через установщик <small>рекомендуется</small> { #with-installer data-toc-label="через установщик" }
 
-Релизный бинарь — самый быстрый способ. Откройте терминал и выполните:
+Актуальная бета CLI — `v0.1.0-beta.2`. При установке закрепите версию:
+без неё установщик может выбрать более старый стабильный выпуск.
+Откройте терминал и выполните:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
+  | WHALESHELL_VERSION=v0.1.0-beta.2 sh
 whaleshell version
 ```
 
 Бинарь ставится в `~/.local/bin` — этот каталог должен быть в `PATH`.
 
-=== "Закрепить версию"
+=== "Другая версия"
 
     ```bash
     curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-alpha.1 sh
+      | WHALESHELL_VERSION=v0.1.0-beta.1 sh
     ```
 
 === "Другой каталог"
 
     ```bash
     curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+      | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
     ```
 
 ### из исходников

@@ -10,6 +10,7 @@ hero:
     Run Cursor, Claude, Codex or any agent you bring in a container that sees
     your project and reaches only the hosts you allow. Provider credentials
     stay outside the sandbox.
+  mascot_alt: Purple Whaleshell whale mascot
   primary:
     label: Get started
     link: get-started/

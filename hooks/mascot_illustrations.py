@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
 # SPDX-License-Identifier: Apache-2.0
 
-"""Choose a brandboard illustration that matches each documentation topic."""
+"""Choose a transparent mascot illustration that matches each topic."""
 
 from pathlib import PurePosixPath
 
@@ -24,11 +24,11 @@ def _illustration(source: str) -> str:
         return "fast"
     if name in {"welcome", "about"}:
         return "happy"
-    return "working"
+    return "clean"
 
 
 def on_page_content(html, page, config, files):
-    """Place the matching, original brandboard illustration beside the title."""
+    """Place the matching, background-free mascot beside the title."""
     if page is None:
         return html
 
@@ -44,10 +44,10 @@ def on_page_content(html, page, config, files):
         return html
 
     variant = _illustration(source)
-    width, height = (670, 435) if variant == "working" else (260, 160)
+    width, height = (720, 647) if variant == "clean" else (720, 443)
     illustration = (
         f'<figure class="ws-doc-mascot ws-doc-mascot--{variant}" aria-hidden="true">'
-        f'<img class="ws-doc-mascot__art" src="/assets/images/mascot-scenes/{variant}.png" '
+        f'<img class="ws-doc-mascot__art" src="/assets/images/mascot-cutouts/{variant}.png" '
         f'alt="" width="{width}" height="{height}" loading="lazy" draggable="false">'
         "</figure>"
     )
