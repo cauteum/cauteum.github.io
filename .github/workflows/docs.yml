@@ -75,7 +75,8 @@ jobs:
           grep -q 'ws-doc-mascot--container' site/providers/docker/index.html
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'mascot-eye' site/assets/images/mascot-violet.svg
-          grep -q 'class="mascot-context"' site/ru/concepts/security/index.html
+          grep -q 'class="ws-doc-mascot__prop"' site/ru/concepts/security/index.html
+          grep -q 'class="ws-doc-mascot__whale"' site/ru/concepts/security/index.html
           test ! -e site/assets/images/mascot-violet-atlas.png
           test ! -e site/assets/images/mascot-violet.png
       - uses: actions/upload-pages-artifact@v3
