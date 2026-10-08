@@ -24,7 +24,7 @@ The proto check uses an exact OpenShell source checkout. Prepare it with `bash t
 
 ## Releases
 
-Modules use semantic version tags. Alpha, beta, and release candidate tags are prereleases; `nightly` is a moving build from `main`. Each module has its own release. When a public module path or API changes, release dependencies first, update consumer requirements, and test a clean build with `GOWORK=off` and no local replacements. Do not rewrite published tags.
+Modules use semantic version tags. Alpha, beta, and release candidate tags are prereleases. Nightly CLI builds are manual and are not part of the current public Releases page. Each module has its own release. When a public module path or API changes, release dependencies first, update consumer requirements, and test a clean build with `GOWORK=off` and no local replacements. Do not rewrite published tags.
 
 The latest CLI beta is `v0.1.0-beta.2`. Core, runtime, proxy, gateway, and driver are at `v0.1.0-beta.1`; display, providers, and SDK remain at `v0.1.0-alpha.2` because they have not needed a new release. The Python package is tagged `v0.1.0-beta.1` (`0.1.0b1` as a Python version); it is not published on PyPI. Use the version declared in each checkout's `go.mod` rather than assuming one tag across modules.
 

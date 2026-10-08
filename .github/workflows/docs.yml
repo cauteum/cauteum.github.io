@@ -72,7 +72,6 @@ jobs:
           grep -q 'Start the gateway' site/get-started/index.html
           grep -q 'Первая песочница' site/ru/get-started/index.html
           grep -q 'id="with-installer"' site/get-started/index.html
-          grep -q 'tabbed-set' site/ru/get-started/index.html
           grep -q 'language-bash' site/get-started/gateway/index.html
           grep -q 'md-status--soon' site/providers/docker/index.html
           grep -q 'ws-badge--soon' site/ru/providers/docker/index.html
@@ -84,8 +83,10 @@ jobs:
           grep -q 'mascot-cutouts/remote.png' site/get-started/first-sandbox/index.html
           grep -q 'WHALESHELL_VERSION' site/get-started/index.html
           grep -q 'v0.1.0-beta.2' site/get-started/index.html
+          ! grep -q 'v0.1.0-beta.1' site/get-started/index.html
           grep -q 'WHALESHELL_VERSION' site/ru/get-started/index.html
           grep -q 'v0.1.0-beta.2' site/ru/get-started/index.html
+          ! grep -q 'v0.1.0-beta.1' site/ru/get-started/index.html
           python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 7; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'mascot-eye' site/assets/images/mascot-violet.svg

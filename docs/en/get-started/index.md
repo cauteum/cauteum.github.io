@@ -26,19 +26,12 @@ whaleshell version
 
 The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 
-=== "Install a different version"
+To install into another directory:
 
-    ```bash
-    curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-beta.1 sh
-    ```
-
-=== "Another directory"
-
-    ```bash
-    curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-      | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
-    ```
+```bash
+curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
+  | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+```
 
 ### from source
 
