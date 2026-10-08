@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -14,8 +14,8 @@ run it.
 One command starts a local gateway container and selects it:
 
 ```bash
-whaleshell gateway ensure
-whaleshell gateway info
+cauteum gateway ensure
+cauteum gateway info
 ```
 
 ### with Docker Compose
@@ -24,16 +24,16 @@ Use Compose when you want a durable setup next to other services:
 
 ```bash
 # optional durable key for the secrets store:
-# export WHALESHELL_SECRETS_KEK="$(openssl rand -base64 32)"
+# export CAUTEUM_SECRETS_KEK="$(openssl rand -base64 32)"
 
-docker compose -f whaleshell-gateway/compose/docker-compose.yml up -d --build
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
-whaleshell gateway info
+docker compose -f cauteum-gateway/compose/docker-compose.yml up -d --build
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
+cauteum gateway info
 ```
 
 !!! warning "Keep the key"
-    Without `WHALESHELL_SECRETS_KEK` the gateway generates `secrets.kek` in its
+    Without `CAUTEUM_SECRETS_KEK` the gateway generates `secrets.kek` in its
     data volume. Lose the volume and stored secrets can no longer be decrypted.
 
 ### with a local binary
@@ -41,12 +41,12 @@ whaleshell gateway info
 Handy while developing the gateway itself:
 
 ```bash
-go build -C whaleshell-gateway -o whaleshell-gateway ./cmd/whaleshell-gateway
-./whaleshell-gateway --listen 127.0.0.1:7443 &
+go build -C cauteum-gateway -o cauteum-gateway ./cmd/cauteum-gateway
+./cauteum-gateway --listen 127.0.0.1:7443 &
 
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
-whaleshell gateway info
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
+cauteum gateway info
 ```
 
 `gateway info` should report the selected gateway as reachable. More options:

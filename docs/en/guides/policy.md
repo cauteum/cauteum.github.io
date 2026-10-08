@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,8 +11,8 @@ provider profiles form the effective allowlist enforced by the egress proxy.
 ## Set and get
 
 ```bash
-whaleshell policy get demo --full
-whaleshell policy set demo --policy /path/to/policy.yaml --wait
+cauteum policy get demo --full
+cauteum policy set demo --policy /path/to/policy.yaml --wait
 ```
 
 `--wait` blocks until the sidecar reloads the bind-mounted effective YAML.
@@ -32,9 +32,9 @@ Inside the sandbox, agents can query denials and propose narrow rules via
 ## Operator approve loop
 
 ```bash
-whaleshell rule get --status pending
-whaleshell rule approve --chunk-id chk_…
-# or: whaleshell rule reject --chunk-id chk_… --reason "narrow to /docs"
+cauteum rule get --status pending
+cauteum rule approve --chunk-id chk_…
+# or: cauteum rule reject --chunk-id chk_… --reason "narrow to /docs"
 ```
 
 Approve merges into the sandbox base policy, rewrites the live policy file, and
@@ -43,9 +43,9 @@ hot-reloads the sidecar. Prefer the smallest `addRule` that unblocks the task.
 ## Schema keys
 
 Policy documents use `filesystem_policy`, `landlock`, and `network_policies`
-(`whaleshell-core/policy`). L7 rules may set `protocol: rest|graphql|mcp` with
+(`cauteum-core/policy`). L7 rules may set `protocol: rest|graphql|mcp` with
 method/path/tool constraints.
 
 ## Related
 
-- Skill: `/etc/whaleshell/skills/policy-advisor`
+- Skill: `/etc/cauteum/skills/policy-advisor`

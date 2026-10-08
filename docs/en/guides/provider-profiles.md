@@ -1,12 +1,12 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Provider profiles
 
 Provider profiles package credential names, endpoint policy, binaries, and
-discovery rules into a reusable YAML document. Whaleshell can import OpenShell
+discovery rules into a reusable YAML document. Cauteum can import OpenShell
 profile examples into a gateway catalog and use those profiles when creating
 provider instances and composing sandbox policy.
 
@@ -17,8 +17,8 @@ by your sandbox. Upstream profiles are examples; review the permissions and
 paths before importing them.
 
 ```bash
-whaleshell profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/codex.yaml
-whaleshell profile lint -f ./providers/codex.yaml
+cauteum profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/codex.yaml
+cauteum profile lint -f ./providers/codex.yaml
 ```
 
 Lint checks the OpenShell schema and runtime features required by
@@ -31,11 +31,11 @@ credential works.
 Import one file, an HTTPS URL, or all supported YAML/JSON files in a directory:
 
 ```bash
-whaleshell profile import --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/openai.yaml
-whaleshell profile import -f ./providers/codex.yaml
-whaleshell profile import --from ./providers
-whaleshell profile list
-whaleshell profile describe codex -o yaml
+cauteum profile import --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/openai.yaml
+cauteum profile import -f ./providers/codex.yaml
+cauteum profile import --from ./providers
+cauteum profile list
+cauteum profile describe codex -o yaml
 ```
 
 Import creates a gateway catalog entry and fails if that ID already exists.
@@ -43,9 +43,9 @@ For an update, export the current profile first, edit it, then submit it with
 `profile update`; the gateway rejects stale concurrent updates.
 
 ```bash
-whaleshell profile export codex -o yaml > codex.yaml
+cauteum profile export codex -o yaml > codex.yaml
 # edit codex.yaml
-whaleshell profile update -f codex.yaml
+cauteum profile update -f codex.yaml
 ```
 
 ## Run Codex with an API key
@@ -86,11 +86,11 @@ endpoints:
 binaries: [/usr/local/bin/codex, /usr/bin/codex]
 YAML
 
-whaleshell profile lint -f codex-api.yaml
-whaleshell profile import -f codex-api.yaml
-CODEX_API_KEY=… whaleshell provider create --name codex --type codex-api --from-existing
+cauteum profile lint -f codex-api.yaml
+cauteum profile import -f codex-api.yaml
+CODEX_API_KEY=… cauteum provider create --name codex --type codex-api --from-existing
 
-whaleshell sandbox create \
+cauteum sandbox create \
   --name codex-work \
   --workspace "$PWD" \
   --provider codex
@@ -107,11 +107,11 @@ OpenShell `oauth2_refresh_token` and `oauth2_client_credentials` profile
 refreshes are wired into provider creation. Refresh material is stored in the
 gateway's encrypted store, mapped response fields update their declared
 credential keys, and sandbox secret resolution refreshes an expiring token.
-The first rotation can also be requested with `whaleshell provider refresh
+The first rotation can also be requested with `cauteum provider refresh
 rotate NAME --credential-key ACCESS_TOKEN`.
 
 The upstream Codex OAuth fixture describes `CODEX_AUTH_*` credentials, but
-whaleshell does not acquire or refresh a ChatGPT login or implement Codex
+cauteum does not acquire or refresh a ChatGPT login or implement Codex
 workload identity federation. Token grants, AWS STS role assumption, Google
 service-account JWT, and SigV4 signing are also outside the current runtime.
 Profiles that request those features remain importable and exportable, while
@@ -124,7 +124,7 @@ workspace. Global catalog operations require the gateway's platform-admin
 role; workspace writes require a workspace admin or owner.
 
 ```bash
-whaleshell --workspace team-ml profile import -f codex-api.yaml
-whaleshell profile list --workspace team-ml
-whaleshell profile export codex-api --global -o yaml
+cauteum --workspace team-ml profile import -f codex-api.yaml
+cauteum profile list --workspace team-ml
+cauteum profile export codex-api --global -o yaml
 ```

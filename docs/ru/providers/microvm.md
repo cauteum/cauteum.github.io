@@ -3,7 +3,7 @@ status: soon
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -20,7 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 ## Что планируется
 
 - Лёгкая виртуальная машина на каждую песочницу вместо контейнера — граница
-  изоляции прочнее. Выбор — `WHALESHELL_DRIVER=vm`.
+  изоляции прочнее. Выбор — `CAUTEUM_DRIVER=vm`.
 - **libkrun** для обычных песочниц, **QEMU + VFIO**, когда нужен проброс GPU.
 - Egress по-прежнему проходит через политику; для GPU-гостей контроль может
   выполняться на стороне хоста.

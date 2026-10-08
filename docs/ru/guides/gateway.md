@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,19 +11,19 @@ sandbox, observation log rings и workflow policy proposals.
 ## Запуск
 
 ```bash
-whaleshell gateway ensure
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
-whaleshell gateway info
+cauteum gateway ensure
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
+cauteum gateway info
 ```
 
-Compose: `whaleshell-gateway/compose/docker-compose.yml`.
+Compose: `cauteum-gateway/compose/docker-compose.yml`.
 
 Адрес по умолчанию: `127.0.0.1:7443`.
-При `WHALESHELL_GATEWAY_ALLOW_UNAUTHENTICATED=1` или флаге
+При `CAUTEUM_GATEWAY_ALLOW_UNAUTHENTICATED=1` или флаге
 `--allow-unauthenticated-users` gateway запускается только на loopback-адресе.
 На публичном или LAN-адресе запуск завершается ошибкой. Поле
-`allow_unauthenticated` видно в `whaleshell gateway info`, а `whaleshell status`
+`allow_unauthenticated` видно в `cauteum gateway info`, а `cauteum status`
 показывает предупреждение. Reverse proxy и проброс порта могут открыть
 loopback-сервис другим машинам — учитывайте это при развёртывании.
 
@@ -31,10 +31,51 @@ loopback-сервис другим машинам — учитывайте эт�
 
 | Поверхность | Роль |
 |-------------|------|
-| Secrets | AES-GCM store; KEK через `WHALESHELL_SECRETS_KEK` или `secrets.kek` |
+| Secrets | AES-GCM store; KEK через `CAUTEUM_SECRETS_KEK` или `secrets.kek` |
 | Providers | Именованные инстансы + метаданные composition |
 | Sandboxes | Registry upsert/delete; log ring; proposals |
-| Sidecar | Resolve секретов через `host.whaleshell.internal` |
+| Sidecar | Resolve секретов через `host.cauteum.internal` |
+
+## Справка по HTTP API
+
+[Спецификация OpenAPI](https://github.com/cauteum/cauteum-gateway/blob/main/api/openapi.yaml)
+описывает оставшуюся часть REST API: метаданные gateway, записи реестра sandbox
+и логи. Policy, profiles и частичное обновление credentials используют Control
+RPC. Это пока не полный список маршрутов. Запись в реестр
+не создаёт и не останавливает runtime; его жизненный цикл описан в Proto API
+OpenShell.
+
+## Client API для управления
+
+Gateway также обслуживает версионированный Connect API
+`cauteum.control.v1` для будущей панели управления и генерируемых SDK.
+Текущая read-часть включает viewer/capabilities, сводки workspace и sandbox,
+сервисов и шаблонов, а также логи и streams sandbox. Операции create/start/stop/
+delete используют идемпотентный `request_id`; потерянный ответ можно сверить
+через `GetOperation`. История операций и аудита доступна авторизованным admin.
+Proto-схема и приватный TypeScript client находятся в `api/` репозитория
+gateway. Первая read-only панель находится в `ui/`: она использует OIDC
+authorization code с PKCE, хранит access token только в памяти и показывает
+доступный пользователю список sandbox и ограниченный хвост логов. Настройте
+публичный OIDC client, callback URL и audience токена, совпадающий с настройкой
+gateway. Раздача production-файлов и same-origin proxy ещё требуют настройки
+развёртывания. Панель показывает статус реестра как данные реестра и не заявляет
+о runtime health. Браузер никогда не должен получать gateway owner или sandbox
+supervisor credentials.
+
+Команды CLI `sandbox list/get`, методы SDK для списка и деталей sandbox,
+фильтрованные снимки и потоковые логи используют этот API через native gRPC в
+Go SDK. `logs --all` перечисляет доступные пользователю workspace и одновременно
+открывает не более 24 потоков.
+Сначала нужно выпустить beta gateway со сгенерированным Go-контрактом, затем
+соответствующую beta SDK.
+
+Список, просмотр, импорт, обновление и удаление provider profiles, частичное
+обновление credentials, чтение и запись глобальной и sandbox policy, а также
+история policy используют `cauteum.control.v1` через native gRPC. Ответы
+профилей сохраняют полную YAML-схему Cauteum. Эти REST-маршруты и записи
+OpenAPI удалены; settings, services и другие REST resource маршруты ещё
+предстоит перенести.
 
 ## Когда обязателен
 
@@ -46,7 +87,7 @@ loopback-сервис другим машинам — учитывайте эт�
 
 ## Конфиг
 
-Gateways пишутся в `~/.config/whaleshell/config.yaml`:
+Gateways пишутся в `~/.config/cauteum/config.yaml`:
 
 ```yaml
 current: local
@@ -55,13 +96,13 @@ gateways:
     url: http://127.0.0.1:7443
 ```
 
-Поля OIDC и токены появляются после `whaleshell gateway login`.
+Поля OIDC и токены появляются после `cauteum gateway login`.
 
 ## Связанное
 
 - [Credentials](./credentials.md)
 - [Политика](./policy.md)
-- Compose-файлы: `whaleshell-gateway/compose/`
+- Compose-файлы: `cauteum-gateway/compose/`
 
 ## Gateway TOML OpenShell
 
@@ -82,7 +123,7 @@ certificates, external SNI certificates, mTLS identity и выбор builtin/use
 и полной readiness/metrics instrumentation. Указанные неподдержанные settings блокируют startup
 до создания state и открытия listeners. Loader также отклоняет unknown/duplicate
 keys, отсутствующие required fields, неверные enums и database URL внутри TOML.
-Без файла OpenShell пока действуют прежние defaults whaleshell.
+Без файла OpenShell пока действуют прежние defaults cauteum.
 Необязательные `health_bind_address` и `metrics_bind_address`, а также
 `OPENSHELL_HEALTH_PORT` / `OPENSHELL_METRICS_PORT` и соответствующие флаги
 запускают отдельные listeners. Health routes доступны на `/healthz`, `/readyz`

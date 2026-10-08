@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -23,11 +23,11 @@ docker info
 
 ```bash
 # Локальная сборка в hub
-task runtime:image:cli          # whaleshell-sandbox:local
-task docker:agent:cursor        # whaleshell-sandbox:cursor
+task runtime:image:cli          # cauteum-sandbox:local
+task docker:agent:cursor        # cauteum-sandbox:cursor
 
 # Или каталог GHCR
-docker pull ghcr.io/whaleshell/whaleshell/sandboxes/base:latest
+docker pull ghcr.io/cauteum/cauteum/sandboxes/base:latest
 ```
 
 Каталог и BYOC: [Справка по образам](../../reference/images.md).
@@ -37,12 +37,12 @@ docker pull ghcr.io/whaleshell/whaleshell/sandboxes/base:latest
 Proxy, секреты и `--provider` требуют доступный gateway:
 
 ```bash
-whaleshell gateway ensure
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
+cauteum gateway ensure
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
 ```
 
-Compose gateway: `whaleshell-gateway/compose/docker-compose.yml`.
+Compose gateway: `cauteum-gateway/compose/docker-compose.yml`.
 
 ## Память Desktop
 
@@ -50,7 +50,7 @@ Compose gateway: `whaleshell-gateway/compose/docker-compose.yml`.
 Задайте soft defaults (по желанию) и оставьте ротацию логов (включена по умолчанию):
 
 ```yaml
-# ~/.config/whaleshell/config.yaml
+# ~/.config/cauteum/config.yaml
 defaults:
   memory: 2g
   cpu: 2

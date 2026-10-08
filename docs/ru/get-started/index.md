@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Быстрый старт
 
-whaleshell — один CLI, который запускает coding-агентов в песочницах с
+cauteum — один CLI, который запускает coding-агентов в песочницах с
 политикой на Docker или Podman. Установите CLI, убедитесь, что контейнерный
 движок работает, и скачайте образ песочницы — затем
 [запустите gateway](gateway.md) и [создайте первую песочницу](first-sandbox.md).
@@ -19,9 +19,9 @@ whaleshell — один CLI, который запускает coding-агент
 Откройте терминал и выполните:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-  | WHALESHELL_VERSION=v0.1.0-beta.2 sh
-whaleshell version
+curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.0-beta.2 sh
+cauteum version
 ```
 
 Бинарь ставится в `~/.local/bin` — этот каталог должен быть в `PATH`.
@@ -29,22 +29,22 @@ whaleshell version
 Для установки в другой каталог:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-  | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.0-beta.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### из исходников
 
 Сборка из checkout hub — если нужен свежий `main` или вы разрабатываете
-whaleshell:
+cauteum:
 
 ```bash
-cd /path/to/whaleshell
+cd /path/to/cauteum
 export GOWORK=$PWD/go.work
 
-go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
-./whaleshell-cli/whaleshell install
-./whaleshell-cli/whaleshell version
+go build -C cauteum-cli -o cauteum ./cmd/cauteum
+./cauteum-cli/cauteum install
+./cauteum-cli/cauteum version
 ```
 
 ## Контейнерный движок
@@ -59,8 +59,8 @@ go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
 
     ```bash
     docker info
-    whaleshell doctor
-    whaleshell status
+    cauteum doctor
+    cauteum status
     ```
 
 === "Podman на macOS"
@@ -68,19 +68,19 @@ go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
     ```bash
     podman machine init     # один раз
     podman machine start
-    export WHALESHELL_DRIVER=podman
-    whaleshell status
+    export CAUTEUM_DRIVER=podman
+    cauteum status
     ```
 
 === "Podman на Linux"
 
     ```bash
     systemctl --user enable --now podman.socket
-    export WHALESHELL_DRIVER=podman
-    whaleshell status
+    export CAUTEUM_DRIVER=podman
+    cauteum status
     ```
 
-`whaleshell status` должен показать выбранный драйвер (`docker` или `podman`).
+`cauteum status` должен показать выбранный драйвер (`docker` или `podman`).
 Подробнее о движках: [Docker](../providers/docker/index.md) ·
 [Podman](../providers/podman/index.md).
 
@@ -89,7 +89,7 @@ go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
 Скачайте базовый образ — в нём есть всё, что нужно агенту в CLI:
 
 ```bash
-docker pull ghcr.io/whaleshell/whaleshell/sandboxes/base:latest
+docker pull ghcr.io/cauteum/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Собрать образы самому"

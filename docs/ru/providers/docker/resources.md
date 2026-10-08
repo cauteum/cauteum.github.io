@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -17,14 +17,14 @@ Docker применяет CPU, память и PIDs как runtime-лимиты 
 | `--pids-limit` | `2048`, `-1` | cgroup PIDs; `-1` — без лимита |
 
 PIDs по умолчанию **2048**, если не задано (как OpenShell `sandbox_pids_limit`).
-`WHALESHELL_SANDBOX_PIDS_LIMIT=0` — без лимита.
+`CAUTEUM_SANDBOX_PIDS_LIMIT=0` — без лимита.
 
 ## Soft defaults (опционально)
 
 Приоритет: **флаг → template → `config.yaml` → env**.
 
 ```yaml
-# ~/.config/whaleshell/config.yaml
+# ~/.config/cauteum/config.yaml
 defaults:
   memory: 2g
   cpu: 2
@@ -32,9 +32,9 @@ defaults:
 ```
 
 ```bash
-export WHALESHELL_DEFAULT_MEMORY=2g
-export WHALESHELL_DEFAULT_CPU=2
-export WHALESHELL_DEFAULT_PIDS_LIMIT=2048
+export CAUTEUM_DEFAULT_MEMORY=2g
+export CAUTEUM_DEFAULT_CPU=2
+export CAUTEUM_DEFAULT_PIDS_LIMIT=2048
 ```
 
 Жёсткого default memory на create нет. Оператор включает лимит флагом,
@@ -43,7 +43,7 @@ template, config или env.
 ## Proxy sidecar
 
 Egress sidecar идёт со slim-образом (`debian:bookworm-slim`), не с образом
-агента. Override: `WHALESHELL_PROXY_IMAGE`.
+агента. Override: `CAUTEUM_PROXY_IMAGE`.
 
 GUI / noVNC выделяют **1 GiB** `/dev/shm` под Chromium.
 
@@ -51,5 +51,5 @@ GUI / noVNC выделяют **1 GiB** `/dev/shm` под Chromium.
 
 ```bash
 docker stats --no-stream
-docker inspect whaleshell-demo --format '{{.HostConfig.Memory}} {{.HostConfig.NanoCpus}} {{.HostConfig.PidsLimit}}'
+docker inspect cauteum-demo --format '{{.HostConfig.Memory}} {{.HostConfig.NanoCpus}} {{.HostConfig.PidsLimit}}'
 ```

@@ -1,21 +1,21 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Docker provider
 
 A **compute provider** is the engine that runs the sandbox and its egress
-proxy. It is picked with `WHALESHELL_DRIVER` and shown by `whaleshell status`.
+proxy. It is picked with `CAUTEUM_DRIVER` and shown by `cauteum status`.
 
-| Provider | `WHALESHELL_DRIVER` | Status |
+| Provider | `CAUTEUM_DRIVER` | Status |
 |----------|---------------------|--------|
 | Docker | `docker` | <span class="ws-badge ws-badge--ok">default</span> |
 | Podman | `podman` | <span class="ws-badge ws-badge--ok">supported</span> |
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 
-Docker is the default. whaleshell talks to the local Engine API
+Docker is the default. cauteum talks to the local Engine API
 (`DOCKER_HOST` / Desktop socket), creates an internal network per sandbox,
 starts an egress proxy sidecar, then starts the sandbox container.
 
@@ -23,19 +23,19 @@ starts an egress proxy sidecar, then starts the sandbox container.
 
 ```text
 host Docker Engine
-├── whaleshell-<name>              sandbox (agent image)
-├── whaleshell-proxy-<name>        egress sidecar (slim base)
-├── whaleshell-net-<name>          internal network
-├── whaleshell-data-<name>         optional data volume
-└── whaleshell-ca-<name>           MITM CA volume (when proxy enabled)
+├── cauteum-<name>              sandbox (agent image)
+├── cauteum-proxy-<name>        egress sidecar (slim base)
+├── cauteum-net-<name>          internal network
+├── cauteum-data-<name>         optional data volume
+└── cauteum-ca-<name>           MITM CA volume (when proxy enabled)
 ```
 
 ## Activate
 
 ```bash
-unset WHALESHELL_DRIVER          # or: export WHALESHELL_DRIVER=docker
-whaleshell doctor
-whaleshell status
+unset CAUTEUM_DRIVER          # or: export CAUTEUM_DRIVER=docker
+cauteum doctor
+cauteum status
 ```
 
 Expect `driver: docker` in status output.

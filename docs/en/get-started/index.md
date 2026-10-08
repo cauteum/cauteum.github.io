@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Get started
 
-whaleshell is a single CLI that runs coding agents in policy-bound sandboxes on
+cauteum is a single CLI that runs coding agents in policy-bound sandboxes on
 Docker or Podman. Install the CLI, make sure a container engine is running and
 pull a sandbox image — then [start the gateway](gateway.md) and
 [create your first sandbox](first-sandbox.md).
@@ -19,9 +19,9 @@ keeps working even when a newer prerelease is published.
 Open a terminal and run:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-  | WHALESHELL_VERSION=v0.1.0-beta.2 sh
-whaleshell version
+curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.0-beta.2 sh
+cauteum version
 ```
 
 The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
@@ -29,27 +29,27 @@ The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 To install into another directory:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/whaleshell/whaleshell-cli/main/install.sh \
-  | WHALESHELL_VERSION=v0.1.0-beta.2 WHALESHELL_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.0-beta.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### from source
 
 Build from the hub checkout if you want the latest `main` or work on
-whaleshell itself:
+cauteum itself:
 
 ```bash
-cd /path/to/whaleshell
+cd /path/to/cauteum
 export GOWORK=$PWD/go.work
 
-go build -C whaleshell-cli -o whaleshell ./cmd/whaleshell
-./whaleshell-cli/whaleshell install
-./whaleshell-cli/whaleshell version
+go build -C cauteum-cli -o cauteum ./cmd/cauteum
+./cauteum-cli/cauteum install
+./cauteum-cli/cauteum version
 ```
 
 ## Start a container engine
 
-whaleshell needs a running compute provider. Docker is the default; Podman
+cauteum needs a running compute provider. Docker is the default; Podman
 works through the same Engine API.
 
 === "Docker"
@@ -59,8 +59,8 @@ works through the same Engine API.
 
     ```bash
     docker info
-    whaleshell doctor
-    whaleshell status
+    cauteum doctor
+    cauteum status
     ```
 
 === "Podman on macOS"
@@ -68,19 +68,19 @@ works through the same Engine API.
     ```bash
     podman machine init     # once
     podman machine start
-    export WHALESHELL_DRIVER=podman
-    whaleshell status
+    export CAUTEUM_DRIVER=podman
+    cauteum status
     ```
 
 === "Podman on Linux"
 
     ```bash
     systemctl --user enable --now podman.socket
-    export WHALESHELL_DRIVER=podman
-    whaleshell status
+    export CAUTEUM_DRIVER=podman
+    cauteum status
     ```
 
-`whaleshell status` should print the driver you picked (`docker` or `podman`).
+`cauteum status` should print the driver you picked (`docker` or `podman`).
 Engine details: [Docker](../providers/docker/index.md) ·
 [Podman](../providers/podman/index.md).
 
@@ -89,7 +89,7 @@ Engine details: [Docker](../providers/docker/index.md) ·
 Pull the base image — it has the CLI tooling an agent needs:
 
 ```bash
-docker pull ghcr.io/whaleshell/whaleshell/sandboxes/base:latest
+docker pull ghcr.io/cauteum/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Building images yourself"

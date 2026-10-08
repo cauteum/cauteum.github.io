@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,8 +11,8 @@ credential-профилей дают effective allowlist, который enforci
 ## Set и get
 
 ```bash
-whaleshell policy get demo --full
-whaleshell policy set demo --policy /path/to/policy.yaml --wait
+cauteum policy get demo --full
+cauteum policy set demo --policy /path/to/policy.yaml --wait
 ```
 
 `--wait` ждёт, пока sidecar перечитает bind-mounted effective YAML.
@@ -32,9 +32,9 @@ whaleshell policy set demo --policy /path/to/policy.yaml --wait
 ## Цикл approve у оператора
 
 ```bash
-whaleshell rule get --status pending
-whaleshell rule approve --chunk-id chk_…
-# или: whaleshell rule reject --chunk-id chk_… --reason "narrow to /docs"
+cauteum rule get --status pending
+cauteum rule approve --chunk-id chk_…
+# или: cauteum rule reject --chunk-id chk_… --reason "narrow to /docs"
 ```
 
 Approve мержит правило в base policy sandbox, переписывает live policy file и
@@ -43,9 +43,9 @@ Approve мержит правило в base policy sandbox, переписыва
 ## Ключи схемы
 
 Документы policy используют `filesystem_policy`, `landlock` и
-`network_policies` (`whaleshell-core/policy`). L7-правила могут задавать
+`network_policies` (`cauteum-core/policy`). L7-правила могут задавать
 `protocol: rest|graphql|mcp` с method/path/tool.
 
 ## Связанное
 
-- Skill: `/etc/whaleshell/skills/policy-advisor`
+- Skill: `/etc/cauteum/skills/policy-advisor`

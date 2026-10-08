@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -16,9 +16,9 @@ Sandbox и proxy используют Docker `json-file` с ротацией:
 | `max-file` | `3` |
 
 ```bash
-export WHALESHELL_DOCKER_LOG_DRIVER=json-file   # или none
-export WHALESHELL_DOCKER_LOG_MAX_SIZE=10m
-export WHALESHELL_DOCKER_LOG_MAX_FILE=3
+export CAUTEUM_DOCKER_LOG_DRIVER=json-file   # или none
+export CAUTEUM_DOCKER_LOG_MAX_SIZE=10m
+export CAUTEUM_DOCKER_LOG_MAX_FILE=3
 ```
 
 `none` отключает Engine-логи, если достаточно observation в gateway.
@@ -38,5 +38,5 @@ Gateway держит in-memory кольцо на sandbox (4096 строк). Пр
 удаляется. Поток:
 
 ```bash
-whaleshell logs demo --tail --source proxy
+cauteum logs demo --tail --source proxy
 ```

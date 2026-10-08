@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -23,11 +23,11 @@ Pull or build at least one sandbox image before create:
 
 ```bash
 # Local hub build
-task runtime:image:cli          # whaleshell-sandbox:local
-task docker:agent:cursor        # whaleshell-sandbox:cursor
+task runtime:image:cli          # cauteum-sandbox:local
+task docker:agent:cursor        # cauteum-sandbox:cursor
 
 # Or GHCR catalog
-docker pull ghcr.io/whaleshell/whaleshell/sandboxes/base:latest
+docker pull ghcr.io/cauteum/cauteum/sandboxes/base:latest
 ```
 
 Catalog and BYOC: [Images reference](../../reference/images.md).
@@ -37,12 +37,12 @@ Catalog and BYOC: [Images reference](../../reference/images.md).
 Proxy, secrets, and provider attach require a reachable gateway:
 
 ```bash
-whaleshell gateway ensure
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
+cauteum gateway ensure
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
 ```
 
-Gateway Compose file: `whaleshell-gateway/compose/docker-compose.yml`.
+Gateway Compose file: `cauteum-gateway/compose/docker-compose.yml`.
 
 ## Desktop memory
 
@@ -50,7 +50,7 @@ Uncapped agent containers and unbounded container logs inflate the Desktop VM.
 Set soft defaults (optional) and keep log rotation enabled (default):
 
 ```yaml
-# ~/.config/whaleshell/config.yaml
+# ~/.config/cauteum/config.yaml
 defaults:
   memory: 2g
   cpu: 2

@@ -1,14 +1,14 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# whaleshell documentation
+# cauteum documentation
 
-Shared documentation for all whaleshell modules, built with
+Shared documentation for all cauteum modules, built with
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) (EN / RU).
 
-**Site:** https://whaleshell.github.io/
+**Site:** https://cauteum.github.io/
 
 ## Layout
 

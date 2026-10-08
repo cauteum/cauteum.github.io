@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -18,9 +18,9 @@ SPDX-License-Identifier: Apache-2.0
 - Нет `docker.sock` в sandbox
 - Bind workspace с deny-list для `$HOME`, `~/.ssh`, `~/.aws`, `~/.cursor`
 - Default-deny сеть; allowlist из policy + composition провайдеров
-- Секреты как `whaleshell:resolve:env:…` с rewrite только на egress
+- Секреты как `cauteum:resolve:env:…` с rewrite только на egress
 - Default seccomp Docker; `no-new-privileges`; `CapDrop=NET_RAW`
-- Landlock через `whaleshell-init` при ABI ≥ 1 (на Desktop часто ABI 0)
+- Landlock через `cauteum-init` при ABI ≥ 1 (на Desktop часто ABI 0)
 
 Egress proxy один раз разрешает имя назначения и подключается к проверенному
 IP. Зарезервированные, loopback и link-local адреса остаются закрытыми даже

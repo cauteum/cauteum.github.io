@@ -3,7 +3,7 @@ status: soon
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -20,7 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 ## What is planned
 
 - A lightweight virtual machine per sandbox instead of a container — a
-  stronger isolation boundary. Selected with `WHALESHELL_DRIVER=vm`.
+  stronger isolation boundary. Selected with `CAUTEUM_DRIVER=vm`.
 - **libkrun** for regular sandboxes, **QEMU + VFIO** when a GPU is passed
   through.
 - Egress still goes through policy; for GPU guests it may be enforced on the

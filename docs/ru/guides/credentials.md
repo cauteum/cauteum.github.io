@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -14,14 +14,14 @@ sandbox. Это не compute backend ([Docker](../providers/docker/index.md), [P
 значений в argv.
 
 ```bash
-GITHUB_TOKEN=… whaleshell provider create --name gh --type github --credential GITHUB_TOKEN
-CURSOR_API_KEY=… whaleshell provider create --name cursor --type cursor --credential CURSOR_API_KEY
+GITHUB_TOKEN=… cauteum provider create --name gh --type github --credential GITHUB_TOKEN
+CURSOR_API_KEY=… cauteum provider create --name cursor --type cursor --credential CURSOR_API_KEY
 
 # если ключи уже в env этого процесса:
-# whaleshell provider create --name gh --type github --from-existing
+# cauteum provider create --name gh --type github --from-existing
 
-whaleshell provider list
-whaleshell provider get gh
+cauteum provider list
+cauteum provider get gh
 ```
 
 `list` / `get` никогда не печатают значения. Ciphertext — в encrypted store
@@ -30,7 +30,7 @@ gateway (`secrets.enc.json`).
 ## Attach на create
 
 ```bash
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
   --policy /path/to/policy.yaml \
@@ -41,7 +41,7 @@ whaleshell sandbox create \
 
 Composition подмешивает endpoints, binaries и `credential_keys` профиля в
 effective policy. В guest — placeholders вида
-`whaleshell:resolve:env:GITHUB_TOKEN`. Proxy делает rewrite на egress.
+`cauteum:resolve:env:GITHUB_TOKEN`. Proxy делает rewrite на egress.
 
 ## Поведение профилей
 
@@ -53,29 +53,29 @@ effective policy. В guest — placeholders вида
 | `claude-code` | `ANTHROPIC_API_KEY` | Placeholder |
 
 ```bash
-whaleshell provider profile list
-whaleshell provider profile show github
+cauteum provider profile list
+cauteum provider profile show github
 ```
 
 ## Ротация
 
 ```bash
-GITHUB_TOKEN=ghp_new… whaleshell provider refresh gh
-# или: GITHUB_TOKEN=… whaleshell provider update gh --from-existing
+GITHUB_TOKEN=ghp_new… cauteum provider refresh gh
+# или: GITHUB_TOKEN=… cauteum provider update gh --from-existing
 ```
 
 ## Не делайте
 
 ```bash
-whaleshell sandbox create … --env GITHUB_TOKEN=ghp_…     # сырой секрет в guest
-whaleshell sandbox create … --env CURSOR_API_KEY=whaleshell:resolve:…  # ломает Cursor Agent
+cauteum sandbox create … --env GITHUB_TOKEN=ghp_…     # сырой секрет в guest
+cauteum sandbox create … --env CURSOR_API_KEY=cauteum:resolve:…  # ломает Cursor Agent
 ```
 
 ## KEK
 
 | Элемент | Деталь |
 |---------|--------|
-| Env | `WHALESHELL_SECRETS_KEK` (passphrase, base64 или hex ≥16 байт) |
+| Env | `CAUTEUM_SECRETS_KEK` (passphrase, base64 или hex ≥16 байт) |
 | File fallback | `secrets.kek` в data dir gateway (mode 0600) |
 | Doctor | Предупреждает, если KEK не закреплён в env |
 

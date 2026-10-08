@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -14,14 +14,14 @@ Secrets are read from the **current process environment**, not from sticky
 shell exports and not from argv values.
 
 ```bash
-GITHUB_TOKEN=… whaleshell provider create --name gh --type github --credential GITHUB_TOKEN
-CURSOR_API_KEY=… whaleshell provider create --name cursor --type cursor --credential CURSOR_API_KEY
+GITHUB_TOKEN=… cauteum provider create --name gh --type github --credential GITHUB_TOKEN
+CURSOR_API_KEY=… cauteum provider create --name cursor --type cursor --credential CURSOR_API_KEY
 
 # if keys are already in this process env:
-# whaleshell provider create --name gh --type github --from-existing
+# cauteum provider create --name gh --type github --from-existing
 
-whaleshell provider list
-whaleshell provider get gh
+cauteum provider list
+cauteum provider get gh
 ```
 
 `list` / `get` never print secret values. Ciphertext lives in the gateway
@@ -30,7 +30,7 @@ encrypted store (`secrets.enc.json`).
 ## Attach on create
 
 ```bash
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
   --policy /path/to/policy.yaml \
@@ -41,7 +41,7 @@ whaleshell sandbox create \
 
 Composition merges profile endpoints, binaries, and `credential_keys` into the
 effective policy. The guest sees placeholders such as
-`whaleshell:resolve:env:GITHUB_TOKEN`. The proxy rewrites them on egress.
+`cauteum:resolve:env:GITHUB_TOKEN`. The proxy rewrites them on egress.
 
 ## Profile behavior
 
@@ -53,29 +53,29 @@ effective policy. The guest sees placeholders such as
 | `claude-code` | `ANTHROPIC_API_KEY` | Placeholder |
 
 ```bash
-whaleshell provider profile list
-whaleshell provider profile show github
+cauteum provider profile list
+cauteum provider profile show github
 ```
 
 ## Rotate
 
 ```bash
-GITHUB_TOKEN=ghp_new… whaleshell provider refresh gh
-# or: GITHUB_TOKEN=… whaleshell provider update gh --from-existing
+GITHUB_TOKEN=ghp_new… cauteum provider refresh gh
+# or: GITHUB_TOKEN=… cauteum provider update gh --from-existing
 ```
 
 ## Do not
 
 ```bash
-whaleshell sandbox create … --env GITHUB_TOKEN=ghp_…     # raw secret in guest
-whaleshell sandbox create … --env CURSOR_API_KEY=whaleshell:resolve:…  # breaks Cursor Agent
+cauteum sandbox create … --env GITHUB_TOKEN=ghp_…     # raw secret in guest
+cauteum sandbox create … --env CURSOR_API_KEY=cauteum:resolve:…  # breaks Cursor Agent
 ```
 
 ## KEK
 
 | Item | Detail |
 |------|--------|
-| Env | `WHALESHELL_SECRETS_KEK` (passphrase, base64, or hex ≥16 bytes) |
+| Env | `CAUTEUM_SECRETS_KEK` (passphrase, base64, or hex ≥16 bytes) |
 | File fallback | `secrets.kek` in gateway data dir (mode 0600) |
 | Doctor | Warns when KEK is not env-pinned |
 

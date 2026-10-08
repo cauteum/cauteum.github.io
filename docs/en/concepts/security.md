@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -18,9 +18,9 @@ SPDX-License-Identifier: Apache-2.0
 - No `docker.sock` inside the sandbox
 - Workspace bind with deny-list for `$HOME`, `~/.ssh`, `~/.aws`, `~/.cursor`
 - Default-deny network; allowlist from policy + composed providers
-- Secrets as `whaleshell:resolve:env:…` rewritten on egress only
+- Secrets as `cauteum:resolve:env:…` rewritten on egress only
 - Docker default seccomp kept; `no-new-privileges`; `CapDrop=NET_RAW`
-- Landlock via `whaleshell-init` when kernel ABI ≥ 1 (often ABI 0 on Desktop)
+- Landlock via `cauteum-init` when kernel ABI ≥ 1 (often ABI 0 on Desktop)
 
 The egress proxy resolves a destination once and connects to the filtered IP.
 Reserved, loopback and link-local addresses stay blocked even when a policy

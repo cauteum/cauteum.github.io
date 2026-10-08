@@ -1,12 +1,12 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Профили провайдеров
 
 Профили объединяют имена credentials, endpoint policy, binaries и правила
-обнаружения в одном YAML-файле. Whaleshell импортирует профили OpenShell в
+обнаружения в одном YAML-файле. Cauteum импортирует профили OpenShell в
 каталог gateway и использует их при создании provider instance и сборке
 политики sandbox.
 
@@ -16,8 +16,8 @@ SPDX-License-Identifier: Apache-2.0
 sandbox. Upstream-профили — примеры; перед импортом проверьте разрешения и пути.
 
 ```bash
-whaleshell profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/codex.yaml
-whaleshell profile lint -f ./providers/codex.yaml
+cauteum profile lint --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/codex.yaml
+cauteum profile lint -f ./providers/codex.yaml
 ```
 
 Lint проверяет OpenShell-схему и runtime-функции, нужные `provider create`.
@@ -29,11 +29,11 @@ Lint проверяет OpenShell-схему и runtime-функции, нужн
 Можно импортировать один файл, HTTPS URL или все YAML/JSON-файлы каталога:
 
 ```bash
-whaleshell profile import --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/openai.yaml
-whaleshell profile import -f ./providers/codex.yaml
-whaleshell profile import --from ./providers
-whaleshell profile list
-whaleshell profile describe codex -o yaml
+cauteum profile import --url https://raw.githubusercontent.com/NVIDIA/OpenShell/main/providers/openai.yaml
+cauteum profile import -f ./providers/codex.yaml
+cauteum profile import --from ./providers
+cauteum profile list
+cauteum profile describe codex -o yaml
 ```
 
 Импорт создаёт запись в каталоге gateway и завершается ошибкой, если такой ID
@@ -42,9 +42,9 @@ whaleshell profile describe codex -o yaml
 версию при конкурентном изменении.
 
 ```bash
-whaleshell profile export codex -o yaml > codex.yaml
+cauteum profile export codex -o yaml > codex.yaml
 # отредактируйте codex.yaml
-whaleshell profile update -f codex.yaml
+cauteum profile update -f codex.yaml
 ```
 
 ## Запустите Codex с API key
@@ -85,11 +85,11 @@ endpoints:
 binaries: [/usr/local/bin/codex, /usr/bin/codex]
 YAML
 
-whaleshell profile lint -f codex-api.yaml
-whaleshell profile import -f codex-api.yaml
-CODEX_API_KEY=… whaleshell provider create --name codex --type codex-api --from-existing
+cauteum profile lint -f codex-api.yaml
+cauteum profile import -f codex-api.yaml
+CODEX_API_KEY=… cauteum provider create --name codex --type codex-api --from-existing
 
-whaleshell sandbox create \
+cauteum sandbox create \
   --name codex-work \
   --workspace "$PWD" \
   --provider codex
@@ -106,9 +106,9 @@ Refresh стратегии OpenShell `oauth2_refresh_token` и
 хранится в зашифрованном хранилище gateway, поля ответа записываются в указанные
 credential keys, а получение sandbox secrets обновляет токен перед истечением.
 Первое обновление можно вызвать вручную:
-`whaleshell provider refresh rotate NAME --credential-key ACCESS_TOKEN`.
+`cauteum provider refresh rotate NAME --credential-key ACCESS_TOKEN`.
 
-Upstream Codex OAuth fixture описывает credentials `CODEX_AUTH_*`, но whaleshell
+Upstream Codex OAuth fixture описывает credentials `CODEX_AUTH_*`, но cauteum
 не получает и не обновляет ChatGPT login и пока не реализует Codex workload
 identity federation. Token grants, AWS STS role assumption, Google
 service-account JWT и SigV4 signing также не поддерживаются runtime. Такие
@@ -122,7 +122,7 @@ service-account JWT и SigV4 signing также не поддерживаютс�
 доступна его admin или owner.
 
 ```bash
-whaleshell --workspace team-ml profile import -f codex-api.yaml
-whaleshell profile list --workspace team-ml
-whaleshell profile export codex-api --global -o yaml
+cauteum --workspace team-ml profile import -f codex-api.yaml
+cauteum profile list --workspace team-ml
+cauteum profile export codex-api --global -o yaml
 ```

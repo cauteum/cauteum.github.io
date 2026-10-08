@@ -1,6 +1,6 @@
 # Разработка
 
-whaleshell состоит из независимых Git-репозиториев и Go-модулей версии 1.27.
+cauteum состоит из независимых Git-репозиториев и Go-модулей версии 1.27.
 В локальном workspace checkouts располагаются рядом. Корню workspace не нужен
 Git-репозиторий; выполняйте Git-команды внутри изменяемого модуля.
 
@@ -10,8 +10,8 @@ Git-репозиторий; выполняйте Git-команды внутри
 в нём, а не в публикуемых `go.mod`. Для workspace-модулей указывайте версию:
 
 ```bash
-go work edit -replace=github.com/whaleshell/whaleshell-core@v0.1.0-beta.1=./whaleshell-core
-git -C whaleshell-cli status
+go work edit -replace=github.com/cauteum/cauteum-core@v0.1.0-beta.1=./cauteum-core
+git -C cauteum-cli status
 ```
 
 Версии должны соответствовать manifests соседних checkouts. Перед релизом также
@@ -27,7 +27,7 @@ git -C whaleshell-cli status
 
 Актуальная бета CLI — `v0.1.0-beta.2`. Core, runtime, proxy, gateway и driver имеют тег `v0.1.0-beta.1`; display, providers и SDK остаются на `v0.1.0-alpha.2`, поскольку нового выпуска для них не требовалось. Python-пакет имеет тег `v0.1.0-beta.1` (версия Python `0.1.0b1`); на PyPI он не опубликован. Ориентируйтесь на `go.mod` каждого модуля, а не на общую версию для всего проекта.
 
-Локальный каталог logging-модуля называется `whaleshell-slogx`, но опубликованный путь пока остаётся `github.com/whaleshell/slogx`. Публичный путь следует менять только вместе с новым репозиторием и проверенной миграцией потребителей.
+Локальный каталог logging-модуля называется `cauteum-slogx`, но опубликованный путь пока остаётся `github.com/cauteum/slogx`. Публичный путь следует менять только вместе с новым репозиторием и проверенной миграцией потребителей.
 
 ## Правила ревью
 

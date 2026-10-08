@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -16,9 +16,9 @@ Sandbox and proxy containers use Docker `json-file` with rotation:
 | `max-file` | `3` |
 
 ```bash
-export WHALESHELL_DOCKER_LOG_DRIVER=json-file   # or none
-export WHALESHELL_DOCKER_LOG_MAX_SIZE=10m
-export WHALESHELL_DOCKER_LOG_MAX_FILE=3
+export CAUTEUM_DOCKER_LOG_DRIVER=json-file   # or none
+export CAUTEUM_DOCKER_LOG_MAX_SIZE=10m
+export CAUTEUM_DOCKER_LOG_MAX_FILE=3
 ```
 
 `none` disables Engine container logs when you rely only on gateway observation.
@@ -38,7 +38,7 @@ Gateway keeps a per-sandbox in-memory ring (4096 lines). Deleted sandboxes drop
 their ring. Stream with:
 
 ```bash
-whaleshell logs demo --tail --source proxy
+cauteum logs demo --tail --source proxy
 ```
 
 Process logs (CLI / gateway / proxy) use slogx.

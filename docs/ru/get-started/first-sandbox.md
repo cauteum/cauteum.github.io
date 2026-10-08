@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -13,16 +13,16 @@ CLI установлен, gateway запущен — создайте песоч
 Запускайте из папки проекта:
 
 ```bash
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy whaleshell-cli/policies/default.yaml \
+  --policy cauteum-cli/policies/default.yaml \
   --memory 2g
 ```
 
 | Флаг | Что делает |
 |------|------------|
-| `--name` | Имя песочницы; контейнер — `whaleshell-<name>` |
+| `--name` | Имя песочницы; контейнер — `cauteum-<name>` |
 | `--workspace` | Папка хоста, монтируется в `/workspace` |
 | `--policy` | YAML сетевой политики (всё запрещено + allowlist) |
 | `--memory` | Лимит памяти; рекомендуется на Docker Desktop |
@@ -30,9 +30,9 @@ whaleshell sandbox create \
 ## Работа внутри
 
 ```bash
-whaleshell sandbox list
-whaleshell sandbox exec demo -- uname -a
-whaleshell sandbox connect demo
+cauteum sandbox list
+cauteum sandbox exec demo -- uname -a
+cauteum sandbox connect demo
 ```
 
 `connect` открывает интерактивный shell в песочнице; проект лежит в
@@ -44,12 +44,12 @@ whaleshell sandbox connect demo
 видит только плейсхолдеры:
 
 ```bash
-GITHUB_TOKEN=… whaleshell provider create --name gh --type github --credential GITHUB_TOKEN
+GITHUB_TOKEN=… cauteum provider create --name gh --type github --credential GITHUB_TOKEN
 
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy whaleshell-cli/policies/default.yaml \
+  --policy cauteum-cli/policies/default.yaml \
   --provider gh
 ```
 
@@ -59,9 +59,9 @@ whaleshell sandbox create \
 ## Логи, остановка, удаление
 
 ```bash
-whaleshell logs demo --tail --source proxy
-whaleshell sandbox stop demo
-whaleshell sandbox delete demo
+cauteum logs demo --tail --source proxy
+cauteum sandbox stop demo
+cauteum sandbox delete demo
 ```
 
 `delete` удаляет песочницу, её proxy sidecar, сеть и data volumes. Секреты

@@ -1,6 +1,6 @@
 # Development
 
-whaleshell uses independent Git repositories and Go 1.27 modules. A local
+cauteum uses independent Git repositories and Go 1.27 modules. A local
 workspace can place the checkouts next to each other; the root itself does not
 need a Git repository. Run Git commands inside the module you are changing.
 
@@ -11,8 +11,8 @@ file, not in published `go.mod` files. Replacements for workspace modules must
 include the dependency version:
 
 ```bash
-go work edit -replace=github.com/whaleshell/whaleshell-core@v0.1.0-beta.1=./whaleshell-core
-git -C whaleshell-cli status
+go work edit -replace=github.com/cauteum/cauteum-core@v0.1.0-beta.1=./cauteum-core
+git -C cauteum-cli status
 ```
 
 Match replacement versions to the checked-out manifests. Release checks must
@@ -28,7 +28,7 @@ Modules use semantic version tags. Alpha, beta, and release candidate tags are p
 
 The latest CLI beta is `v0.1.0-beta.2`. Core, runtime, proxy, gateway, and driver are at `v0.1.0-beta.1`; display, providers, and SDK remain at `v0.1.0-alpha.2` because they have not needed a new release. The Python package is tagged `v0.1.0-beta.1` (`0.1.0b1` as a Python version); it is not published on PyPI. Use the version declared in each checkout's `go.mod` rather than assuming one tag across modules.
 
-The logging checkout is locally named `whaleshell-slogx`, while its published module path is still `github.com/whaleshell/slogx`. Change the public path only together with a new repository and a tested consumer migration.
+The logging checkout is locally named `cauteum-slogx`, while its published module path is still `github.com/cauteum/slogx`. Change the public path only together with a new repository and a tested consumer migration.
 
 ## Review conventions
 

@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -13,41 +13,41 @@ SPDX-License-Identifier: Apache-2.0
 
 | Удаляется | Остаётся |
 |-----------|----------|
-| `whaleshell-<name>` | Секреты провайдеров в gateway |
-| `whaleshell-proxy-<name>` | Записи registry до явного delete |
-| `whaleshell-net-<name>` | |
-| volume `whaleshell-data-<name>` | |
-| volume `whaleshell-ca-<name>` | |
+| `cauteum-<name>` | Секреты провайдеров в gateway |
+| `cauteum-proxy-<name>` | Записи registry до явного delete |
+| `cauteum-net-<name>` | |
+| volume `cauteum-data-<name>` | |
+| volume `cauteum-ca-<name>` | |
 
 Удаление data volume сбрасывает `agent login` Cursor.
 
 ## Порядок
 
 ```bash
-whaleshell sandbox delete cursor
+cauteum sandbox delete cursor
 
-whaleshell gateway ensure
-whaleshell doctor
-whaleshell provider list
+cauteum gateway ensure
+cauteum doctor
+cauteum provider list
 
-whaleshell sandbox create \
+cauteum sandbox create \
   --name cursor \
   --from cursor \
   --workspace "$PWD" \
-  --policy whaleshell-cli/policies/cursor-github-push-whaleshell.yaml \
+  --policy cauteum-cli/policies/cursor-github-push-cauteum.yaml \
   --provider cursor \
   --provider gh \
   --memory 2g
 
-whaleshell sandbox connect cursor -- agent login
-whaleshell logs cursor --tail --source proxy
+cauteum sandbox connect cursor -- agent login
+cauteum logs cursor --tail --source proxy
 ```
 
 ## Hot reload vs recreate
 
 | Изменение | Предпочтительно |
 |-----------|-----------------|
-| Узкое правило policy | `whaleshell policy set … --wait` / rule approve |
+| Узкое правило policy | `cauteum policy set … --wait` / rule approve |
 | Новый LogConfig / PIDs / memory | Recreate |
 | Новые binds / образ | Recreate |
 | Ротация секрета в store | `provider refresh` (часто достаточно) |

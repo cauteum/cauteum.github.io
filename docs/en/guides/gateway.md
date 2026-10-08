@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,30 +11,68 @@ registry, observation log rings, and policy proposal workflow.
 ## Run
 
 ```bash
-whaleshell gateway ensure
-whaleshell gateway add http://127.0.0.1:7443 --local --name local
-whaleshell gateway select local
-whaleshell gateway info
+cauteum gateway ensure
+cauteum gateway add http://127.0.0.1:7443 --local --name local
+cauteum gateway select local
+cauteum gateway info
 ```
 
-Compose: `whaleshell-gateway/compose/docker-compose.yml`.
+Compose: `cauteum-gateway/compose/docker-compose.yml`.
 
 Listen address defaults to `127.0.0.1:7443`.
-If you enable `WHALESHELL_GATEWAY_ALLOW_UNAUTHENTICATED=1` or pass
+If you enable `CAUTEUM_GATEWAY_ALLOW_UNAUTHENTICATED=1` or pass
 `--allow-unauthenticated-users`, the gateway accepts only a loopback listen
 address. It refuses to start on a public or LAN address in this mode.
-`whaleshell gateway info` reports `allow_unauthenticated`, and
-`whaleshell status` displays a warning. Keep reverse proxies and port
+`cauteum gateway info` reports `allow_unauthenticated`, and
+`cauteum status` displays a warning. Keep reverse proxies and port
 forwarding in mind: they can expose a loopback listener to other machines.
 
 ## Responsibilities
 
 | Surface | Role |
 |---------|------|
-| Secrets | AES-GCM store; KEK via `WHALESHELL_SECRETS_KEK` or `secrets.kek` |
+| Secrets | AES-GCM store; KEK via `CAUTEUM_SECRETS_KEK` or `secrets.kek` |
 | Providers | Named instances + profile composition metadata |
 | Sandboxes | Registry upsert/delete; log ring; proposals |
-| Sidecar | Resolves secrets over `host.whaleshell.internal` |
+| Sidecar | Resolves secrets over `host.cauteum.internal` |
+
+## HTTP API reference
+
+The [OpenAPI document](https://github.com/cauteum/cauteum-gateway/blob/main/api/openapi.yaml)
+covers the remaining REST surface for gateway metadata, sandbox registry
+records, and logs. Policy, profiles, and partial credential updates use Control
+RPC. The document is not yet a complete inventory of gateway routes.
+Registry writes do not create or stop runtimes; runtime lifecycle operations are
+part of the OpenShell Proto API.
+
+## Control client API
+
+The gateway also serves the versioned `cauteum.control.v1` Connect API for
+the future management UI and generated clients. Its current read surface covers
+viewer/capabilities, workspace and sandbox summaries, service/template
+summaries, sandbox logs and streams. Runtime create/start/stop/delete actions
+use idempotent request IDs and can be reconciled with `GetOperation`; operation
+and audit history is available to authorized admins. The private generated
+TypeScript client and schema are maintained in the gateway repository under
+`api/`. The first read-only browser console is in `ui/`: it uses OIDC
+authorization code with PKCE, keeps the access token in memory, and shows the
+authorized sandbox inventory and bounded log tail. Configure an OIDC public
+client, callback URL, and gateway-matching token audience. Production static
+hosting and same-origin proxy wiring are still deployment work. The UI labels
+registry state as registry data; it does not claim runtime health. Browser
+clients must never receive gateway owner or sandbox supervisor credentials.
+
+The CLI's `sandbox list/get`, sandbox inventory/detail SDK methods, filtered
+log snapshots, and live log streams now use this API over native gRPC through
+the Go SDK. `logs --all` enumerates caller-visible workspaces and opens at most 24
+streams at once. The gateway beta containing the generated Go contract package
+must be published before the matching SDK beta.
+
+Provider profile list/show/import/update/delete, partial credential updates,
+global and sandbox policy reads/writes, and sandbox policy history use
+`cauteum.control.v1` over native gRPC. Profile responses preserve Cauteum's
+full YAML schema. These REST routes and their OpenAPI entries have been removed;
+settings, services, and other REST resource routes remain queued for migration.
 
 ## When required
 
@@ -46,7 +84,7 @@ forwarding in mind: they can expose a loopback listener to other machines.
 
 ## Config
 
-Gateways are recorded in `~/.config/whaleshell/config.yaml`:
+Gateways are recorded in `~/.config/cauteum/config.yaml`:
 
 ```yaml
 current: local
@@ -56,13 +94,13 @@ gateways:
 ```
 
 OIDC fields and tokens may appear for authenticated gateways after
-`whaleshell gateway login`.
+`cauteum gateway login`.
 
 ## Related
 
 - [Credentials](./credentials.md)
 - [Policy](./policy.md)
-- Compose files: `whaleshell-gateway/compose/`
+- Compose files: `cauteum-gateway/compose/`
 
 ## OpenShell gateway TOML
 
@@ -83,7 +121,7 @@ driver, storage, gateway JWT, OTLP, rate-limit, middleware, interceptor, and
 complete readiness/metrics consumers. Supplied unsupported settings fail before the daemon
 creates state or opens listeners. The loader also rejects unknown/duplicate
 keys, invalid required fields/enums, and a database URL embedded in TOML.
-Without an OpenShell file, the existing whaleshell defaults still apply.
+Without an OpenShell file, the existing cauteum defaults still apply.
 The optional `health_bind_address` and `metrics_bind_address` tables, plus
 `OPENSHELL_HEALTH_PORT` / `OPENSHELL_METRICS_PORT` and matching port flags,
 start separate listeners. Health routes are available at `/healthz`, `/readyz`,

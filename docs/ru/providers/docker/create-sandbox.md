@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -8,17 +8,17 @@ SPDX-License-Identifier: Apache-2.0
 ## Минимальный create
 
 ```bash
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy whaleshell-cli/policies/default.yaml \
+  --policy cauteum-cli/policies/default.yaml \
   --memory 2g
 ```
 
 С образом агента и credential-провайдерами:
 
 ```bash
-whaleshell sandbox create \
+cauteum sandbox create \
   --name cursor \
   --from cursor \
   --workspace "$PWD" \
@@ -31,13 +31,13 @@ whaleshell sandbox create \
 ## Жизненный цикл
 
 ```bash
-whaleshell sandbox list
-whaleshell sandbox status demo
-whaleshell sandbox exec demo -- uname -a
-whaleshell sandbox connect demo          # интерактивный bash -il
-whaleshell sandbox stop demo
-whaleshell sandbox start demo
-whaleshell sandbox delete demo
+cauteum sandbox list
+cauteum sandbox status demo
+cauteum sandbox exec demo -- uname -a
+cauteum sandbox connect demo          # интерактивный bash -il
+cauteum sandbox stop demo
+cauteum sandbox start demo
+cauteum sandbox delete demo
 ```
 
 Delete удаляет sandbox, proxy sidecar, сеть и помеченные volumes.
@@ -46,10 +46,10 @@ Delete удаляет sandbox, proxy sidecar, сеть и помеченные v
 
 1. Резолвит образ (`--image` / `--from` / default).
 2. Подтягивает образы Engine (sandbox + slim proxy).
-3. Создаёт `whaleshell-net-<name>` (internal при включённом proxy).
-4. Стартует `whaleshell-proxy-<name>` из `debian:bookworm-slim`
-   (`WHALESHELL_PROXY_IMAGE` для override).
-5. Создаёт и стартует `whaleshell-<name>` с политикой, bind workspace,
+3. Создаёт `cauteum-net-<name>` (internal при включённом proxy).
+4. Стартует `cauteum-proxy-<name>` из `debian:bookworm-slim`
+   (`CAUTEUM_PROXY_IMAGE` для override).
+5. Создаёт и стартует `cauteum-<name>` с политикой, bind workspace,
    опциональным data volume, лимитами CPU/memory/PIDs.
 6. Регистрирует sandbox в gateway при наличии.
 
@@ -58,14 +58,14 @@ Delete удаляет sandbox, proxy sidecar, сеть и помеченные v
 Фиксируйте sizing в template (как в OpenShell):
 
 ```bash
-whaleshell sandbox template create \
+cauteum sandbox template create \
   --name desk \
   --from cursor \
   --memory 2g \
   --cpu 2 \
   --pids-limit 2048
 
-whaleshell sandbox create --template desk --name worker --workspace "$PWD"
+cauteum sandbox create --template desk --name worker --workspace "$PWD"
 ```
 
 Флаги перекрывают поля template. Soft defaults из config/env заполняют только

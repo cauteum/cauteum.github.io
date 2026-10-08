@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -22,7 +22,7 @@ flowchart TD
 |-----------|------------|
 | Control | CLI, HTTP API gateway, encrypted secrets, proposals |
 | Data | Sandbox-контейнер, bind workspace, процесс агента |
-| Enforcement | Proxy sidecar, Landlock/seccomp через `whaleshell-init` |
+| Enforcement | Proxy sidecar, Landlock/seccomp через `cauteum-init` |
 
 ## Путь create
 
@@ -41,10 +41,10 @@ Docker или Podman обновляется отдельно.
 
 | Модуль | Роль |
 |--------|------|
-| `whaleshell-cli` | Пользовательский CLI |
-| `whaleshell-core` | Схема policy + engine |
-| `whaleshell-driver` | Docker / Podman / stubs |
-| `whaleshell-proxy` | Egress sidecar + `policy.local` |
-| `whaleshell-gateway` | Control plane |
-| `whaleshell-runtime` | Init, образы, helpers агента |
-| `whaleshell-providers` | Credential-профили |
+| `cauteum-cli` | Пользовательский CLI |
+| `cauteum-core` | Схема policy + engine |
+| `cauteum-driver` | Docker / Podman / stubs |
+| `cauteum-proxy` | Egress sidecar + `policy.local` |
+| `cauteum-gateway` | Control plane |
+| `cauteum-runtime` | Init, образы, helpers агента |
+| `cauteum-providers` | Credential-профили |

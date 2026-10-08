@@ -1,28 +1,28 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Create a sandbox (Podman)
 
 ```bash
-export WHALESHELL_DRIVER=podman
+export CAUTEUM_DRIVER=podman
 
-whaleshell sandbox create \
+cauteum sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy whaleshell-cli/policies/default.yaml \
+  --policy cauteum-cli/policies/default.yaml \
   --memory 2g
 
-whaleshell sandbox exec demo -- uname -a
-whaleshell sandbox delete demo
+cauteum sandbox exec demo -- uname -a
+cauteum sandbox delete demo
 ```
 
 With proxy and providers, ensure the gateway is selected first:
 
 ```bash
-whaleshell gateway select local
-whaleshell sandbox create \
+cauteum gateway select local
+cauteum sandbox create \
   --name cursor \
   --from cursor \
   --workspace "$PWD" \
