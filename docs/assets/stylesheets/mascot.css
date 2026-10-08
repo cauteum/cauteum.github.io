@@ -1,137 +1,59 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell */
 /* SPDX-License-Identifier: Apache-2.0 */
 
-/* The mascot and each page's prop remain separate, complete illustrations. */
+/* These are unaltered, page-specific scenes cropped from the supplied brandboard. */
 .ws-scene {
-  display: grid;
   width: 100%;
   max-width: 40rem;
-  aspect-ratio: 640 / 460;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(0.4rem, 2vw, 1.25rem);
-  align-items: center;
-  padding: 5%;
-}
-
-.ws-scene__terminal {
   overflow: hidden;
-  min-width: 0;
-  border: 2px solid #080e18;
-  border-radius: 0.85rem;
-  background: #111a29;
-  box-shadow: 0 1.2rem 2.5rem rgb(4 8 18 / 35%);
-  transform: rotate(-3deg);
+  border-radius: 1rem;
+  box-shadow: 0 1.2rem 2.5rem rgb(4 8 18 / 24%);
 }
 
-.ws-scene__bar {
-  display: flex;
-  min-height: 1.65rem;
-  align-items: center;
-  padding: 0 0.7rem;
-  background: #31234f;
-}
-
-.ws-scene__dots {
-  width: 0.48rem;
-  height: 0.48rem;
-  border-radius: 50%;
-  background: #bd8cff;
-  box-shadow: 0.8rem 0 #9d71e8, 1.6rem 0 #754bc2;
-}
-
-.ws-scene__screen {
-  display: grid;
-  min-height: 8.5rem;
-  align-content: center;
-  gap: 0.45rem;
-  padding: 1rem;
-  color: #f5f0ff;
-  font: 500 clamp(0.52rem, 1.2vw, 0.72rem)/1.5 "IBM Plex Mono", monospace;
-  white-space: nowrap;
-}
-
-.ws-scene__prompt { color: #bd8cff; }
-.ws-scene__ready { color: #b9f1d6; }
-.ws-scene__ready span { color: #9ba9bd; }
-
-.ws-scene__cursor {
-  display: inline-block;
-  width: 0.52em;
-  height: 1em;
-  vertical-align: -0.14em;
-  background: #d6c2ff;
-  animation: ws-cursor-blink 1.1s steps(1) infinite;
-}
-
-.ws-scene__mascot {
+.ws-scene__art {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+  animation: ws-brandboard-drift 7s ease-in-out infinite;
 }
 
 .ws-doc-mascot {
-  display: grid;
+  display: block;
   float: right;
-  width: clamp(7rem, 17vw, 10rem);
-  max-width: 42%;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 0.45rem;
-  align-items: center;
-  margin: -0.2rem 0 0.75rem 1rem;
+  width: clamp(11rem, 25vw, 16rem);
+  max-width: 44%;
+  margin: 0.15rem 0 0.8rem 1rem;
 }
 
-.ws-doc-mascot__prop {
+.ws-doc-mascot__art {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  color: #aa7bfa;
+  border-radius: 0.7rem;
+  animation: ws-brandboard-drift 7s ease-in-out infinite;
 }
 
-.ws-doc-mascot__whale {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 0.45rem 0.5rem rgb(113 75 210 / 18%));
+.ws-doc-mascot--containers .ws-doc-mascot__art { animation-delay: -1.3s; }
+.ws-doc-mascot--remote .ws-doc-mascot__art { animation-delay: -2.5s; }
+.ws-doc-mascot--fast .ws-doc-mascot__art { animation-delay: -3.7s; }
+.ws-doc-mascot--flexible .ws-doc-mascot__art { animation-delay: -4.8s; }
+.ws-doc-mascot--happy .ws-doc-mascot__art { animation-delay: -5.9s; }
+
+@keyframes ws-brandboard-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
-
-.ws-doc-mascot--terminal .ws-prop-cursor { animation: ws-cursor-blink 1.1s steps(1) infinite; }
-.ws-doc-mascot--container .ws-prop-box { transform-box: fill-box; transform-origin: center bottom; animation: ws-box-settle 4.8s ease-in-out infinite; }
-.ws-doc-mascot--remote .ws-prop-screen { animation: ws-screen-glow 4.5s ease-in-out infinite; }
-.ws-doc-mascot--fast .ws-prop-speed { animation: ws-speed 1.5s ease-in-out infinite; }
-.ws-doc-mascot--fast .ws-prop-speed:nth-child(2) { animation-delay: 0.16s; }
-.ws-doc-mascot--fast .ws-prop-speed:nth-child(3) { animation-delay: 0.32s; }
-.ws-doc-mascot--gear .ws-prop-gear { transform-box: fill-box; transform-origin: center; animation: ws-gear-turn 12s linear infinite; }
-.ws-doc-mascot--server .ws-prop-led { animation: ws-led-pulse 1.8s ease-in-out infinite; }
-.ws-doc-mascot--shield .ws-prop-shield { animation: ws-shield-glow 3.6s ease-in-out infinite; }
-.ws-doc-mascot--cloud .ws-prop-cloud { animation: ws-cloud-drift 5s ease-in-out infinite; }
-
-@keyframes ws-cursor-blink { 50% { opacity: 0; } }
-@keyframes ws-box-settle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-@keyframes ws-screen-glow { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
-@keyframes ws-speed { 0%, 100% { opacity: 0.35; transform: translateX(0); } 50% { opacity: 1; transform: translateX(-4px); } }
-@keyframes ws-gear-turn { to { transform: rotate(360deg); } }
-@keyframes ws-led-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
-@keyframes ws-shield-glow { 0%, 100% { filter: drop-shadow(0 0 0 rgb(170 123 250 / 0%)); } 50% { filter: drop-shadow(0 0 8px rgb(170 123 250 / 55%)); } }
-@keyframes ws-cloud-drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .ws-scene__cursor,
-  .ws-doc-mascot__prop *,
-  .ws-doc-mascot__whale * { animation: none !important; }
+  .ws-scene__art,
+  .ws-doc-mascot__art { animation: none; }
 }
 
 @media screen and (max-width: 42em) {
   .ws-doc-mascot {
-    width: 6.5rem;
-    max-width: 38%;
-    margin: 0.2rem 0 0.5rem 0.7rem;
-  }
-
-  .ws-scene__screen {
-    min-height: 6.25rem;
-    padding: 0.65rem;
+    float: none;
+    width: min(18rem, 100%);
+    max-width: 100%;
+    margin: 0.6rem auto 1rem;
   }
 }

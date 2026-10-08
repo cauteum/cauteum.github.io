@@ -26,6 +26,8 @@
 }
 
 .ws-hero__image {
+  position: relative;
+  z-index: 3;
   width: min(100%, 27rem);
   margin: 0 auto 1.5rem;
   transform: translateY(calc(var(--ws-hero-progress) * 4rem));
