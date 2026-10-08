@@ -85,6 +85,7 @@ plugins:
             Architecture: Архитектура
             Security: Безопасность
             Providers: Провайдеры
+            Planned: В планах
             Prerequisites: Требования
             Create a sandbox: Создание sandbox
             Resources and limits: Ресурсы и лимиты
@@ -176,8 +177,9 @@ nav:
           - Create a sandbox: providers/podman/create-sandbox.md
           - Limitations: providers/podman/limitations.md
           - Troubleshooting: providers/podman/troubleshooting.md
-      - Kubernetes: providers/kubernetes.md
-      - MicroVM: providers/microvm.md
+      - Planned:
+          - Kubernetes: providers/kubernetes.md
+          - MicroVM: providers/microvm.md
   - Guides:
       - Credential providers: guides/credentials.md
       - Provider profiles: guides/provider-profiles.md

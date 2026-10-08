@@ -1,36 +1,22 @@
 /* SPDX-FileCopyrightText: Copyright (c) 2026 whaleshell */
 /* SPDX-License-Identifier: Apache-2.0 */
 
-/* These are unaltered, page-specific scenes cropped from the supplied brandboard. */
-.ws-scene {
-  width: 100%;
-  max-width: 40rem;
-  overflow: hidden;
-  border-radius: 1rem;
-  box-shadow: 0 1.2rem 2.5rem rgb(4 8 18 / 24%);
-}
+/* The mascots are transparent cutouts derived from the supplied brandboard. */
 
-.ws-scene__art {
-  display: block;
-  width: 100%;
-  height: auto;
-  animation: ws-brandboard-drift 7s ease-in-out infinite;
-}
-
-.ws-doc-mascot {
+.md-typeset .ws-doc-mascot {
   display: block;
   float: right;
-  width: clamp(11rem, 25vw, 16rem);
-  max-width: 44%;
-  margin: 0.15rem 0 0.8rem 1rem;
+  width: clamp(8rem, 16vw, 11rem);
+  max-width: 35%;
+  margin: -2.7rem 0 0.6rem 1rem;
 }
 
 .ws-doc-mascot__art {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 0.7rem;
-  animation: ws-brandboard-drift 7s ease-in-out infinite;
+  object-fit: contain;
+  animation: ws-mascot-drift 7s ease-in-out infinite;
 }
 
 .ws-doc-mascot--containers .ws-doc-mascot__art { animation-delay: -1.3s; }
@@ -39,21 +25,20 @@
 .ws-doc-mascot--flexible .ws-doc-mascot__art { animation-delay: -4.8s; }
 .ws-doc-mascot--happy .ws-doc-mascot__art { animation-delay: -5.9s; }
 
-@keyframes ws-brandboard-drift {
+@keyframes ws-mascot-drift {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ws-scene__art,
   .ws-doc-mascot__art { animation: none; }
 }
 
 @media screen and (max-width: 42em) {
-  .ws-doc-mascot {
+  .md-typeset .ws-doc-mascot {
     float: none;
-    width: min(18rem, 100%);
+    width: min(10rem, 100%);
     max-width: 100%;
-    margin: 0.6rem auto 1rem;
+    margin: 0.4rem auto 0.8rem;
   }
 }

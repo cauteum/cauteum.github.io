@@ -39,6 +39,9 @@ jobs:
                    assets/images/mascot-scenes/working.png assets/images/mascot-scenes/containers.png \
                    assets/images/mascot-scenes/remote.png assets/images/mascot-scenes/fast.png \
                    assets/images/mascot-scenes/flexible.png assets/images/mascot-scenes/happy.png \
+                   assets/images/mascot-cutouts/clean.png assets/images/mascot-cutouts/containers.png \
+                   assets/images/mascot-cutouts/remote.png assets/images/mascot-cutouts/fast.png \
+                   assets/images/mascot-cutouts/flexible.png assets/images/mascot-cutouts/happy.png \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -51,8 +54,8 @@ jobs:
             grep -q 'class="ws-hero"' "$page"
             grep -q 'id="how-it-works"' "$page"
             grep -q 'class="mermaid"' "$page"
-            grep -q 'class="ws-scene"' "$page"
-            grep -q 'assets/images/mascot-scenes/working.png' "$page"
+            grep -q 'class="ws-mac-terminal"' "$page"
+            grep -q 'assets/images/mascot-cutouts/clean.png' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
@@ -73,10 +76,15 @@ jobs:
           grep -q 'ws-badge--soon' site/ru/providers/docker/index.html
           grep -q 'under-construction.svg' site/ru/providers/microvm/index.html
           grep -q 'class="mermaid"' site/concepts/architecture/index.html
-          grep -q 'mascot-scenes/containers.png' site/concepts/architecture/index.html
-          grep -q 'mascot-scenes/flexible.png' site/ru/concepts/security/index.html
-          grep -q 'mascot-scenes/containers.png' site/providers/docker/index.html
-          grep -q 'mascot-scenes/remote.png' site/get-started/first-sandbox/index.html
+          grep -q 'mascot-cutouts/containers.png' site/concepts/architecture/index.html
+          grep -q 'mascot-cutouts/flexible.png' site/ru/concepts/security/index.html
+          grep -q 'mascot-cutouts/containers.png' site/providers/docker/index.html
+          grep -q 'mascot-cutouts/remote.png' site/get-started/first-sandbox/index.html
+          grep -q 'WHALESHELL_VERSION' site/get-started/index.html
+          grep -q 'v0.1.0-beta.2' site/get-started/index.html
+          grep -q 'WHALESHELL_VERSION' site/ru/get-started/index.html
+          grep -q 'v0.1.0-beta.2' site/ru/get-started/index.html
+          python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 6; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'mascot-eye' site/assets/images/mascot-violet.svg
           test ! -e site/assets/images/mascot-violet-atlas.png

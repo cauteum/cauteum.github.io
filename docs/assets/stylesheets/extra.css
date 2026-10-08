@@ -28,7 +28,7 @@
 .ws-hero__image {
   position: relative;
   z-index: 3;
-  width: min(100%, 27rem);
+  width: min(100%, 25rem);
   margin: 0 auto 1.5rem;
   transform: translateY(calc(var(--ws-hero-progress) * 4rem));
 }
@@ -38,6 +38,63 @@
   width: 100%;
   height: auto;
 }
+
+.ws-hero__mascot {
+  max-width: 16rem;
+  margin: 0 auto 0.6rem;
+  filter: drop-shadow(0 1rem 1.3rem rgb(8 8 30 / 20%));
+  animation: ws-mascot-drift 7s ease-in-out infinite;
+}
+
+.ws-mac-terminal {
+  overflow: hidden;
+  border: 1px solid rgb(218 205 245 / 32%);
+  border-radius: 0.7rem;
+  background: #171823;
+  box-shadow: 0 1rem 2.4rem rgb(8 8 30 / 35%);
+  transform: rotate(-2deg);
+}
+
+.ws-mac-terminal__bar {
+  position: relative;
+  height: 1.8rem;
+  border-bottom: 1px solid #171823;
+  color: #c6c5cc;
+  background: #30303a;
+  font: 500 0.65rem/1.8rem "IBM Plex Sans", sans-serif;
+  text-align: center;
+}
+
+.ws-mac-terminal__lights {
+  position: absolute;
+  top: 0.68rem;
+  left: 0.7rem;
+  width: 0.43rem;
+  height: 0.43rem;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: 0.75rem 0 #febc2e, 1.5rem 0 #28c840;
+}
+
+.ws-mac-terminal__body {
+  padding: 0.8rem 1rem 0.95rem;
+  color: #ece9f7;
+  font: 500 clamp(0.62rem, 1.2vw, 0.74rem)/1.7 "IBM Plex Mono", monospace;
+  white-space: nowrap;
+}
+
+.ws-mac-terminal__prompt { color: #cba8ff; }
+.ws-mac-terminal__success { color: #81d8a0; }
+.ws-mac-terminal__cursor {
+  display: inline-block;
+  width: 0.45em;
+  height: 1em;
+  vertical-align: -0.16em;
+  background: #cba8ff;
+  animation: ws-cursor 1.1s steps(1) infinite;
+}
+
+@keyframes ws-cursor { 50% { opacity: 0; } }
 
 .ws-hero__content {
   position: relative;
@@ -154,8 +211,7 @@
   }
 
   .ws-hero__image {
-    width: 100%;
-    max-width: none;
+    width: min(100%, 25rem);
     margin: 0 0 2rem auto;
   }
 }
@@ -164,7 +220,28 @@
   .ws-hero__image {
     transform: none;
   }
+  .ws-hero__mascot, .ws-mac-terminal__cursor { animation: none; }
 }
+
+/* ---------- Site navigation ---------- */
+
+.md-header { background: #242141; }
+.md-header__button.md-logo img { width: 1.75rem; height: 1.75rem; }
+.md-header__title { font-weight: 700; letter-spacing: -0.025em; }
+.md-tabs { border-bottom: 1px solid rgb(255 255 255 / 12%); background: #242141; }
+.md-tabs__list { gap: 0.22rem; }
+.md-tabs__link {
+  height: auto;
+  margin: 0.25rem 0;
+  padding: 0.45rem 0.72rem;
+  border-radius: 0.38rem;
+  opacity: 0.8;
+  transition: background-color 150ms ease, opacity 150ms ease;
+}
+.md-tabs__link:is(:hover, :focus-visible),
+.md-tabs__item--active .md-tabs__link { background: rgb(193 155 255 / 18%); opacity: 1; }
+.md-nav__link--active { font-weight: 700; }
+.md-nav__link:is(:hover, :focus-visible) { color: #8051c5; }
 
 /* ---------- macOS terminal for shell snippets ---------- */
 
