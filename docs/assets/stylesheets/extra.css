@@ -286,7 +286,7 @@
 
 @media screen and (max-width: 42em) {
   .ws-hero__mascot-track { height: 5rem; }
-  .ws-hero__mascot { width: 5rem; height: 5rem; left: -5rem; animation-name: cauteum-mascot-cross-small, cauteum-mascot-roll; }
+  .ws-hero__mascot { bottom: -2.25rem; width: 5rem; height: 10rem; left: -5rem; animation-name: cauteum-mascot-cross-small, cauteum-mascot-roll; }
   @keyframes cauteum-mascot-cross-small { from { left: -5rem; } to { left: 100%; } }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
