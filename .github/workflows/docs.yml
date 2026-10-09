@@ -32,7 +32,7 @@ jobs:
                    ru/get-started/index.html ru/get-started/gateway/index.html ru/get-started/first-sandbox/index.html \
                    providers/docker/index.html providers/docker/resources/index.html ru/providers/docker/resources/index.html \
                    providers/kubernetes/index.html ru/providers/microvm/index.html \
-                   assets/stylesheets/extra.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
+                   assets/stylesheets/extra-20261009.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
                    assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
                    assets/images/mascot.svg assets/images/mascot.png \
                    assets/images/mascot-violet.svg \
