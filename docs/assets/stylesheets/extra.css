@@ -44,11 +44,13 @@
 
 .ws-hero__mascot {
   position: absolute;
-  bottom: 0;
+  /* The source strip has tall cells with transparent padding around each pose.
+     Keep the full cell visible and let the track crop only that padding. */
+  bottom: -2.5rem;
   left: -5.5rem;
   display: block;
   width: 5.5rem;
-  height: 5.5rem;
+  height: 11rem;
   background: url("../images/cauteum-roll.png") 0 50% / 600% auto no-repeat;
   filter: drop-shadow(0 0.45rem 0.45rem rgb(8 8 12 / 28%));
   animation: cauteum-mascot-cross 8s linear infinite, cauteum-mascot-roll 2.7s steps(5, end) infinite;
