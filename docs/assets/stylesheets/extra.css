@@ -44,16 +44,14 @@
 
 .ws-hero__mascot {
   position: absolute;
-  /* The source strip has tall cells with transparent padding around each pose.
-     Keep the full cell visible and let the track crop only that padding. */
-  bottom: -2.5rem;
+  bottom: 0;
   left: -5.5rem;
   display: block;
-  width: 5.5rem;
-  height: 11rem;
-  background: url("../images/cauteum-roll.png") 0 50% / 600% auto no-repeat;
+  width: 4.5rem;
+  height: 4.5rem;
+  background: url("../images/cauteum-mascot.png") center / contain no-repeat;
   filter: drop-shadow(0 0.45rem 0.45rem rgb(8 8 12 / 28%));
-  animation: cauteum-mascot-cross 8s linear infinite, cauteum-mascot-roll 2.7s steps(5, end) infinite;
+  animation: cauteum-mascot-cross 8s linear infinite, cauteum-mascot-roll 2.7s linear infinite;
 }
 
 @keyframes cauteum-mascot-cross {
@@ -62,8 +60,8 @@
 }
 
 @keyframes cauteum-mascot-roll {
-  from { background-position: 0 50%; }
-  to { background-position: 100% 50%; }
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
 }
 
 .ws-mac-terminal {
@@ -286,16 +284,20 @@
 
 @media screen and (max-width: 42em) {
   .ws-hero__mascot-track { height: 5rem; }
-  .ws-hero__mascot { bottom: -2.25rem; width: 5rem; height: 10rem; left: -5rem; animation-name: cauteum-mascot-cross-small, cauteum-mascot-roll; }
-  @keyframes cauteum-mascot-cross-small { from { left: -5rem; } to { left: 100%; } }
+  .ws-hero__mascot { width: 4rem; height: 4rem; left: -4rem; animation-name: cauteum-mascot-cross-small, cauteum-mascot-roll; }
+  @keyframes cauteum-mascot-cross-small { from { left: -4rem; } to { left: 100%; } }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ws-hero__mascot { left: calc(100% - 5.5rem); animation: none; background-position: 0 50%; }
+  .ws-hero__mascot { left: calc(100% - 4.5rem); animation: none; transform: none; }
   .ws-mac-terminal__cursor { animation: none; }
   .ws-flow--playing .ws-flow__panel:not([hidden]) .ws-flow__line { opacity: 1; transform: none; }
+}
+
+@media screen and (max-width: 42em) and (prefers-reduced-motion: reduce) {
+  .ws-hero__mascot { left: calc(100% - 4rem); }
 }
 
 /* ---------- Site navigation ---------- */
