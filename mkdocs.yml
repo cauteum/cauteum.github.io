@@ -105,7 +105,7 @@ plugins:
             OpenShell compatibility: Совместимость с OpenShell
 
 extra_css:
-  - assets/stylesheets/extra.css
+  - assets/stylesheets/extra-20261009.css
   - assets/stylesheets/mascot.css
 
 extra_javascript:
