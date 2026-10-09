@@ -68,7 +68,7 @@ jobs:
           grep -q 'property="og:locale" content="ru_RU"' site/ru/index.html
           grep -q 'cauteum-mascot.png' site/index.html
           grep -q 'cauteum-mascot.png' site/ru/index.html
-          grep -q 'extra.css' site/ru/index.html
+          grep -q 'extra-20261009.css' site/ru/index.html
           grep -q 'mascot.css' site/ru/index.html
           grep -q 'hero.js' site/ru/index.html
           grep -q 'ws-hero__wave' site/ru/index.html
