@@ -33,17 +33,15 @@ forwarding in mind: they can expose a loopback listener to other machines.
 |---------|------|
 | Secrets | AES-GCM store; KEK via `CAUTEUM_SECRETS_KEK` or `secrets.kek` |
 | Providers | Named instances + profile composition metadata |
-| Sandboxes | Registry upsert/delete; log ring; proposals |
+| Sandboxes | Registry and lifecycle management through RPC; bounded log ring |
 | Sidecar | Resolves secrets over `host.cauteum.internal` |
 
 ## HTTP API reference
 
 The [OpenAPI document](https://github.com/cauteum/cauteum-gateway/blob/main/api/openapi.yaml)
-covers the remaining REST surface for gateway metadata, sandbox registry
-records, and logs. Policy, profiles, and partial credential updates use Control
-RPC. The document is not yet a complete inventory of gateway routes.
-Registry writes do not create or stop runtimes; runtime lifecycle operations are
-part of the OpenShell Proto API.
+covers health and authentication bootstrap only. Management operations use
+`cauteum.control.v1` or the pinned OpenShell RPC contract. SSH byte streams and
+the supervisor relay use HTTP upgrade transport and are not REST resource APIs.
 
 ## Control client API
 
@@ -71,8 +69,10 @@ must be published before the matching SDK beta.
 Provider profile list/show/import/update/delete, partial credential updates,
 global and sandbox policy reads/writes, and sandbox policy history use
 `cauteum.control.v1` over native gRPC. Profile responses preserve Cauteum's
-full YAML schema. These REST routes and their OpenAPI entries have been removed;
-settings, services, and other REST resource routes remain queued for migration.
+full YAML schema. These REST routes and their OpenAPI entries have been removed.
+Settings, services, workspaces, inference, identity, SSH session management,
+and command execution have also moved to RPC; only bootstrap, health, and relay
+transport remain on HTTP.
 
 ## When required
 
@@ -131,11 +131,11 @@ readiness monitoring and full Prometheus instrumentation remain incomplete.
 OpenShell OIDC issuer, audience, JWKS cache TTL, and role claim settings feed
 the JWT validator. Admin roles may write gateway resources; user roles are
 read-only; admins also satisfy the user role. When `scopes_claim` is set,
-known REST route groups require the corresponding `sandbox:read/write`,
-`provider:read/write`, or `config:read/write` claim; unmapped routes fail
-closed. This REST mapping is not yet the full per-RPC descriptor matrix. OIDC
-signature validation supports the OpenShell RSA, P-256/P-384 ECDSA, and
-Ed25519 key families.
+Control RPC methods that use scope checks map to the existing
+`sandbox:read/write`, `provider:read/write`, and `config:read/write` groups;
+individual handlers also enforce workspace and admin permissions. This is not
+yet a complete per-method descriptor matrix. OIDC signature validation
+supports the OpenShell RSA, P-256/P-384 ECDSA, and Ed25519 key families.
 
 TLS can load a client CA and an external certificate pair from the original
 gateway TOML. The client CA is optional verification when OIDC is enabled;
