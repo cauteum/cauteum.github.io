@@ -1,0 +1,56 @@
+<!--
+SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-License-Identifier: Apache-2.0
+-->
+
+# Security
+
+| Boundary | Trust |
+|----------|-------|
+| Host Engine / Desktop | Trusted operator machine |
+| Sandbox container | Untrusted agent |
+| Egress proxy | Trusted sidecar |
+| Gateway secrets store | Trusted control plane |
+| noVNC / display | Operator loopback only |
+
+## Defaults
+
+- No `docker.sock` inside the sandbox
+- Workspace bind with deny-list for `$HOME`, `~/.ssh`, `~/.aws`, `~/.cursor`
+- Default-deny network; allowlist from policy + composed providers
+- Secrets as `cauteum:resolve:env:…` rewritten on egress only
+- Docker default seccomp kept; `no-new-privileges`; `CapDrop=NET_RAW`
+- Landlock via `cauteum-init` when kernel ABI ≥ 1 (often ABI 0 on Desktop)
+
+The egress proxy resolves a destination once and connects to the filtered IP.
+Reserved, loopback and link-local addresses stay blocked even when a policy
+specifies `allowed_ips`. If an upstream corporate HTTP proxy is configured,
+that proxy resolves the destination itself. Treat it as part of the trusted
+network boundary; routes with `allowed_ips` are refused in this mode.
+
+On Docker Desktop for macOS, the proxy may not receive a reliable peer binary
+identity. A binary-specific policy needs a platform that can supply that
+identity; container boundaries and mount restrictions still apply.
+
+## Boundaries still being verified
+
+The October 2026 security review fixed known paths through the Docker bridge gateway, live CONNECT tunnels after policy updates, missing SSH hardening wrappers, Docker inspect errors, reserved mount targets, and gateway-owned credentials reappearing from host environment. Those fixes have focused tests. The following runtime checks remain open:
+
+- Confirm that `UpdateConfig` changes the decision of a running proxy on Docker and on rootful and rootless Podman, including gateway or proxy restart.
+- Exercise the native host-gateway blocking route on Podman 6.x. Proxy-backed sandbox creation is rejected on Podman versions that cannot enforce that route.
+- Test the Docker IPv6 path on a dual-stack Engine and harden workspace bind handling against a path-changing race between validation and mount.
+
+These limits matter when a policy relies on immediate access revocation. See [OpenShell compatibility](../reference/openshell-compatibility.md) for the wider contract status.
+
+## Credentials
+
+Prefer `provider create` over `--env`. Cursor uses `agent login` instead of
+injecting `CURSOR_API_KEY`. See [Credentials](../guides/credentials.md).
+
+## Resource hygiene
+
+Uncapped guests and unbounded container logs inflate Docker Desktop VMs. Use
+`--memory`, soft defaults, and default json-file rotation:
+
+- [Docker resources](../providers/docker/resources.md)
+- [Docker logging](../providers/docker/logging.md)
