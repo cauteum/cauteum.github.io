@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Cauteum — Sandboxes for coding agents
+title: Cauteum Sandbox — Sandboxes for coding agents
 description: >-
   Run coding agents in Docker or Podman sandboxes with policy-controlled network
   access and credentials kept outside the sandbox.
@@ -19,7 +19,7 @@ hero:
   tab_create: Create
   tab_run: Run Codex
   tab_observe: Monitor
-  flow_note: Illustrated flow after Codex provider setup. Monitoring uses the terminal TUI, not a web dashboard.
+  flow_note: After importing the codex-api profile and configuring the codex credential provider. --from codex selects the agent image; --provider codex attaches credentials. Status lines are illustrative; cauteum term opens the TUI.
   primary:
     label: Get started
     link: get-started/

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
 # SPDX-License-Identifier: Apache-2.0
 
-site_name: cauteum
+site_name: Cauteum Sandbox
 site_description: Policy-bound sandboxes for coding agents on Docker and Podman
 site_url: https://cauteum-haven.github.io/
 repo_url: https://github.com/cauteum-haven/cauteum-haven.github.io

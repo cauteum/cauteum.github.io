@@ -10,16 +10,19 @@ def _illustration(source: str) -> str:
     path = source.lower()
     name = PurePosixPath(path).stem
 
+    if "/providers/docker/" in f"/{path}" or name in {"first-sandbox", "images", "recreate-sandbox"}:
+        return "docker"
+    if "/providers/podman/" in f"/{path}":
+        return "podman"
+    if name in {"kubernetes", "microvm"}:
+        return "worker"
     if name in {
-        "security", "policy", "credentials", "environment", "settings", "development"
+        "security", "policy", "credentials", "environment", "settings",
+        "development", "provider-profiles",
     }:
-        return "flexible"
-    if "/providers/" in f"/{path}" or name in {
-        "architecture", "images", "inference", "provider-profiles", "recreate-sandbox"
-    }:
-        return "containers"
-    if name in {"gateway", "cursor", "remote", "first-sandbox", "workspace", "workspaces"}:
-        return "remote"
+        return "security"
+    if name in {"architecture", "gateway", "inference", "remote", "workspace", "workspaces"}:
+        return "gateway"
     if name in {"fast", "performance"}:
         return "fast"
     if name in {"welcome", "about"}:

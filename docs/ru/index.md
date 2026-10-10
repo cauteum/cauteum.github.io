@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Cauteum — песочницы для coding-агентов
+title: Cauteum Sandbox — песочницы для coding-агентов
 description: >-
   Запускайте coding-агентов в Docker- и Podman-песочницах с сетевым доступом
   по политике и учётными данными за пределами песочницы.
@@ -19,7 +19,7 @@ hero:
   tab_create: Создание
   tab_run: Запуск Codex
   tab_observe: Мониторинг
-  flow_note: Пример после настройки Codex-провайдера. Мониторинг — терминальный TUI, не веб-дашборд.
+  flow_note: После импорта профиля codex-api и настройки credential-провайдера codex. --from codex выбирает образ агента, --provider codex подключает доступы. Статусы иллюстративные; cauteum term открывает TUI.
   primary:
     label: Быстрый старт
     link: get-started/

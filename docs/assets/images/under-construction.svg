@@ -41,4 +41,6 @@
     <path d="M12.9 25 H27.1 L30.9 38 H9.1 Z" fill="#fafafa"/>
     <rect x="-6" y="68" width="52" height="8" rx="2" fill="#bf360c"/>
   </g>
+
+  <image href="./mascot-cutouts/worker.png" x="140" y="48" width="200" height="183" preserveAspectRatio="xMidYMax meet"/>
 </svg>

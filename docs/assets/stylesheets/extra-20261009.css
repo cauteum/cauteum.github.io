@@ -43,25 +43,30 @@
 }
 
 .ws-hero__mascot {
+  --mascot-size: 4.5rem;
   position: absolute;
   bottom: 0;
-  left: -5.5rem;
+  left: 0;
   display: block;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: var(--mascot-size);
+  height: var(--mascot-size);
   background: url("../images/cauteum-mascot.png") center / contain no-repeat;
   filter: drop-shadow(0 0.45rem 0.45rem rgb(8 8 12 / 28%));
-  animation: cauteum-mascot-cross 8s linear infinite, cauteum-mascot-roll 2.7s linear infinite;
+  animation: cauteum-mascot-cross 8s ease-in-out infinite,
+    cauteum-mascot-hop 520ms ease-in-out infinite alternate;
+  will-change: left, transform, opacity;
 }
 
 @keyframes cauteum-mascot-cross {
-  from { left: -5.5rem; }
-  to { left: 100%; }
+  0%, 100% { left: 0; opacity: 0; }
+  8%, 88% { opacity: 1; }
+  8% { left: 0; }
+  88% { left: calc(100% - var(--mascot-size)); }
 }
 
-@keyframes cauteum-mascot-roll {
-  from { transform: rotate(0turn); }
-  to { transform: rotate(1turn); }
+@keyframes cauteum-mascot-hop {
+  from { transform: translateY(0) scaleY(1); }
+  to { transform: translateY(-0.22rem) scaleY(1.015); }
 }
 
 .ws-mac-terminal {
@@ -284,20 +289,15 @@
 
 @media screen and (max-width: 42em) {
   .ws-hero__mascot-track { height: 5rem; }
-  .ws-hero__mascot { width: 4rem; height: 4rem; left: -4rem; animation-name: cauteum-mascot-cross-small, cauteum-mascot-roll; }
-  @keyframes cauteum-mascot-cross-small { from { left: -4rem; } to { left: 100%; } }
+  .ws-hero__mascot { --mascot-size: 4rem; }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ws-hero__mascot { left: calc(100% - 4.5rem); animation: none; transform: none; }
+  .ws-hero__mascot { left: calc(100% - var(--mascot-size)); opacity: 1; animation: none; transform: none; }
   .ws-mac-terminal__cursor { animation: none; }
   .ws-flow--playing .ws-flow__panel:not([hidden]) .ws-flow__line { opacity: 1; transform: none; }
-}
-
-@media screen and (max-width: 42em) and (prefers-reduced-motion: reduce) {
-  .ws-hero__mascot { left: calc(100% - 4rem); }
 }
 
 /* ---------- Site navigation ---------- */
