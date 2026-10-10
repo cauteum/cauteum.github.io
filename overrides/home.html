@@ -18,8 +18,9 @@
           </div>
         </div>
         <div class="ws-hero__image">
-          <div class="ws-hero__mascot-track">
-            <span class="ws-hero__mascot" role="img" aria-label="{{ hero.mascot_alt }}"></span>
+          <div class="ws-hero__mascot-track" data-mascot-stage role="img" aria-label="{{ hero.mascot_alt }}">
+            <canvas class="ws-hero__mascot-canvas" aria-hidden="true"></canvas>
+            <img class="ws-hero__mascot-fallback" src="{{ 'assets/images/cauteum-mascot.png' | url }}" alt="" aria-hidden="true">
           </div>
           <div class="ws-mac-terminal ws-flow" aria-label="{{ hero.flow_label }}">
             <div class="ws-mac-terminal__bar"><span class="ws-mac-terminal__lights" aria-hidden="true"></span><span>zsh — cauteum</span></div>
@@ -61,6 +62,11 @@
       <path d="M0 64c160 40 320 56 520 30S900 0 1100 8s260 44 340 60v52H0z"/>
     </svg>
   </section>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script type="module" src="{{ 'assets/javascripts/hero-3d.js' | url }}"></script>
 {% endblock %}
 
 {% block content %}

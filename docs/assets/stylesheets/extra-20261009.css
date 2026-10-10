@@ -37,36 +37,40 @@
 
 .ws-hero__mascot-track {
   position: relative;
-  height: 5.5rem;
+  height: 10rem;
   overflow: hidden;
   margin-bottom: 0.25rem;
+  isolation: isolate;
+  border-radius: 0.8rem;
+  background:
+    radial-gradient(ellipse at 50% 115%, rgb(255 159 74 / 16%), transparent 52%),
+    linear-gradient(180deg, rgb(12 13 20 / 10%), rgb(12 13 20 / 28%));
 }
 
-.ws-hero__mascot {
-  --mascot-size: 4.5rem;
+.ws-hero__mascot-canvas,
+.ws-hero__mascot-fallback {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   display: block;
-  width: var(--mascot-size);
-  height: var(--mascot-size);
-  background: url("../images/cauteum-mascot.png") center / contain no-repeat;
-  filter: drop-shadow(0 0.45rem 0.45rem rgb(8 8 12 / 28%));
-  animation: cauteum-mascot-cross 8s ease-in-out infinite,
-    cauteum-mascot-hop 520ms ease-in-out infinite alternate;
-  will-change: left, transform, opacity;
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes cauteum-mascot-cross {
-  0%, 100% { left: 0; opacity: 0; }
-  8%, 88% { opacity: 1; }
-  8% { left: 0; }
-  88% { left: calc(100% - var(--mascot-size)); }
+.ws-hero__mascot-canvas { z-index: 1; }
+.ws-hero__mascot-fallback {
+  z-index: 2;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0;
+  pointer-events: none;
 }
 
-@keyframes cauteum-mascot-hop {
-  from { transform: translateY(0) scaleY(1); }
-  to { transform: translateY(-0.22rem) scaleY(1.015); }
+.ws-hero__mascot-track.ws-hero__mascot-track--fallback .ws-hero__mascot-fallback {
+  opacity: 1;
+}
+
+.ws-hero__mascot-track.ws-hero__mascot-track--fallback .ws-hero__mascot-canvas {
+  display: none;
 }
 
 .ws-mac-terminal {
@@ -288,14 +292,12 @@
 }
 
 @media screen and (max-width: 42em) {
-  .ws-hero__mascot-track { height: 5rem; }
-  .ws-hero__mascot { --mascot-size: 4rem; }
+  .ws-hero__mascot-track { height: 8rem; }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ws-hero__mascot { left: calc(100% - var(--mascot-size)); opacity: 1; animation: none; transform: none; }
   .ws-mac-terminal__cursor { animation: none; }
   .ws-flow--playing .ws-flow__panel:not([hidden]) .ws-flow__line { opacity: 1; transform: none; }
 }
