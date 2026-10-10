@@ -35,7 +35,7 @@ curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/inst
 
 ### from source
 
-Build from the hub checkout if you want the latest `main` or work on
+Build from the workspace checkout if you want the latest `main` or work on
 cauteum itself:
 
 ```bash
@@ -93,6 +93,6 @@ docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Building images yourself"
-    From the hub: `task runtime:image:cli` builds the base image and
+    From the workspace root: `task runtime:image:cli` builds the base image and
     `task docker:agent:cursor` the Cursor agent. The full list is in
     [Images](../reference/images.md).

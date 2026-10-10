@@ -35,7 +35,7 @@ curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/inst
 
 ### из исходников
 
-Сборка из checkout hub — если нужен свежий `main` или вы разрабатываете
+Сборка из checkout workspace — если нужен свежий `main` или вы разрабатываете
 cauteum:
 
 ```bash
@@ -93,6 +93,6 @@ docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Собрать образы самому"
-    Из hub: `task runtime:image:cli` собирает базовый образ,
+    Из корня workspace: `task runtime:image:cli` собирает базовый образ,
     `task docker:agent:cursor` — агента Cursor. Полный список —
     [Образы](../reference/images.md).

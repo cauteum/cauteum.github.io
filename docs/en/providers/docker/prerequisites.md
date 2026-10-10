@@ -26,7 +26,7 @@ docker info
 Pull or build at least one sandbox image before create:
 
 ```bash
-# Local hub build
+# Local workspace build
 task runtime:image:cli          # cauteum-sandbox:local
 task docker:agent:cursor        # cauteum-sandbox:cursor
 

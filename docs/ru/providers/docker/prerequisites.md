@@ -26,7 +26,7 @@ docker info
 Перед create нужен хотя бы один sandbox-образ:
 
 ```bash
-# Локальная сборка в hub
+# Локальная сборка из workspace
 task runtime:image:cli          # cauteum-sandbox:local
 task docker:agent:cursor        # cauteum-sandbox:cursor
 
