@@ -48,7 +48,6 @@ jobs:
                    assets/images/mascot-cutouts/security.png assets/images/mascot-cutouts/gateway.png \
                    assets/images/mascot-cutouts/worker.png \
                    assets/javascripts/hero.js \
-                   assets/javascripts/hero-3d.js \
                    search/search_index.json; do
             test -s "site/$f"
           done
@@ -63,8 +62,10 @@ jobs:
             grep -q 'class="ws-mac-terminal ws-flow"' "$page"
             grep -q 'cauteum term' "$page"
             grep -q 'ws-hero__mascot-track' "$page"
-            grep -q 'ws-hero__mascot-canvas' "$page"
-            grep -q 'hero-3d.js' "$page"
+            grep -q 'ws-flow__paw' "$page"
+            grep -q 'assets/javascripts/hero.js' "$page"
+            ! grep -q 'ws-hero__mascot-canvas' "$page"
+            ! grep -q 'hero-3d.js' "$page"
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
