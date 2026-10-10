@@ -16,7 +16,7 @@ The current work is concentrated in five areas:
 | gRPC extensions | Per-method behavior, external compute-driver data paths, and middleware/interceptor error, deadline, and cancellation behavior. |
 | Published SDK modules | Standalone SDK consumer builds against released module versions, without local workspace replacements. |
 
-The CLI `v0.1.2` release builds against published dependencies with `GOWORK=off`; its Linux, macOS, and Windows release archives and installer checks passed. This resolves the earlier isolated CLI build failure, but does not by itself prove standalone SDK behavior or OpenShell command semantics.
+The CLI `v0.1.4` release builds against published dependencies with `GOWORK=off`; its Linux, macOS, and Windows release archives and installer checks passed. This resolves the earlier isolated CLI build failure, but does not by itself prove standalone SDK behavior or OpenShell command semantics.
 
 The [gateway compatibility register](https://github.com/cauteum-haven/cauteum-gateway/blob/main/internal/httpapi/testdata/openshell_compatibility_gaps.json) records covered slices and open work against the pinned commit. An entry marked `verified` applies only to the named slice. The register must be rechecked against the current source and runtime before a broader compatibility claim.
 

@@ -9,7 +9,7 @@ SPDX-License-Identifier: Apache-2.0
 
 ```bash
 task docker:agent:cursor
-# or: docker pull ghcr.io/cauteum/cauteum/sandboxes/cursor:latest
+# or: docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/cursor:latest
 ```
 
 ## Providers and policy
