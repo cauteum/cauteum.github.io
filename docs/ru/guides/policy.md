@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,8 +11,8 @@ credential-профилей дают effective allowlist, который enforci
 ## Set и get
 
 ```bash
-cauteum policy get demo --full
-cauteum policy set demo --policy /path/to/policy.yaml --wait
+cautem policy get demo --full
+cautem policy set demo --policy /path/to/policy.yaml --wait
 ```
 
 `--wait` ждёт, пока sidecar перечитает bind-mounted effective YAML.
@@ -32,9 +32,9 @@ cauteum policy set demo --policy /path/to/policy.yaml --wait
 ## Цикл approve у оператора
 
 ```bash
-cauteum rule get --status pending
-cauteum rule approve --chunk-id chk_…
-# или: cauteum rule reject --chunk-id chk_… --reason "narrow to /docs"
+cautem rule get --status pending
+cautem rule approve --chunk-id chk_…
+# или: cautem rule reject --chunk-id chk_… --reason "narrow to /docs"
 ```
 
 Approve мержит правило в base policy sandbox, переписывает live policy file и
@@ -43,9 +43,9 @@ Approve мержит правило в base policy sandbox, переписыва
 ## Ключи схемы
 
 Документы policy используют `filesystem_policy`, `landlock` и
-`network_policies` (`cauteum-core/policy`). L7-правила могут задавать
+`network_policies` (`cautem-core/policy`). L7-правила могут задавать
 `protocol: rest|graphql|mcp` с method/path/tool.
 
 ## Связанное
 
-- Skill: `/etc/cauteum/skills/policy-advisor`
+- Skill: `/etc/cautem/skills/policy-advisor`

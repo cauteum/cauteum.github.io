@@ -1,15 +1,15 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Провайдер Docker
 
 **Провайдер вычислений** — движок, на котором работают песочница и её
-egress-прокси. Выбирается через `CAUTEUM_DRIVER`, виден в
-`cauteum status`.
+egress-прокси. Выбирается через `CAUTEM_DRIVER`, виден в
+`cautem status`.
 
-| Провайдер | `CAUTEUM_DRIVER` | Статус |
+| Провайдер | `CAUTEM_DRIVER` | Статус |
 |-----------|---------------------|--------|
 | Docker Engine 28.0+ на Linux | `docker` | <span class="ws-badge ws-badge--ok">поддерживается, по умолчанию</span> |
 | Docker Desktop на macOS/Windows | `docker` | <span class="ws-badge ws-badge--ok">beta</span> |
@@ -18,7 +18,7 @@ egress-прокси. Выбирается через `CAUTEUM_DRIVER`, виде�
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">скоро</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">скоро</span> |
 
-Docker — провайдер по умолчанию. cauteum обращается к локальному Engine API
+Docker — провайдер по умолчанию. cautem обращается к локальному Engine API
 (`DOCKER_HOST` / сокет Desktop), создаёт внутреннюю сеть на sandbox, поднимает
 egress-sidecar, затем sandbox-контейнер.
 
@@ -38,19 +38,19 @@ Kubernetes и MicroVM не являются production-провайдерами 
 
 ```text
 host Docker Engine
-├── cauteum-<name>              sandbox (образ агента)
-├── cauteum-proxy-<name>        egress sidecar (slim base)
-├── cauteum-net-<name>          внутренняя сеть
-├── cauteum-data-<name>         опциональный data volume
-└── cauteum-ca-<name>           MITM CA (если proxy включён)
+├── cautem-<name>              sandbox (образ агента)
+├── cautem-proxy-<name>        egress sidecar (slim base)
+├── cautem-net-<name>          внутренняя сеть
+├── cautem-data-<name>         опциональный data volume
+└── cautem-ca-<name>           MITM CA (если proxy включён)
 ```
 
 ## Активация
 
 ```bash
-unset CAUTEUM_DRIVER          # или: export CAUTEUM_DRIVER=docker
-cauteum doctor
-cauteum status
+unset CAUTEM_DRIVER          # или: export CAUTEM_DRIVER=docker
+cautem doctor
+cautem status
 ```
 
 В статусе ожидайте `driver: docker`.
@@ -73,7 +73,7 @@ PEM bundle с доверенными корнями для проверяемы�
 Если после перезапуска rootless-движка меняется UID/GID mapping, в конфигурации
 compute-драйвера Docker можно включить `reconcile_data_ownership`. При включённой
 настройке привилегированный init при запуске переназначит владельца файлов в
-отдельном persistent volume `/cauteum/data` на пользователя sandbox. По умолчанию
+отдельном persistent volume `/cautem/data` на пользователя sandbox. По умолчанию
 настройка выключена, на больших volume операция может занять время; bind mount
 workspace не затрагивается.
 

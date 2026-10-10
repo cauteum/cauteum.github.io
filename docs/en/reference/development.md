@@ -1,6 +1,6 @@
 # Development
 
-cauteum uses independent Git repositories and Go 1.27 modules. A local
+cautem uses independent Git repositories and Go 1.27 modules. A local
 workspace can place the checkouts next to each other; the root itself does not
 need a Git repository. Run Git commands inside the module you are changing.
 
@@ -11,8 +11,8 @@ file, not in published `go.mod` files. Replacements for workspace modules must
 include the dependency version:
 
 ```bash
-go work edit -replace=github.com/cautem/cauteum-core@v0.1.0-beta.1=./cauteum-core
-git -C cauteum-cli status
+go work edit -replace=github.com/cautem/cautem-core@v0.1.0-beta.1=./cautem-core
+git -C cautem-cli status
 ```
 
 Match replacement versions to the checked-out manifests. Release checks must
@@ -26,9 +26,9 @@ The proto check uses an exact OpenShell source checkout. Prepare it with `bash t
 
 Modules use semantic version tags. Alpha, beta, and release candidate tags are prereleases. Nightly CLI builds are manual and are not part of the current public Releases page. Each module has its own release. When a public module path or API changes, release dependencies first, update consumer requirements, and test a clean build with `GOWORK=off` and no local replacements. Do not rewrite published tags.
 
-The coordinated stable release is `v0.1.5`; the Go modules and Python source carry numbered tags, while Python is not currently published on PyPI. Historical prerelease tags remain immutable. Do not create new alpha, beta, or release-candidate tags. For future releases, follow the module dependency DAG, update package metadata, and pass release gates before tagging. Use each checkout's `go.mod` rather than assuming all independent modules always share one tag.
+The coordinated stable release is `v0.1.6`; the Go modules and Python source carry numbered tags, while Python is not currently published on PyPI. Historical prerelease tags remain immutable. Do not create new alpha, beta, or release-candidate tags. For future releases, follow the module dependency DAG, update package metadata, and pass release gates before tagging. Use each checkout's `go.mod` rather than assuming all independent modules always share one tag.
 
-The logging checkout is locally named `cauteum-slogx`, while its published module path is still `github.com/cautem/slogx`. Change the public path only together with a new repository and a tested consumer migration.
+The logging checkout is locally named `cautem-slogx`, while its published module path is still `github.com/cautem/slogx`. Change the public path only together with a new repository and a tested consumer migration.
 
 ## Review conventions
 

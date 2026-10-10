@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -16,9 +16,9 @@ Sandbox и proxy используют Docker `json-file` с ротацией:
 | `max-file` | `3` |
 
 ```bash
-export CAUTEUM_DOCKER_LOG_DRIVER=json-file   # или none
-export CAUTEUM_DOCKER_LOG_MAX_SIZE=10m
-export CAUTEUM_DOCKER_LOG_MAX_FILE=3
+export CAUTEM_DOCKER_LOG_DRIVER=json-file   # или none
+export CAUTEM_DOCKER_LOG_MAX_SIZE=10m
+export CAUTEM_DOCKER_LOG_MAX_FILE=3
 ```
 
 `none` отключает Engine-логи, если достаточно observation в gateway.
@@ -38,5 +38,5 @@ Gateway держит in-memory кольцо на sandbox (4096 строк). Пр
 удаляется. Поток:
 
 ```bash
-cauteum logs demo --tail --source proxy
+cautem logs demo --tail --source proxy
 ```

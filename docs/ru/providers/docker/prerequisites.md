@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -27,11 +27,11 @@ docker info
 
 ```bash
 # Локальная сборка из workspace
-task runtime:image:cli          # cauteum-sandbox:local
-task docker:agent:cursor        # cauteum-sandbox:cursor
+task runtime:image:cli          # cautem-sandbox:local
+task docker:agent:cursor        # cautem-sandbox:cursor
 
 # Или каталог GHCR
-docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cautem/sandboxes/base:latest
 ```
 
 Каталог и BYOC: [Справка по образам](../../reference/images.md).
@@ -41,12 +41,12 @@ docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
 Proxy, секреты и `--provider` требуют доступный gateway:
 
 ```bash
-cauteum gateway ensure
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
+cautem gateway ensure
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
 ```
 
-Compose gateway: `cauteum-gateway/compose/docker-compose.yml`.
+Compose gateway: `cautem-gateway/compose/docker-compose.yml`.
 
 ## Память Desktop
 
@@ -54,7 +54,7 @@ Compose gateway: `cauteum-gateway/compose/docker-compose.yml`.
 Задайте soft defaults (по желанию) и оставьте ротацию логов (включена по умолчанию):
 
 ```yaml
-# ~/.config/cauteum/config.yaml
+# ~/.config/cautem/config.yaml
 defaults:
   memory: 2g
   cpu: 2

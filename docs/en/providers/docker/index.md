@@ -1,14 +1,14 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Docker provider
 
 A **compute provider** is the engine that runs the sandbox and its egress
-proxy. It is picked with `CAUTEUM_DRIVER` and shown by `cauteum status`.
+proxy. It is picked with `CAUTEM_DRIVER` and shown by `cautem status`.
 
-| Provider | `CAUTEUM_DRIVER` | Status |
+| Provider | `CAUTEM_DRIVER` | Status |
 |----------|---------------------|--------|
 | Docker Engine 28.0+ on Linux | `docker` | <span class="ws-badge ws-badge--ok">supported, default</span> |
 | Docker Desktop on macOS/Windows | `docker` | <span class="ws-badge ws-badge--ok">beta</span> |
@@ -17,7 +17,7 @@ proxy. It is picked with `CAUTEUM_DRIVER` and shown by `cauteum status`.
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 
-Docker is the default. cauteum talks to the local Engine API
+Docker is the default. cautem talks to the local Engine API
 (`DOCKER_HOST` / Desktop socket), creates an internal network per sandbox,
 starts an egress proxy sidecar, then starts the sandbox container.
 
@@ -38,19 +38,19 @@ platform. Kubernetes and MicroVM are not production providers in this release.
 
 ```text
 host Docker Engine
-├── cauteum-<name>              sandbox (agent image)
-├── cauteum-proxy-<name>        egress sidecar (slim base)
-├── cauteum-net-<name>          internal network
-├── cauteum-data-<name>         optional data volume
-└── cauteum-ca-<name>           MITM CA volume (when proxy enabled)
+├── cautem-<name>              sandbox (agent image)
+├── cautem-proxy-<name>        egress sidecar (slim base)
+├── cautem-net-<name>          internal network
+├── cautem-data-<name>         optional data volume
+└── cautem-ca-<name>           MITM CA volume (when proxy enabled)
 ```
 
 ## Activate
 
 ```bash
-unset CAUTEUM_DRIVER          # or: export CAUTEUM_DRIVER=docker
-cauteum doctor
-cauteum status
+unset CAUTEM_DRIVER          # or: export CAUTEM_DRIVER=docker
+cautem doctor
+cautem status
 ```
 
 Expect `driver: docker` in status output.
@@ -73,7 +73,7 @@ forward proxy. Recreate the sandbox proxy after rotating the bundle.
 For rootless engines whose UID/GID mapping changes, `reconcile_data_ownership`
 can be enabled in the Docker compute-driver configuration. When enabled for a
 sandbox with persistent data, the privileged init process reassigns entries in
-the dedicated `/cauteum/data` volume to the sandbox user at startup. This is
+the dedicated `/cautem/data` volume to the sandbox user at startup. This is
 off by default, can take time on large volumes, and does not touch the workspace
 bind mount.
 

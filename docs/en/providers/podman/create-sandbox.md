@@ -1,28 +1,28 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Create a sandbox (Podman)
 
 ```bash
-export CAUTEUM_DRIVER=podman
+export CAUTEM_DRIVER=podman
 
-cauteum sandbox create \
+cautem sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy cauteum-cli/policies/default.yaml \
+  --policy cautem-cli/policies/default.yaml \
   --memory 2g
 
-cauteum sandbox exec demo -- uname -a
-cauteum sandbox delete demo
+cautem sandbox exec demo -- uname -a
+cautem sandbox delete demo
 ```
 
 With proxy and providers, ensure the gateway is selected first:
 
 ```bash
-cauteum gateway select local
-cauteum sandbox create \
+cautem gateway select local
+cautem sandbox create \
   --name cursor \
   --from cursor \
   --workspace "$PWD" \

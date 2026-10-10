@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,41 +11,41 @@ registry, observation log rings, and policy proposal workflow.
 ## Run
 
 ```bash
-cauteum gateway ensure
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
-cauteum gateway info
+cautem gateway ensure
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
+cautem gateway info
 ```
 
-Compose: `cauteum-gateway/compose/docker-compose.yml`.
+Compose: `cautem-gateway/compose/docker-compose.yml`.
 
 Listen address defaults to `127.0.0.1:7443`.
-If you enable `CAUTEUM_GATEWAY_ALLOW_UNAUTHENTICATED=1` or pass
+If you enable `CAUTEM_GATEWAY_ALLOW_UNAUTHENTICATED=1` or pass
 `--allow-unauthenticated-users`, the gateway accepts only a loopback listen
 address. It refuses to start on a public or LAN address in this mode.
-`cauteum gateway info` reports `allow_unauthenticated`, and
-`cauteum status` displays a warning. Keep reverse proxies and port
+`cautem gateway info` reports `allow_unauthenticated`, and
+`cautem status` displays a warning. Keep reverse proxies and port
 forwarding in mind: they can expose a loopback listener to other machines.
 
 ## Responsibilities
 
 | Surface | Role |
 |---------|------|
-| Secrets | AES-GCM store; KEK via `CAUTEUM_SECRETS_KEK` or `secrets.kek` |
+| Secrets | AES-GCM store; KEK via `CAUTEM_SECRETS_KEK` or `secrets.kek` |
 | Providers | Named instances + profile composition metadata |
 | Sandboxes | Registry and lifecycle management through RPC; bounded log ring |
-| Sidecar | Resolves secrets over `host.cauteum.internal` |
+| Sidecar | Resolves secrets over `host.cautem.internal` |
 
 ## HTTP API reference
 
-The [OpenAPI document](https://github.com/cautem/cauteum-gateway/blob/main/api/openapi.yaml)
+The [OpenAPI document](https://github.com/cautem/cautem-gateway/blob/main/api/openapi.yaml)
 covers health and authentication bootstrap only. Management operations use
-`cauteum.control.v1` or the pinned OpenShell RPC contract. SSH byte streams and
+`cautem.control.v1` or the pinned OpenShell RPC contract. SSH byte streams and
 the supervisor relay use HTTP upgrade transport and are not REST resource APIs.
 
 ## Control client API
 
-The gateway also serves the versioned `cauteum.control.v1` Connect API for
+The gateway also serves the versioned `cautem.control.v1` Connect API for
 the future management UI and generated clients. Its current read surface covers
 viewer/capabilities, workspace and sandbox summaries, service/template
 summaries, sandbox logs and streams. Runtime create/start/stop/delete actions
@@ -68,7 +68,7 @@ must be published before the matching SDK beta.
 
 Provider profile list/show/import/update/delete, partial credential updates,
 global and sandbox policy reads/writes, and sandbox policy history use
-`cauteum.control.v1` over native gRPC. Profile responses preserve Cauteum's
+`cautem.control.v1` over native gRPC. Profile responses preserve cautem's
 full YAML schema. These REST routes and their OpenAPI entries have been removed.
 Settings, services, workspaces, inference, identity, SSH session management,
 and command execution have also moved to RPC; only bootstrap, health, and relay
@@ -84,7 +84,7 @@ transport remain on HTTP.
 
 ## Config
 
-Gateways are recorded in `~/.config/cauteum/config.yaml`:
+Gateways are recorded in `~/.config/cautem/config.yaml`:
 
 ```yaml
 current: local
@@ -94,13 +94,13 @@ gateways:
 ```
 
 OIDC fields and tokens may appear for authenticated gateways after
-`cauteum gateway login`.
+`cautem gateway login`.
 
 ## Related
 
 - [Credentials](./credentials.md)
 - [Policy](./policy.md)
-- Compose files: `cauteum-gateway/compose/`
+- Compose files: `cautem-gateway/compose/`
 
 ## OpenShell gateway TOML
 
@@ -121,7 +121,7 @@ driver, storage, gateway JWT, OTLP, rate-limit, middleware, interceptor, and
 complete readiness/metrics consumers. Supplied unsupported settings fail before the daemon
 creates state or opens listeners. The loader also rejects unknown/duplicate
 keys, invalid required fields/enums, and a database URL embedded in TOML.
-Without an OpenShell file, the existing cauteum defaults still apply.
+Without an OpenShell file, the existing cautem defaults still apply.
 The optional `health_bind_address` and `metrics_bind_address` tables, plus
 `OPENSHELL_HEALTH_PORT` / `OPENSHELL_METRICS_PORT` and matching port flags,
 start separate listeners. Health routes are available at `/healthz`, `/readyz`,

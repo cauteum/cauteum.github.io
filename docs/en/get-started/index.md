@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Get started
 
-cauteum is a single CLI that runs coding agents in policy-bound sandboxes on
+cautem is a single CLI that runs coding agents in policy-bound sandboxes on
 Docker or Podman. Install the CLI, make sure a container engine is running and
 pull a sandbox image — then [start the gateway](gateway.md) and
 [create your first sandbox](first-sandbox.md).
@@ -14,14 +14,14 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The latest published CLI is `v0.1.5`. Pin it when installing so this
+The latest published CLI is `v0.1.6`. Pin it when installing so this
 guide keeps working until the next stable release is published.
 Open a terminal and run:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.5 sh
-cauteum version
+curl -LsSf https://raw.githubusercontent.com/cautem/cautem-cli/main/install.sh \
+  | CAUTEM_VERSION=v0.1.6 sh
+cautem version
 ```
 
 The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
@@ -29,27 +29,27 @@ The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 To install into another directory:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.5 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cautem-cli/main/install.sh \
+  | CAUTEM_VERSION=v0.1.6 CAUTEM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### from source
 
 Build from the workspace checkout if you want the latest `main` or work on
-cauteum itself:
+cautem itself:
 
 ```bash
-cd /path/to/cauteum
+cd /path/to/cautem
 export GOWORK=$PWD/go.work
 
-go build -C cauteum-cli -o cauteum ./cmd/cauteum
-./cauteum-cli/cauteum install
-./cauteum-cli/cauteum version
+go build -C cautem-cli -o cautem ./cmd/cautem
+./cautem-cli/cautem install
+./cautem-cli/cautem version
 ```
 
 ## Start a container engine
 
-cauteum needs a running compute provider. Docker is the default; Podman
+cautem needs a running compute provider. Docker is the default; Podman
 works through the same Engine API.
 
 === "Docker"
@@ -59,8 +59,8 @@ works through the same Engine API.
 
     ```bash
     docker info
-    cauteum doctor
-    cauteum status
+    cautem doctor
+    cautem status
     ```
 
 === "Podman on macOS"
@@ -68,19 +68,19 @@ works through the same Engine API.
     ```bash
     podman machine init     # once
     podman machine start
-    export CAUTEUM_DRIVER=podman
-    cauteum status
+    export CAUTEM_DRIVER=podman
+    cautem status
     ```
 
 === "Podman on Linux"
 
     ```bash
     systemctl --user enable --now podman.socket
-    export CAUTEUM_DRIVER=podman
-    cauteum status
+    export CAUTEM_DRIVER=podman
+    cautem status
     ```
 
-`cauteum status` should print the driver you picked (`docker` or `podman`).
+`cautem status` should print the driver you picked (`docker` or `podman`).
 Engine details: [Docker](../providers/docker/index.md) ·
 [Podman](../providers/podman/index.md).
 
@@ -89,7 +89,7 @@ Engine details: [Docker](../providers/docker/index.md) ·
 Pull the base image — it has the CLI tooling an agent needs:
 
 ```bash
-docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cautem/sandboxes/base:latest
 ```
 
 !!! tip "Building images yourself"

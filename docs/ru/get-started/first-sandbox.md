@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -13,16 +13,16 @@ CLI установлен, gateway запущен — создайте песоч
 Запускайте из папки проекта:
 
 ```bash
-cauteum sandbox create \
+cautem sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy cauteum-cli/policies/default.yaml \
+  --policy cautem-cli/policies/default.yaml \
   --memory 2g
 ```
 
 | Флаг | Что делает |
 |------|------------|
-| `--name` | Имя песочницы; контейнер — `cauteum-<name>` |
+| `--name` | Имя песочницы; контейнер — `cautem-<name>` |
 | `--workspace` | Папка хоста, монтируется в `/workspace` |
 | `--policy` | YAML сетевой политики (всё запрещено + allowlist) |
 | `--memory` | Лимит памяти; рекомендуется на Docker Desktop |
@@ -30,9 +30,9 @@ cauteum sandbox create \
 ## Работа внутри
 
 ```bash
-cauteum sandbox list
-cauteum sandbox exec demo -- uname -a
-cauteum sandbox connect demo
+cautem sandbox list
+cautem sandbox exec demo -- uname -a
+cautem sandbox connect demo
 ```
 
 `connect` открывает интерактивный shell в песочнице; проект лежит в
@@ -44,12 +44,12 @@ cauteum sandbox connect demo
 видит только плейсхолдеры:
 
 ```bash
-GITHUB_TOKEN=… cauteum provider create --name gh --type github --credential GITHUB_TOKEN
+GITHUB_TOKEN=… cautem provider create --name gh --type github --credential GITHUB_TOKEN
 
-cauteum sandbox create \
+cautem sandbox create \
   --name demo \
   --workspace "$PWD" \
-  --policy cauteum-cli/policies/default.yaml \
+  --policy cautem-cli/policies/default.yaml \
   --provider gh
 ```
 
@@ -59,9 +59,9 @@ cauteum sandbox create \
 ## Логи, остановка, удаление
 
 ```bash
-cauteum logs demo --tail --source proxy
-cauteum sandbox stop demo
-cauteum sandbox delete demo
+cautem logs demo --tail --source proxy
+cautem sandbox stop demo
+cautem sandbox delete demo
 ```
 
 `delete` удаляет песочницу, её proxy sidecar, сеть и data volumes. Секреты

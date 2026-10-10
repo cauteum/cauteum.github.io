@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -11,19 +11,19 @@ sandbox, observation log rings и workflow policy proposals.
 ## Запуск
 
 ```bash
-cauteum gateway ensure
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
-cauteum gateway info
+cautem gateway ensure
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
+cautem gateway info
 ```
 
-Compose: `cauteum-gateway/compose/docker-compose.yml`.
+Compose: `cautem-gateway/compose/docker-compose.yml`.
 
 Адрес по умолчанию: `127.0.0.1:7443`.
-При `CAUTEUM_GATEWAY_ALLOW_UNAUTHENTICATED=1` или флаге
+При `CAUTEM_GATEWAY_ALLOW_UNAUTHENTICATED=1` или флаге
 `--allow-unauthenticated-users` gateway запускается только на loopback-адресе.
 На публичном или LAN-адресе запуск завершается ошибкой. Поле
-`allow_unauthenticated` видно в `cauteum gateway info`, а `cauteum status`
+`allow_unauthenticated` видно в `cautem gateway info`, а `cautem status`
 показывает предупреждение. Reverse proxy и проброс порта могут открыть
 loopback-сервис другим машинам — учитывайте это при развёртывании.
 
@@ -31,23 +31,23 @@ loopback-сервис другим машинам — учитывайте эт�
 
 | Поверхность | Роль |
 |-------------|------|
-| Secrets | AES-GCM store; KEK через `CAUTEUM_SECRETS_KEK` или `secrets.kek` |
+| Secrets | AES-GCM store; KEK через `CAUTEM_SECRETS_KEK` или `secrets.kek` |
 | Providers | Именованные инстансы + метаданные composition |
 | Sandboxes | Управление реестром и жизненным циклом через RPC; ограниченный буфер логов |
-| Sidecar | Resolve секретов через `host.cauteum.internal` |
+| Sidecar | Resolve секретов через `host.cautem.internal` |
 
 ## Справка по HTTP API
 
-[Спецификация OpenAPI](https://github.com/cautem/cauteum-gateway/blob/main/api/openapi.yaml)
+[Спецификация OpenAPI](https://github.com/cautem/cautem-gateway/blob/main/api/openapi.yaml)
 описывает только health и bootstrap-аутентификацию. Операции управления
-используют `cauteum.control.v1` или закреплённый OpenShell RPC контракт. SSH
+используют `cautem.control.v1` или закреплённый OpenShell RPC контракт. SSH
 потоки и supervisor relay используют HTTP upgrade transport и не являются
 REST API ресурсов.
 
 ## Client API для управления
 
 Gateway также обслуживает версионированный Connect API
-`cauteum.control.v1` для будущей панели управления и генерируемых SDK.
+`cautem.control.v1` для будущей панели управления и генерируемых SDK.
 Текущая read-часть включает viewer/capabilities, сводки workspace и sandbox,
 сервисов и шаблонов, а также логи и streams sandbox. Операции create/start/stop/
 delete используют идемпотентный `request_id`; потерянный ответ можно сверить
@@ -71,8 +71,8 @@ Go SDK. `logs --all` перечисляет доступные пользова�
 
 Список, просмотр, импорт, обновление и удаление provider profiles, частичное
 обновление credentials, чтение и запись глобальной и sandbox policy, а также
-история policy используют `cauteum.control.v1` через native gRPC. Ответы
-профилей сохраняют полную YAML-схему Cauteum. Эти REST-маршруты и записи
+история policy используют `cautem.control.v1` через native gRPC. Ответы
+профилей сохраняют полную YAML-схему cautem. Эти REST-маршруты и записи
 OpenAPI удалены. Settings, services, workspaces, inference, identity, SSH
 session management и command execution также перешли на RPC; по HTTP остались
 bootstrap, health и relay transport.
@@ -87,7 +87,7 @@ bootstrap, health и relay transport.
 
 ## Конфиг
 
-Gateways пишутся в `~/.config/cauteum/config.yaml`:
+Gateways пишутся в `~/.config/cautem/config.yaml`:
 
 ```yaml
 current: local
@@ -96,13 +96,13 @@ gateways:
     url: http://127.0.0.1:7443
 ```
 
-Поля OIDC и токены появляются после `cauteum gateway login`.
+Поля OIDC и токены появляются после `cautem gateway login`.
 
 ## Связанное
 
 - [Credentials](./credentials.md)
 - [Политика](./policy.md)
-- Compose-файлы: `cauteum-gateway/compose/`
+- Compose-файлы: `cautem-gateway/compose/`
 
 ## Gateway TOML OpenShell
 
@@ -123,7 +123,7 @@ certificates, external SNI certificates, mTLS identity и выбор builtin/use
 и полной readiness/metrics instrumentation. Указанные неподдержанные settings блокируют startup
 до создания state и открытия listeners. Loader также отклоняет unknown/duplicate
 keys, отсутствующие required fields, неверные enums и database URL внутри TOML.
-Без файла OpenShell пока действуют прежние defaults cauteum.
+Без файла OpenShell пока действуют прежние defaults cautem.
 Необязательные `health_bind_address` и `metrics_bind_address`, а также
 `OPENSHELL_HEALTH_PORT` / `OPENSHELL_METRICS_PORT` и соответствующие флаги
 запускают отдельные listeners. Health routes доступны на `/healthz`, `/readyz`

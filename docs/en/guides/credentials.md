@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -14,14 +14,14 @@ Secrets are read from the **current process environment**, not from sticky
 shell exports and not from argv values.
 
 ```bash
-GITHUB_TOKEN=… cauteum provider create --name gh --type github --credential GITHUB_TOKEN
-CURSOR_API_KEY=… cauteum provider create --name cursor --type cursor --credential CURSOR_API_KEY
+GITHUB_TOKEN=… cautem provider create --name gh --type github --credential GITHUB_TOKEN
+CURSOR_API_KEY=… cautem provider create --name cursor --type cursor --credential CURSOR_API_KEY
 
 # if keys are already in this process env:
-# cauteum provider create --name gh --type github --from-existing
+# cautem provider create --name gh --type github --from-existing
 
-cauteum provider list
-cauteum provider get gh
+cautem provider list
+cautem provider get gh
 ```
 
 `list` / `get` never print secret values. Ciphertext lives in the gateway
@@ -30,7 +30,7 @@ encrypted store (`secrets.enc.json`).
 ## Attach on create
 
 ```bash
-cauteum sandbox create \
+cautem sandbox create \
   --name demo \
   --workspace "$PWD" \
   --policy /path/to/policy.yaml \
@@ -41,7 +41,7 @@ cauteum sandbox create \
 
 Composition merges profile endpoints, binaries, and `credential_keys` into the
 effective policy. The guest sees placeholders such as
-`cauteum:resolve:env:GITHUB_TOKEN`. The proxy rewrites them on egress.
+`cautem:resolve:env:GITHUB_TOKEN`. The proxy rewrites them on egress.
 
 ## Profile behavior
 
@@ -53,29 +53,29 @@ effective policy. The guest sees placeholders such as
 | `claude-code` | `ANTHROPIC_API_KEY` | Placeholder |
 
 ```bash
-cauteum provider profile list
-cauteum provider profile show github
+cautem provider profile list
+cautem provider profile show github
 ```
 
 ## Rotate
 
 ```bash
-GITHUB_TOKEN=ghp_new… cauteum provider refresh gh
-# or: GITHUB_TOKEN=… cauteum provider update gh --from-existing
+GITHUB_TOKEN=ghp_new… cautem provider refresh gh
+# or: GITHUB_TOKEN=… cautem provider update gh --from-existing
 ```
 
 ## Do not
 
 ```bash
-cauteum sandbox create … --env GITHUB_TOKEN=ghp_…     # raw secret in guest
-cauteum sandbox create … --env CURSOR_API_KEY=cauteum:resolve:…  # breaks Cursor Agent
+cautem sandbox create … --env GITHUB_TOKEN=ghp_…     # raw secret in guest
+cautem sandbox create … --env CURSOR_API_KEY=cautem:resolve:…  # breaks Cursor Agent
 ```
 
 ## KEK
 
 | Item | Detail |
 |------|--------|
-| Env | `CAUTEUM_SECRETS_KEK` (passphrase, base64, or hex ≥16 bytes) |
+| Env | `CAUTEM_SECRETS_KEK` (passphrase, base64, or hex ≥16 bytes) |
 | File fallback | `secrets.kek` in gateway data dir (mode 0600) |
 | Doctor | Warns when KEK is not env-pinned |
 

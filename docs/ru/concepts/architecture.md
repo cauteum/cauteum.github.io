@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -22,7 +22,7 @@ flowchart TD
 |-----------|------------|
 | Control | CLI, HTTP API gateway, encrypted secrets, proposals |
 | Data | Sandbox-контейнер, bind workspace, процесс агента |
-| Enforcement | Proxy sidecar, Landlock/seccomp через `cauteum-init` |
+| Enforcement | Proxy sidecar, Landlock/seccomp через `cautem-init` |
 
 ## Путь create
 
@@ -41,10 +41,10 @@ Docker или Podman обновляется отдельно.
 
 | Модуль | Роль |
 |--------|------|
-| `cauteum-cli` | Пользовательский CLI |
-| `cauteum-core` | Схема policy + engine |
-| `cauteum-driver` | Docker / Podman / stubs |
-| `cauteum-proxy` | Egress sidecar + `policy.local` |
-| `cauteum-gateway` | Control plane |
-| `cauteum-runtime` | Init, образы, helpers агента |
-| `cauteum-providers` | Credential-профили |
+| `cautem-cli` | Пользовательский CLI |
+| `cautem-core` | Схема policy + engine |
+| `cautem-driver` | Docker / Podman / stubs |
+| `cautem-proxy` | Egress sidecar + `policy.local` |
+| `cautem-gateway` | Control plane |
+| `cautem-runtime` | Init, образы, helpers агента |
+| `cautem-providers` | Credential-профили |
