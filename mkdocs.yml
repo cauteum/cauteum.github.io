@@ -12,8 +12,8 @@ copyright: Copyright &copy; 2026 cauteum &middot; Apache-2.0 License
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/images/logo.svg
-  favicon: assets/images/favicon.svg
+  logo: assets/images/cauteum-app-icon.png
+  favicon: assets/images/cauteum-app-icon.png
   icon:
     repo: fontawesome/brands/github
   palette:

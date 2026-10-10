@@ -33,7 +33,7 @@ jobs:
                    providers/docker/index.html providers/docker/resources/index.html ru/providers/docker/resources/index.html \
                    providers/kubernetes/index.html ru/providers/microvm/index.html \
                    assets/stylesheets/extra-20261009.css assets/stylesheets/mascot.css assets/images/under-construction.svg \
-                   assets/images/hero.svg assets/images/logo.svg assets/images/favicon.svg \
+                   assets/images/hero.svg assets/images/cauteum-app-icon.png \
                    assets/images/mascot.svg assets/images/mascot.png \
                    assets/images/mascot-violet.svg \
                    assets/images/mascot-scenes/working.png assets/images/mascot-scenes/containers.png \
@@ -72,6 +72,8 @@ jobs:
           grep -q 'property="og:title" content="Cauteum Sandbox — песочницы для coding-агентов"' site/ru/index.html
           grep -q 'property="og:locale" content="en_US"' site/index.html
           grep -q 'property="og:locale" content="ru_RU"' site/ru/index.html
+          grep -q 'cauteum-app-icon.png' site/index.html
+          grep -q 'cauteum-app-icon.png' site/ru/index.html
           grep -q 'cauteum-mascot.png' site/index.html
           grep -q 'cauteum-mascot.png' site/ru/index.html
           grep -q 'extra-20261009.css' site/ru/index.html
@@ -109,6 +111,7 @@ jobs:
           grep -q 'v0.1.4' site/ru/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/ru/get-started/index.html
           python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 12; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
+          python -c 'from PIL import Image; im = Image.open("site/assets/images/cauteum-app-icon.png"); assert im.mode == "RGBA" and im.getpixel((0, 0))[3] == 0, "App icon must have a transparent background"'
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'cauteum-mascot.png' site/assets/images/mascot-violet.svg
           test ! -e site/assets/images/mascot-violet-atlas.png
