@@ -84,14 +84,14 @@
       });
     }
 
-    var hood = material(0x151923, 0.76);
-    var hoodLight = material(0x262c38, 0.58);
-    var sleeve = material(0x252a34, 0.62);
-    var blue = material(0x0879ff, 0.34);
-    var blueDeep = material(0x064cba, 0.42);
+    var hood = material(0x11131a, 0.84);
+    var hoodLight = material(0x20232b, 0.66);
+    var sleeve = material(0x2c3039, 0.68);
+    var blue = material(0x167cff, 0.34);
+    var blueDeep = material(0x0758d4, 0.42);
     var white = material(0xf8f8ff, 0.3);
     var pupil = material(0x090b12, 0.22);
-    var muzzle = material(0xffc087, 0.55);
+    var muzzle = material(0xffca91, 0.6);
     var orange = material(0xff652b, 0.45);
 
     function addSphere(parent, mat, position, scale, segments) {
@@ -133,14 +133,36 @@
     var head = new THREE.Group();
     gopher.add(head);
     // A rounded hood frames the blue face; no handheld props are part of this scene.
-    addSphere(head, hood, [0, 0, 0], [1.12, 1.05, 0.7], 32);
-    addSphere(head, hoodLight, [0, 0.62, 0.11], [0.94, 0.36, 0.59], 28);
+    addSphere(head, hood, [0, 0, 0], [1.18, 1.13, 0.72], 36);
+    addSphere(head, hoodLight, [0, 0.66, 0.12], [0.98, 0.39, 0.61], 32);
     [-1, 1].forEach(function (side) {
-      addSphere(head, hood, [side * 0.94, 0.43, -0.01], [0.34, 0.38, 0.29], 22);
-      addSphere(head, blue, [side * 0.97, 0.45, 0.12], [0.21, 0.24, 0.12], 20);
-      addSphere(head, blueDeep, [side * 0.97, 0.45, 0.22], [0.11, 0.15, 0.04], 16);
+      // The round blue ear tips rise behind the hood, as in the brand mascot.
+      addSphere(head, hood, [side * 1.04, 0.38, -0.04], [0.34, 0.38, 0.29], 24);
+      addSphere(head, blue, [side * 1.08, 0.53, 0.02], [0.27, 0.31, 0.17], 24);
+      addSphere(head, blueDeep, [side * 1.1, 0.51, 0.17], [0.16, 0.19, 0.055], 20);
     });
-    addSphere(head, blue, [0, -0.12, 0.48], [0.87, 0.76, 0.36], 32);
+    // A wide, softly squared cheek silhouette reads closer to the original
+    // mascot than a small oval sitting inside the hood.
+    var faceShape = new THREE.Shape();
+    faceShape.moveTo(-0.68, 0.56);
+    faceShape.bezierCurveTo(-0.88, 0.52, -0.98, 0.34, -0.98, 0.06);
+    faceShape.bezierCurveTo(-0.98, -0.28, -0.82, -0.61, -0.55, -0.72);
+    faceShape.bezierCurveTo(-0.28, -0.84, 0.28, -0.84, 0.55, -0.72);
+    faceShape.bezierCurveTo(0.82, -0.61, 0.98, -0.28, 0.98, 0.06);
+    faceShape.bezierCurveTo(0.98, 0.34, 0.88, 0.52, 0.68, 0.56);
+    faceShape.bezierCurveTo(0.36, 0.66, -0.36, 0.66, -0.68, 0.56);
+    var faceGeometry = new THREE.ExtrudeGeometry(faceShape, {
+      depth: 0.15,
+      bevelEnabled: true,
+      bevelSegments: 4,
+      steps: 1,
+      bevelSize: 0.055,
+      bevelThickness: 0.06,
+      curveSegments: 12,
+    });
+    var face = new THREE.Mesh(faceGeometry, blue);
+    face.position.set(0, -0.1, 0.41);
+    head.add(face);
 
     var markCanvas = document.createElement("canvas");
     markCanvas.width = 96;
@@ -159,10 +181,10 @@
     var markTexture = new THREE.CanvasTexture(markCanvas);
     markTexture.colorSpace = THREE.SRGBColorSpace;
     var logoMark = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.54, 0.54),
+      new THREE.PlaneGeometry(0.34, 0.34),
       new THREE.MeshBasicMaterial({ map: markTexture, transparent: true, toneMapped: false }),
     );
-    logoMark.position.set(0, 0.64, 0.69);
+    logoMark.position.set(0, 0.65, 0.72);
     logoMark.rotation.x = -0.1;
     head.add(logoMark);
 
@@ -170,27 +192,36 @@
     var pupils = [];
     var glints = [];
     [-1, 1].forEach(function (side) {
-      var eyeX = side * 0.34;
-      var eyeY = side > 0 ? 0.22 : 0.27;
-      var eye = addSphere(head, white, [eyeX, eyeY, 0.76], [side > 0 ? 0.35 : 0.32, side > 0 ? 0.39 : 0.36, 0.13], 24);
-      var eyePupil = addSphere(head, pupil, [eyeX, eyeY, 0.88], [0.14, 0.16, 0.055], 20);
-      var glint = addSphere(head, white, [eyeX - 0.04, eyeY + 0.06, 0.93], [0.035, 0.04, 0.018], 12);
+      var eyeX = side * 0.37;
+      var eyeY = side > 0 ? 0.18 : 0.22;
+      var eye = addSphere(head, white, [eyeX, eyeY, 0.69], [0.35, 0.39, 0.15], 28);
+      var eyePupil = addSphere(head, pupil, [eyeX, eyeY, 0.83], [0.145, 0.16, 0.06], 24);
+      var glint = addSphere(head, white, [eyeX - 0.045, eyeY + 0.065, 0.89], [0.04, 0.045, 0.02], 14);
       eyes.push(eye);
       pupils.push(eyePupil);
       glints.push(glint);
     });
-    addSphere(head, muzzle, [-0.11, -0.12, 0.8], [0.16, 0.12, 0.09], 18);
-    addSphere(head, muzzle, [0.11, -0.12, 0.8], [0.16, 0.12, 0.09], 18);
-    addSphere(head, pupil, [0, -0.07, 0.89], [0.11, 0.075, 0.06], 20);
-    addBox(head, white, [-0.055, -0.29, 0.81], [0.09, 0.2, 0.07]);
-    addBox(head, white, [0.055, -0.29, 0.81], [0.09, 0.2, 0.07]);
+    addSphere(head, muzzle, [-0.12, -0.2, 0.75], [0.17, 0.13, 0.1], 22);
+    addSphere(head, muzzle, [0.12, -0.2, 0.75], [0.17, 0.13, 0.1], 22);
+    addSphere(head, pupil, [0, -0.15, 0.84], [0.115, 0.08, 0.065], 22);
+    var toothShape = new THREE.CapsuleGeometry(0.055, 0.12, 4, 12);
+    [-1, 1].forEach(function (side) {
+      var tooth = new THREE.Mesh(toothShape, white);
+      tooth.position.set(side * 0.055, -0.34, 0.78);
+      tooth.rotation.z = side * -0.035;
+      head.add(tooth);
+    });
 
-    var reachArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.17, 1, 5, 16), sleeve);
-    var orangeCuff = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.045, 10, 20), orange);
-    var whiteCuff = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.035, 10, 20), white);
+    // Keep the face and hood as one character silhouette while the body stays
+    // mostly behind the terminal in its resting pose.
+    head.scale.set(1.52, 1.52, 1.22);
+
+    var reachArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.24, 1, 6, 18), sleeve);
+    var orangeCuff = new THREE.Mesh(new THREE.TorusGeometry(0.27, 0.045, 10, 20), orange);
+    var whiteCuff = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.035, 10, 20), white);
     var paw = new THREE.Group();
-    addSphere(paw, muzzle, [0, 0, 0], [0.19, 0.15, 0.14], 20);
-    addSphere(paw, muzzle, [0.13, 0.015, 0.055], [0.07, 0.085, 0.065], 16);
+    addSphere(paw, muzzle, [0, 0, 0], [0.2, 0.16, 0.14], 22);
+    addSphere(paw, muzzle, [0.13, 0.01, 0.055], [0.07, 0.08, 0.065], 18);
     scene.add(reachArm, orangeCuff, whiteCuff, paw);
     reachArm.visible = false;
     orangeCuff.visible = false;
@@ -207,7 +238,7 @@
     var stageRect = null;
     var flowRect = null;
     var tabRects = [];
-    var worldHeight = 6.4;
+    var worldHeight = 5.6;
     var worldWidth = 8;
     var edgeY = -1;
 
@@ -243,7 +274,7 @@
 
     function tabPoint(index) {
       var rect = tabRects[index] || tabRects[0];
-      return worldPoint(rect.left + rect.width / 2, rect.top + rect.height * 0.05);
+      return worldPoint(rect.left + rect.width / 2, rect.top + rect.height * 0.58);
     }
 
     function animateTap(index, commit) {
@@ -304,19 +335,23 @@
       whiteCuff.visible = reach > 0.02;
       paw.visible = reach > 0.02;
       if (motion && reach > 0.02) {
-        var shoulderPoint = new THREE.Vector3(gopher.position.x + 0.48, gopher.position.y - 0.42, 0.62);
+        var shoulderPoint = new THREE.Vector3(gopher.position.x + 0.72, gopher.position.y - 0.42, 0.68);
         var press = progress > 0.48 && progress < 0.66
           ? Math.sin(((progress - 0.48) / 0.18) * Math.PI) * 0.16
           : 0;
         var hand = new THREE.Vector3(motion.targetX + 0.3, motion.targetY + 0.2 - press, 0.82);
         var delta = hand.clone().sub(shoulderPoint);
         reachArm.position.copy(shoulderPoint).add(hand).multiplyScalar(0.5);
-        reachArm.scale.set(1, delta.length() / 1.34, 1);
-        reachArm.rotation.z = Math.atan2(delta.x, delta.y);
-        orangeCuff.position.copy(hand).add(delta.clone().normalize().multiplyScalar(-0.15));
-        whiteCuff.position.copy(hand).add(delta.clone().normalize().multiplyScalar(-0.25));
-        orangeCuff.rotation.set(0, 0, reachArm.rotation.z);
-        whiteCuff.rotation.set(0, 0, reachArm.rotation.z);
+        reachArm.scale.set(1, delta.length() / 1.48, 1);
+        // A capsule's long axis starts along +Y; rotate it to match the
+        // shoulder-to-paw vector, including the horizontal direction.
+        reachArm.rotation.z = Math.atan2(-delta.x, delta.y);
+        var armAxis = delta.clone().normalize();
+        orangeCuff.position.copy(hand).add(armAxis.clone().multiplyScalar(-0.34));
+        whiteCuff.position.copy(hand).add(armAxis.clone().multiplyScalar(-0.5));
+        var cuffRotation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), armAxis);
+        orangeCuff.quaternion.copy(cuffRotation);
+        whiteCuff.quaternion.copy(cuffRotation);
         paw.position.copy(hand);
         paw.rotation.z = reachArm.rotation.z * 0.25 + (press ? 0.18 : 0);
         if (progress >= 0.56 && !motion.committed) {
