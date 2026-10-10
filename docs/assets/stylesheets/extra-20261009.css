@@ -25,9 +25,10 @@
 .ws-hero__image {
   position: relative;
   z-index: 3;
+  --terminal-offset: 8.2rem;
   width: min(100%, 33rem);
   margin: 0 auto 1.5rem;
-  padding-top: 8.2rem;
+  padding-top: var(--terminal-offset);
 }
 
 .ws-hero__image::before {
@@ -51,25 +52,38 @@
 .ws-hero__mascot-track {
   position: absolute;
   z-index: 2;
-  top: 0.5rem;
-  right: 4.1rem;
-  width: 10.8rem;
-  height: 9rem;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--terminal-offset) + 3.8rem);
   isolation: isolate;
   background: transparent;
-  transform: translate3d(calc(var(--look-x, 0) * 0.45rem), calc(var(--look-y, 0) * 0.25rem), 0) rotate(calc(var(--look-x, 0) * 2deg));
-  transform-origin: 50% 100%;
-  transition: transform 320ms cubic-bezier(.2,.8,.2,1);
   pointer-events: none;
 }
 
-.ws-hero__mascot-track img {
+.ws-hero__mascot-canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0.4rem 0.75rem rgb(0 0 0 / 28%));
+  height: 100%;
 }
+
+.ws-hero__mascot-canvas { opacity: 0; transition: opacity 180ms ease; }
+.ws-hero__image .ws-hero__mascot-fallback {
+  position: absolute;
+  inset: auto;
+  bottom: 2.6rem;
+  left: calc(50% - 3rem);
+  width: 6rem;
+  height: 6rem;
+  display: none;
+  filter: drop-shadow(0 0.35rem 0.7rem rgb(0 0 0 / 30%));
+}
+.ws-hero__mascot-track--ready .ws-hero__mascot-canvas { opacity: 1; }
+.ws-hero__mascot-track--fallback .ws-hero__mascot-fallback { display: block; }
+.ws-hero__mascot-track--foreground { z-index: 4; }
 
 .ws-mac-terminal {
   position: relative;
@@ -125,49 +139,6 @@
   border-bottom: 1px solid #363744;
   background: #24252f;
 }
-
-.ws-flow__paw {
-  position: absolute;
-  z-index: 4;
-  top: 1.4rem;
-  left: var(--paw-left, 16.66%);
-  width: 1.8rem;
-  height: 1.45rem;
-  margin-left: -0.9rem;
-  pointer-events: none;
-  transition: left 420ms cubic-bezier(.2,.75,.25,1), transform 180ms ease;
-}
-
-.ws-flow__paw::before {
-  position: absolute;
-  top: 0.34rem;
-  left: 0.38rem;
-  width: 1.02rem;
-  height: 0.96rem;
-  border: 1px solid #8bcfff;
-  border-radius: 48% 48% 55% 55%;
-  background: linear-gradient(145deg, #5fc0ff, #1682e8 68%, #0860bf);
-  box-shadow: 0 0.15rem 0.3rem rgb(0 0 0 / 38%);
-  content: "";
-}
-
-.ws-flow__paw span,
-.ws-flow__paw span::before,
-.ws-flow__paw span::after {
-  position: absolute;
-  display: block;
-  width: 0.37rem;
-  height: 0.47rem;
-  border: 1px solid #8bcfff;
-  border-radius: 50%;
-  background: #36a7f8;
-  content: "";
-}
-
-.ws-flow__paw span { top: 0.09rem; left: 0.35rem; transform: rotate(-24deg); }
-.ws-flow__paw span::before { top: -0.05rem; left: 0.42rem; transform: rotate(16deg); }
-.ws-flow__paw span::after { top: 0.08rem; left: 0.84rem; transform: rotate(30deg); }
-.ws-flow--paw-reaching .ws-flow__paw { transform: translateY(0.55rem) rotate(-12deg) scale(1.08); }
 
 .ws-flow__tab {
   flex: 1 1 0;
@@ -338,16 +309,15 @@
 }
 
 @media screen and (max-width: 42em) {
-  .ws-hero__image { padding-top: 7.2rem; }
-  .ws-hero__mascot-track { top: 2rem; right: 2.8rem; width: 8.4rem; }
+  .ws-hero__image { --terminal-offset: 7.2rem; }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ws-mac-terminal__cursor { animation: none; }
-  .ws-hero__mascot-track, .ws-flow__paw { transition: none; }
-  .ws-flow--paw-reaching .ws-flow__paw { transform: none; }
+  .ws-hero__mascot-canvas { display: none; }
+  .ws-hero__image .ws-hero__mascot-fallback { display: block; }
   .ws-flow--playing .ws-flow__panel:not([hidden]) .ws-flow__line { opacity: 1; transform: none; }
 }
 

@@ -13,65 +13,68 @@
   var manual = false;
   var visible = false;
 
-  function setPawTarget(index) {
-    var tab = tabs[index];
-    if (!tab) return;
-    flow.style.setProperty("--paw-left", (tab.offsetLeft + tab.offsetWidth / 2) + "px");
-  }
-
-  window.addEventListener("resize", function () {
-    var activeIndex = tabs.findIndex(function (tab) { return tab.getAttribute("aria-selected") === "true"; });
-    setPawTarget(Math.max(0, activeIndex));
-  }, { passive: true });
-
   function clearTimers() {
     timers.forEach(window.clearTimeout);
     timers = [];
   }
 
-  function activate(index, animate) {
+  function activate(index, animate, source) {
     clearTimers();
-    setPawTarget(index);
-    flow.classList.remove("ws-flow--paw-reaching");
-    flow.classList.toggle("ws-flow--playing", animate);
-    tabs.forEach(function (tab, tabIndex) {
-      var selected = tabIndex === index;
-      tab.setAttribute("aria-selected", String(selected));
-      tab.tabIndex = selected ? 0 : -1;
-    });
-    panels.forEach(function (panel, panelIndex) {
-      panel.hidden = panelIndex !== index;
-      panel.querySelectorAll(".ws-flow__line").forEach(function (line) {
-        line.classList.remove("is-visible");
+    var committed = false;
+    var deferred = false;
+    function commit() {
+      if (committed) return;
+      committed = true;
+      flow.classList.toggle("ws-flow--playing", animate);
+      tabs.forEach(function (tab, tabIndex) {
+        var selected = tabIndex === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
       });
-    });
-    progress.forEach(function (bar, barIndex) {
-      bar.classList.toggle("is-complete", barIndex <= index);
-    });
+      panels.forEach(function (panel, panelIndex) {
+        panel.hidden = panelIndex !== index;
+        panel.querySelectorAll(".ws-flow__line").forEach(function (line) {
+          line.classList.remove("is-visible");
+        });
+      });
+      progress.forEach(function (bar, barIndex) {
+        bar.classList.toggle("is-complete", barIndex <= index);
+      });
 
-    if (!animate) return;
-    var lines = panels[index].querySelectorAll(".ws-flow__line");
-    lines.forEach(function (line, lineIndex) {
+      flow.dispatchEvent(new CustomEvent("ws-flow:change", {
+        detail: { index: index, source: source || "manual" },
+      }));
+
+      if (!animate) return;
+      var lines = panels[index].querySelectorAll(".ws-flow__line");
+      lines.forEach(function (line, lineIndex) {
+        timers.push(window.setTimeout(function () {
+          line.classList.add("is-visible");
+        }, 180 + lineIndex * 620));
+      });
+      var nextIndex = (index + 1) % panels.length;
       timers.push(window.setTimeout(function () {
-        line.classList.add("is-visible");
-      }, 180 + lineIndex * 620));
-    });
-    var nextIndex = (index + 1) % panels.length;
-    timers.push(window.setTimeout(function () {
-      if (!visible || manual || reduceMotion.matches) return;
-      setPawTarget(nextIndex);
-      flow.classList.add("ws-flow--paw-reaching");
-    }, 3950));
-    timers.push(window.setTimeout(function () {
-      if (!visible || manual || reduceMotion.matches) return;
-      activate(nextIndex, true);
-    }, 4650));
+        if (!visible || manual || reduceMotion.matches) return;
+        activate(nextIndex, true, "auto");
+      }, 4900));
+    }
+
+    if (source === "manual" || source === "auto") {
+      flow.dispatchEvent(new CustomEvent("ws-flow:beforechange", {
+        detail: {
+          index: index,
+          source: source,
+          defer: function () { deferred = true; return commit; },
+        },
+      }));
+    }
+    if (!deferred) commit();
   }
 
   tabs.forEach(function (tab, index) {
     tab.addEventListener("click", function () {
       manual = true;
-      activate(index, false);
+      activate(index, false, "manual");
     });
     tab.addEventListener("keydown", function (event) {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -85,7 +88,7 @@
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
-      if (visible && !manual && !reduceMotion.matches) activate(0, true);
+      if (visible && !manual && !reduceMotion.matches) activate(0, true, "initial");
       if (!visible) {
         clearTimers();
         flow.classList.remove("ws-flow--playing");
@@ -93,7 +96,7 @@
     }, { threshold: 0.25 }).observe(flow);
   } else if (!reduceMotion.matches) {
     visible = true;
-    activate(0, true);
+    activate(0, true, "initial");
   }
 
   var hero = flow.closest(".ws-hero__image");

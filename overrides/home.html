@@ -19,7 +19,8 @@
         </div>
         <div class="ws-hero__image">
           <div class="ws-hero__mascot-track" data-mascot-stage aria-hidden="true">
-            <img src="{{ 'assets/images/cauteum-mascot.png' | url }}" alt="">
+            <canvas class="ws-hero__mascot-canvas" aria-hidden="true"></canvas>
+            <img class="ws-hero__mascot-fallback" src="{{ 'assets/images/cauteum-gopher-peek.svg' | url }}" alt="">
           </div>
           <div class="ws-mac-terminal ws-flow" aria-label="{{ hero.flow_label }}">
             <div class="ws-mac-terminal__bar"><span class="ws-mac-terminal__lights" aria-hidden="true"></span><span>zsh — cauteum</span></div>
@@ -28,7 +29,6 @@
               <button class="ws-flow__tab" type="button" role="tab" id="ws-flow-tab-1" aria-controls="ws-flow-panel-1" aria-selected="false" tabindex="-1" data-flow-tab="1"><span>02</span> {{ hero.tab_run }}</button>
               <button class="ws-flow__tab" type="button" role="tab" id="ws-flow-tab-2" aria-controls="ws-flow-panel-2" aria-selected="false" tabindex="-1" data-flow-tab="2"><span>03</span> {{ hero.tab_observe }}</button>
             </div>
-            <div class="ws-flow__paw" aria-hidden="true"><span></span></div>
             <div class="ws-flow__screen">
               <div class="ws-flow__panel" role="tabpanel" id="ws-flow-panel-0" aria-labelledby="ws-flow-tab-0" data-flow-panel="0">
                 <div class="ws-flow__line"><span class="ws-mac-terminal__prompt">❯</span> cauteum sandbox create \</div>
@@ -66,6 +66,7 @@
 
 {% block scripts %}
   {{ super() }}
+  <script type="module" src="{{ 'assets/javascripts/hero-3d.js' | url }}"></script>
 {% endblock %}
 
 {% block content %}
