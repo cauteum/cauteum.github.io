@@ -13,6 +13,17 @@
   var manual = false;
   var visible = false;
 
+  function setPawTarget(index) {
+    var tab = tabs[index];
+    if (!tab) return;
+    flow.style.setProperty("--paw-left", (tab.offsetLeft + tab.offsetWidth / 2) + "px");
+  }
+
+  window.addEventListener("resize", function () {
+    var activeIndex = tabs.findIndex(function (tab) { return tab.getAttribute("aria-selected") === "true"; });
+    setPawTarget(Math.max(0, activeIndex));
+  }, { passive: true });
+
   function clearTimers() {
     timers.forEach(window.clearTimeout);
     timers = [];
@@ -20,6 +31,8 @@
 
   function activate(index, animate) {
     clearTimers();
+    setPawTarget(index);
+    flow.classList.remove("ws-flow--paw-reaching");
     flow.classList.toggle("ws-flow--playing", animate);
     tabs.forEach(function (tab, tabIndex) {
       var selected = tabIndex === index;
@@ -43,11 +56,16 @@
         line.classList.add("is-visible");
       }, 180 + lineIndex * 620));
     });
+    var nextIndex = (index + 1) % panels.length;
     timers.push(window.setTimeout(function () {
-      if (visible && !manual && !reduceMotion.matches) {
-        activate((index + 1) % panels.length, true);
-      }
-    }, 4900));
+      if (!visible || manual || reduceMotion.matches) return;
+      setPawTarget(nextIndex);
+      flow.classList.add("ws-flow--paw-reaching");
+    }, 3950));
+    timers.push(window.setTimeout(function () {
+      if (!visible || manual || reduceMotion.matches) return;
+      activate(nextIndex, true);
+    }, 4650));
   }
 
   tabs.forEach(function (tab, index) {
@@ -76,5 +94,21 @@
   } else if (!reduceMotion.matches) {
     visible = true;
     activate(0, true);
+  }
+
+  var hero = flow.closest(".ws-hero__image");
+  var mascot = hero && hero.querySelector("[data-mascot-stage]");
+  if (hero && mascot) {
+    hero.addEventListener("pointermove", function (event) {
+      var bounds = hero.getBoundingClientRect();
+      var x = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1));
+      var y = Math.max(-1, Math.min(1, 1 - ((event.clientY - bounds.top) / bounds.height) * 2));
+      mascot.style.setProperty("--look-x", x.toFixed(3));
+      mascot.style.setProperty("--look-y", y.toFixed(3));
+    }, { passive: true });
+    hero.addEventListener("pointerleave", function () {
+      mascot.style.setProperty("--look-x", "0");
+      mascot.style.setProperty("--look-y", "0");
+    });
   }
 })();
