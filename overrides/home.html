@@ -18,9 +18,10 @@
           </div>
         </div>
         <div class="ws-hero__image">
-          <div class="ws-hero__mascot-track" data-mascot-stage role="img" aria-label="{{ hero.mascot_alt }}">
+          <div class="ws-hero__mascot-track" data-mascot-stage data-action-label="{{ hero.mascot_action }}" role="img" aria-label="{{ hero.mascot_alt }}">
             <canvas class="ws-hero__mascot-canvas" aria-hidden="true"></canvas>
             <img class="ws-hero__mascot-fallback" src="{{ 'assets/images/cauteum-mascot.png' | url }}" alt="" aria-hidden="true">
+            <span class="ws-hero__mascot-hint" aria-hidden="true">{{ hero.mascot_hint }}</span>
           </div>
           <div class="ws-mac-terminal ws-flow" aria-label="{{ hero.flow_label }}">
             <div class="ws-mac-terminal__bar"><span class="ws-mac-terminal__lights" aria-hidden="true"></span><span>zsh — cauteum</span></div>

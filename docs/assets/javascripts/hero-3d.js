@@ -6,6 +6,7 @@
   if (!stage) return;
 
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var staticLabel = stage.getAttribute("aria-label");
   var loaded = false;
 
   // Keep the static mascot visible until the 3D scene is near the viewport and ready.
@@ -14,6 +15,7 @@
     loaded = true;
     try {
       var THREE = await import("https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js");
+      if (reducedMotion.matches) { loaded = false; return; }
       createScene(THREE);
     } catch (error) {
       console.error("Cauteum 3D mascot could not be loaded", error);
@@ -68,7 +70,7 @@
     rimLight.position.set(4, 3.5, -4);
     scene.add(rimLight);
     var portalLight = new THREE.PointLight(0x63d8ff, 0, 7, 2);
-    portalLight.position.set(2.05, 1.2, 0.1);
+    portalLight.position.set(1.35, 1.2, 0.1);
     scene.add(portalLight);
 
     var mat = function (color, roughness, metalness, emissive, intensity) {
@@ -112,50 +114,91 @@
       return add(parent, new THREE.CapsuleGeometry(radius, length, 5, 14), material, position);
     }
 
-    var floor = add(scene, new THREE.PlaneGeometry(40, 30), mat(0x17131e, 0.96), [0, -0.04, -3]);
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
+    function shapedPanel(parent, material, shape, depth, position, bevel) {
+      return add(parent, new THREE.ExtrudeGeometry(shape, {
+        depth: depth, bevelEnabled: true, bevelThickness: bevel,
+        bevelSize: bevel, bevelSegments: 4, curveSegments: 12,
+      }), material, position);
+    }
+
+    function roundedPanel(parent, material, width, height, depth, radius, position) {
+      var x = -width / 2;
+      var y = -height / 2;
+      var shape = new THREE.Shape();
+      shape.moveTo(x + radius, y);
+      shape.lineTo(x + width - radius, y);
+      shape.quadraticCurveTo(x + width, y, x + width, y + radius);
+      shape.lineTo(x + width, y + height - radius);
+      shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      shape.lineTo(x + radius, y + height);
+      shape.quadraticCurveTo(x, y + height, x, y + height - radius);
+      shape.lineTo(x, y + radius);
+      shape.quadraticCurveTo(x, y, x + radius, y);
+      return shapedPanel(parent, material, shape, depth, position,
+        Math.min(0.075, radius * 0.25));
+    }
 
     var mascot = new THREE.Group();
     scene.add(mascot);
     var body = new THREE.Group();
     mascot.add(body);
 
-    // The black hood, blue face and orange/white sleeve marks follow the supplied mascot.
-    capsule(body, hoodie, 0.39, 0.42, [0, 0.84, 0]);
-    // Small tailored details keep the hoodie readable at the hero's compact scale.
-    capsule(body, trim, 0.075, 0.24, [0, 0.87, 0.41]);
-    sphere(body, seam, [-0.16, 0.78, 0.405], [0.13, 0.055, 0.035], 16);
-    sphere(body, seam, [0.16, 0.78, 0.405], [0.13, 0.055, 0.035], 16);
-    sphere(body, blue, [0, 0.96, 0.425], [0.105, 0.08, 0.04], 16);
-    sphere(body, hoodie, [0, 1.68, -0.03], [0.72, 0.76, 0.61], 32);
-    sphere(body, trim, [-0.68, 1.65, -0.04], [0.19, 0.42, 0.3]);
-    sphere(body, trim, [0.68, 1.65, -0.04], [0.19, 0.42, 0.3]);
-    sphere(body, blue, [-0.66, 2.15, -0.02], [0.18, 0.22, 0.15]);
-    sphere(body, blue, [0.66, 2.15, -0.02], [0.18, 0.22, 0.15]);
-    sphere(body, blueShade, [-0.66, 2.16, 0.08], [0.105, 0.13, 0.07]);
-    sphere(body, blueShade, [0.66, 2.16, 0.08], [0.105, 0.13, 0.07]);
-    sphere(body, blue, [0, 1.72, 0.36], [0.55, 0.56, 0.31], 32);
-    sphere(body, white, [-0.22, 1.82, 0.605], [0.17, 0.205, 0.075]);
-    sphere(body, white, [0.22, 1.82, 0.605], [0.17, 0.205, 0.075]);
-    sphere(body, black, [-0.19, 1.81, 0.665], [0.083, 0.105, 0.045]);
-    sphere(body, black, [0.25, 1.81, 0.665], [0.083, 0.105, 0.045]);
-    sphere(body, white, [-0.215, 1.85, 0.704], [0.027, 0.031, 0.018], 12);
-    sphere(body, white, [0.225, 1.85, 0.704], [0.027, 0.031, 0.018], 12);
-    sphere(body, black, [0, 1.59, 0.685], [0.105, 0.075, 0.055]);
-    sphere(body, skin, [-0.08, 1.52, 0.67], [0.11, 0.09, 0.09]);
-    sphere(body, skin, [0.08, 1.52, 0.67], [0.11, 0.09, 0.09]);
-    sphere(body, white, [-0.045, 1.405, 0.65], [0.045, 0.1, 0.055]);
-    sphere(body, white, [0.045, 1.405, 0.65], [0.045, 0.1, 0.055]);
+    // The silhouette follows the supplied reference: backpack, chunky hoodie,
+    // rounded blue face, exposed ears, orange cuff and a small screen in hand.
+    roundedPanel(body, trim, 0.63, 0.82, 0.24, 0.19, [-0.42, 0.94, -0.4]);
+    sphere(body, orange, [-0.67, 1.25, -0.18], [0.18, 0.05, 0.09], 18);
+    sphere(body, hoodie, [0, 0.87, -0.02], [0.53, 0.59, 0.41], 32);
+    sphere(body, trim, [0, 0.53, 0.02], [0.46, 0.1, 0.34], 24);
+    capsule(body, seam, 0.035, 0.23, [0, 0.94, 0.405]);
+    sphere(body, blue, [0, 1.05, 0.42], [0.085, 0.065, 0.03], 16);
 
-    // A tiny stitched pixel mark anchors the hood to the app icon.
+    var head = new THREE.Group();
+    head.position.y = 1.68;
+    body.add(head);
+    sphere(head, blue, [-0.66, 0.64, -0.12], [0.2, 0.23, 0.16], 24);
+    sphere(head, blue, [0.66, 0.64, -0.12], [0.2, 0.23, 0.16], 24);
+    sphere(head, blueShade, [-0.66, 0.64, 0.025], [0.115, 0.13, 0.035], 18);
+    sphere(head, blueShade, [0.66, 0.64, 0.025], [0.115, 0.13, 0.035], 18);
+    var hoodShape = new THREE.Shape();
+    hoodShape.moveTo(-0.4, -0.7);
+    hoodShape.bezierCurveTo(-0.7, -0.69, -0.82, -0.45, -0.76, -0.13);
+    hoodShape.bezierCurveTo(-0.82, 0.15, -0.68, 0.53, -0.47, 0.67);
+    hoodShape.bezierCurveTo(-0.25, 0.78, 0.29, 0.78, 0.5, 0.66);
+    hoodShape.bezierCurveTo(0.75, 0.51, 0.82, 0.14, 0.75, -0.14);
+    hoodShape.bezierCurveTo(0.82, -0.45, 0.66, -0.69, 0.37, -0.7);
+    hoodShape.bezierCurveTo(0.1, -0.75, -0.15, -0.74, -0.4, -0.7);
+    shapedPanel(head, hoodie, hoodShape, 0.42, [0, 0, -0.25], 0.075);
+
+    var faceShape = new THREE.Shape();
+    faceShape.moveTo(-0.37, -0.5);
+    faceShape.bezierCurveTo(-0.63, -0.48, -0.68, -0.25, -0.63, -0.02);
+    faceShape.bezierCurveTo(-0.67, 0.22, -0.55, 0.45, -0.33, 0.51);
+    faceShape.bezierCurveTo(-0.13, 0.57, 0.2, 0.56, 0.39, 0.49);
+    faceShape.bezierCurveTo(0.6, 0.4, 0.69, 0.16, 0.64, -0.06);
+    faceShape.bezierCurveTo(0.7, -0.29, 0.58, -0.5, 0.35, -0.51);
+    faceShape.bezierCurveTo(0.12, -0.56, -0.13, -0.55, -0.37, -0.5);
+    shapedPanel(head, blue, faceShape, 0.1, [0, -0.04, 0.24], 0.065);
+    var eyes = [];
+    var pupils = [];
+    var glints = [];
+    [-1, 1].forEach(function (side) {
+      eyes.push(sphere(head, white, [side * 0.255, 0.12, 0.44], [0.205, 0.23, 0.065], 24));
+      pupils.push(sphere(head, black, [side * 0.255, 0.105, 0.506], [0.085, 0.1, 0.04], 20));
+      glints.push(sphere(head, white, [side * 0.255 - 0.026, 0.145, 0.541], [0.023, 0.025, 0.012], 12));
+    });
+    sphere(head, skin, [-0.095, -0.19, 0.468], [0.11, 0.09, 0.055], 18);
+    sphere(head, skin, [0.095, -0.19, 0.468], [0.11, 0.09, 0.055], 18);
+    sphere(head, black, [0, -0.15, 0.53], [0.105, 0.065, 0.055], 20);
+    sphere(head, white, [-0.052, -0.29, 0.485], [0.052, 0.09, 0.035], 16);
+    sphere(head, white, [0.052, -0.29, 0.485], [0.052, 0.09, 0.035], 16);
+
     var hoodMark = [
       [-1, 2], [0, 2], [1, 2], [-1, 1], [1, 1], [-2, 0], [2, 0],
       [-1, -1], [1, -1], [-1, -2], [1, -2],
     ];
     hoodMark.forEach(function (point) {
-      add(body, new THREE.BoxGeometry(0.055, 0.055, 0.025), white,
-        [point[0] * 0.06, 2.34 + point[1] * 0.055, 0.53]);
+      add(head, new THREE.BoxGeometry(0.055, 0.055, 0.025), white,
+        [point[0] * 0.06, 0.67 + point[1] * 0.05, 0.31]);
     });
 
     var legs = [];
@@ -181,21 +224,32 @@
     var arms = [];
     [-1, 1].forEach(function (side) {
       var arm = new THREE.Group();
-      arm.position.set(side * 0.34, 1.2, 0.32);
+      arm.position.set(side * 0.39, 1.18, 0.3);
       body.add(arm);
-      capsule(arm, trim, 0.145, 0.35, [side * 0.1, -0.25, 0.03]);
+      capsule(arm, hoodie, 0.17, 0.32, [side * 0.07, -0.25, 0.03]);
       var whiteBand = add(arm, new THREE.CylinderGeometry(0.15, 0.15, 0.065, 18), white,
-        [side * 0.1, -0.385, 0.03]);
+        [side * 0.07, -0.385, 0.03]);
       var orangeBand = add(arm, new THREE.CylinderGeometry(0.15, 0.15, 0.095, 18), orange,
-        [side * 0.1, -0.465, 0.03]);
+        [side * 0.07, -0.465, 0.03]);
       whiteBand.castShadow = true;
       orangeBand.castShadow = true;
-      sphere(arm, skin, [side * 0.1, -0.55, 0.08], [0.145, 0.14, 0.14]);
+      sphere(arm, skin, [side * 0.07, -0.54, 0.08], [0.14, 0.14, 0.14]);
       arms.push(arm);
     });
 
+    var tablet = new THREE.Group();
+    tablet.position.set(0, 0.82, 0.66);
+    tablet.rotation.z = -0.06;
+    body.add(tablet);
+    roundedPanel(tablet, hoodie, 0.82, 0.63, 0.07, 0.09, [0, 0, 0]);
+    roundedPanel(tablet, trim, 0.69, 0.5, 0.018, 0.06, [0, 0, 0.105]);
+    hoodMark.forEach(function (point) {
+      add(tablet, new THREE.BoxGeometry(0.035, 0.035, 0.013), white,
+        [point[0] * 0.037, point[1] * 0.036, 0.17]);
+    });
+
     // The Pandora box is a separate hinged 3D prop with brass corners and a glowing core.
-    var boxX = 2.05;
+    var boxX = 1.35;
     var box = new THREE.Group();
     box.position.x = boxX;
     scene.add(box);
@@ -246,14 +300,26 @@
     shadow.scale.set(0.82, 0.29, 1);
     shadow.position.y = 0.012;
     scene.add(shadow);
+    var boxShadow = shadow.clone();
+    boxShadow.material = shadow.material.clone();
+    boxShadow.material.opacity = 0.18;
+    boxShadow.scale.set(0.72, 0.37, 1);
+    boxShadow.position.x = boxX;
+    scene.add(boxShadow);
 
-    var clock = new THREE.Clock();
     var running = false;
     var raf = 0;
-    var halfWidth = 5;
-    var period = 12;
-    var targetX = boxX - 1.05;
+    var halfWidth = 2.5;
+    var targetX = -0.65;
     var lastFrame = 0;
+    var sceneTime = 0;
+    var lookX = 0;
+    var lookY = 0;
+    var pointerX = 0;
+    var pointerY = 0;
+    var activationAt = -100;
+    var tabReactionAt = -100;
+    var tabIndex = 0;
 
     function smooth(value) {
       value = Math.max(0, Math.min(1, value));
@@ -273,74 +339,106 @@
       renderer.setSize(width, height, false);
     }
 
+    var hero = stage.closest(".ws-hero") || stage;
+    hero.addEventListener("pointermove", function (event) {
+      var bounds = hero.getBoundingClientRect();
+      pointerX = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
+      pointerY = Math.max(-1, Math.min(1, 1 - (event.clientY - bounds.top) / bounds.height * 2));
+    }, { passive: true });
+    hero.addEventListener("pointerleave", function () { pointerX = 0; pointerY = 0; });
+
+    function activate() {
+      if (reducedMotion.matches) return;
+      activationAt = performance.now() / 1000 + Math.max(0, 2.8 - sceneTime);
+    }
+    stage.addEventListener("click", activate);
+    stage.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      activate();
+    });
+    hero.querySelectorAll("[data-flow-tab]").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        tabIndex = Number(tab.dataset.flowTab);
+        tabReactionAt = performance.now() / 1000;
+        if (tabIndex === 0) activate();
+      });
+    });
+
     function pose(time) {
-      var t = time % period;
-      var edge = Math.max(2.7, halfWidth - 0.85);
-      var startX = -edge;
-      var walkingIn = t < 3.7;
-      var walkingOut = t >= 9.1 && t < 11.15;
-      var walkInProgress = smooth(t / 3.7);
-      var walkOutProgress = smooth((t - 9.1) / 2.05);
-      var stride = time * 10.5;
+      var entering = time < 2.8;
+      var progress = smooth(time / 2.8);
+      var stride = time * 8.4;
+      var gait = entering ? Math.sin(progress * Math.PI) : 0;
+      var now = performance.now() / 1000;
+      var age = now - activationAt;
+      var open = age >= 0 ? smooth(age / 0.55) * (1 - smooth((age - 3.45) / 0.7)) : 0;
+      var reaction = Math.max(0, 1 - (now - tabReactionAt) / 1.3);
+      var delight = open * (0.06 + Math.sin(time * 8) * 0.018);
 
-      if (walkingIn) mascot.position.x = startX + (targetX - startX) * walkInProgress;
-      else if (walkingOut) mascot.position.x = targetX + (-edge - 1.2 - targetX) * walkOutProgress;
-      else mascot.position.x = targetX;
-
-      mascot.visible = t < 11.2;
-      var walking = walkingIn || walkingOut;
-      var reach = smooth((t - 4.1) / 1.1);
-      var open = smooth((t - 5.05) / 1.55);
-      var magic = Math.min(open, smooth((9.3 - t) / 1.1));
-      var surprise = smooth((t - 6.35) / 0.8) * (1 - smooth((t - 8.3) / 0.8));
-
-      mascot.position.y = walking ? 0.025 + Math.sin(stride * 2) * 0.018 : surprise * Math.max(0, Math.sin((t - 6.3) * 7)) * 0.1;
-      // Face into the path while moving, then turn toward the viewer at the box.
-      var facingViewer = 0.48;
-      if (walkingOut) mascot.rotation.y = facingViewer + (-1.03 - facingViewer) * walkOutProgress;
-      else if (walkingIn) mascot.rotation.y = 1.03;
-      else mascot.rotation.y = 1.03 + (facingViewer - 1.03) * smooth((t - 3.3) / 0.9);
-      body.rotation.z = walking
-        ? -0.075 + Math.sin(stride) * 0.035
-        : -0.04 - reach * 0.1 + surprise * Math.sin(t * 5) * 0.025;
-      body.rotation.x = walking ? 0.075 : -reach * 0.13;
+      lookX += (pointerX - lookX) * 0.09;
+      lookY += (pointerY - lookY) * 0.09;
+      mascot.position.x = -Math.max(2.25, halfWidth - 0.15) +
+        (targetX + Math.max(2.25, halfWidth - 0.15)) * progress;
+      mascot.position.y = entering
+        ? 0.02 + Math.abs(Math.sin(stride)) * 0.03 * gait
+        : Math.sin(time * 2) * 0.012 + delight;
+      mascot.rotation.y = entering ? 0.9 - 0.82 * smooth((time - 2.0) / 0.8) : 0.08 + lookX * 0.18;
+      body.rotation.z = entering ? -0.055 + Math.sin(stride) * 0.035 * gait
+        : Math.sin(time * 1.45) * 0.012 + reaction * (tabIndex === 1 ? 0.04 : -0.025);
+      body.rotation.x = entering ? 0.065 : Math.sin(time * 1.1) * 0.012;
+      head.rotation.y = lookX * 0.14;
+      head.rotation.x = -lookY * 0.09;
+      head.rotation.z = -lookX * 0.04 + reaction * 0.025;
+      var blinkPhase = time % 4.7;
+      var blink = Math.max(0, 1 - Math.abs(blinkPhase - 4.15) / 0.13);
+      eyes.forEach(function (eye, index) {
+        eye.scale.y = 0.23 * (1 - blink * 0.9);
+        pupils[index].scale.y = 0.1 * (1 - blink * 0.9);
+        pupils[index].position.x = (index ? 1 : -1) * 0.255 + lookX * 0.05;
+        pupils[index].position.y = 0.105 + lookY * 0.045;
+        glints[index].position.x = pupils[index].position.x - 0.026;
+        glints[index].position.y = pupils[index].position.y + 0.04;
+        glints[index].visible = blink < 0.75;
+      });
 
       legs.forEach(function (leg, index) {
         var offset = index ? Math.PI : 0;
         var phase = stride + offset;
         var step = Math.sin(phase);
-        leg.hip.rotation.x = walking ? step * 0.72 : -surprise * 0.12;
-        leg.hip.rotation.z = walking ? Math.cos(phase) * 0.035 : 0;
-        leg.knee.rotation.x = walking ? Math.max(0, step) * 0.8 : 0;
-        leg.foot.rotation.x = walking ? -Math.max(0, step) * 0.34 : 0;
+        leg.hip.rotation.x = step * 0.62 * gait;
+        leg.hip.rotation.z = Math.cos(phase) * 0.03 * gait;
+        leg.knee.rotation.x = Math.max(0, step) * 0.72 * gait;
+        leg.foot.rotation.x = -Math.max(0, step) * 0.3 * gait;
       });
       arms.forEach(function (arm, index) {
         var side = index ? 1 : -1;
         var offset = index ? 0 : Math.PI;
-        arm.rotation.x = walking ? Math.sin(stride + offset) * 0.43 : -reach * 0.58;
-        arm.rotation.z = walking
-          ? side * (0.035 + Math.cos(stride + offset) * 0.055)
-          : side * (0.12 + reach * (index ? 0.75 : 0.45));
+        arm.rotation.x = entering ? Math.sin(stride + offset) * 0.38 * gait
+          : -0.55 - (index ? reaction * 0.28 : 0);
+        arm.rotation.z = entering ? side * 0.055 : side * 0.07;
       });
+      tablet.scale.setScalar(smooth((time - 2.35) / 0.55));
+      tablet.rotation.z = -0.06 + Math.sin(time * 2) * 0.012 + reaction * 0.08;
 
       lidPivot.rotation.x = -open * 1.28;
-      portalLight.intensity = magic * 42;
-      core.scale.set(0.34 + magic * 0.32, 0.05 + magic * 0.72, 0.34 + magic * 0.32);
-      core.material.opacity = 0.35 + magic * 0.65;
-      latch.material.emissiveIntensity = 0.3 + magic * 4;
+      portalLight.intensity = open * 42;
+      core.scale.set(0.34 + open * 0.32, 0.05 + open * 0.72, 0.34 + open * 0.32);
+      core.material.opacity = 0.35 + open * 0.65;
+      latch.material.emissiveIntensity = 0.3 + open * 4;
       sparks.forEach(function (spark) {
         var orbit = time * 1.6 + spark.phase;
-        spark.mesh.visible = magic > 0.08;
+        spark.mesh.visible = open > 0.08;
         spark.mesh.position.set(
-          boxX + Math.cos(orbit) * spark.radius * magic,
-          0.88 + magic * (0.55 + Math.sin(orbit * 1.25) * 0.42),
-          Math.sin(orbit) * spark.radius * magic,
+          boxX + Math.cos(orbit) * spark.radius * open,
+          0.88 + open * (0.55 + Math.sin(orbit * 1.25) * 0.42),
+          Math.sin(orbit) * spark.radius * open,
         );
         spark.mesh.rotation.set(orbit, orbit * 0.7, orbit * 0.4);
-        spark.mesh.scale.setScalar(0.15 + magic * 0.85);
+        spark.mesh.scale.setScalar(0.15 + open * 0.85);
       });
       shadow.position.x = mascot.position.x;
-      shadow.material.opacity = walking ? 0.2 : 0.28;
+      shadow.material.opacity = entering ? 0.2 : 0.28;
     }
 
     function frame() {
@@ -350,8 +448,9 @@
         raf = window.requestAnimationFrame(frame);
         return;
       }
+      sceneTime += lastFrame ? Math.min((now - lastFrame) / 1000, 0.05) : 0.033;
       lastFrame = now;
-      pose(clock.getElapsedTime());
+      pose(sceneTime);
       renderer.render(scene, camera);
       raf = window.requestAnimationFrame(frame);
     }
@@ -359,7 +458,7 @@
     function start() {
       if (running || !stage.isConnected) return;
       running = true;
-      clock.start();
+      lastFrame = 0;
       raf = window.requestAnimationFrame(frame);
     }
 
@@ -369,14 +468,34 @@
     }
 
     resize();
+    pose(0);
+    renderer.render(scene, camera);
     if ("ResizeObserver" in window) new ResizeObserver(resize).observe(stage);
     else window.addEventListener("resize", resize, { passive: true });
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) start();
+        if (entries[0].isIntersecting && !reducedMotion.matches) start();
         else stop();
       }, { threshold: 0.05 }).observe(stage);
     } else start();
+    reducedMotion.addEventListener("change", function (event) {
+      if (event.matches) {
+        stop();
+        stage.classList.remove("ws-hero__mascot-track--ready");
+        stage.setAttribute("role", "img");
+        stage.setAttribute("aria-label", staticLabel);
+        stage.removeAttribute("tabindex");
+      } else {
+        stage.classList.add("ws-hero__mascot-track--ready");
+        stage.setAttribute("role", "button");
+        stage.setAttribute("aria-label", stage.dataset.actionLabel);
+        stage.tabIndex = 0;
+        if (stage.getBoundingClientRect().top < window.innerHeight) start();
+      }
+    });
+    stage.setAttribute("role", "button");
+    stage.setAttribute("aria-label", stage.dataset.actionLabel);
+    stage.tabIndex = 0;
     stage.classList.add("ws-hero__mascot-track--ready");
   }
 })();
