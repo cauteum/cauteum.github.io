@@ -11,10 +11,10 @@ egress-прокси. Выбирается через `CAUTEUM_DRIVER`, виде�
 
 | Провайдер | `CAUTEUM_DRIVER` | Статус |
 |-----------|---------------------|--------|
-| Docker Engine 24+ на Linux | `docker` | <span class="ws-badge ws-badge--ok">поддерживается, по умолчанию</span> |
+| Docker Engine 28.0+ на Linux | `docker` | <span class="ws-badge ws-badge--ok">поддерживается, по умолчанию</span> |
 | Docker Desktop на macOS/Windows | `docker` | <span class="ws-badge ws-badge--ok">beta</span> |
-| Podman 6 на Linux, rootful/rootless | `podman` | <span class="ws-badge ws-badge--ok">цель релиза</span> |
-| Podman 5 | `podman` | только lifecycle; нет изоляции proxy host-gateway |
+| Podman 6+ на Linux, rootful/rootless | `podman` | минимум для proxy-изоляции; квалификация продолжается |
+| Podman 5.x на Linux | `podman` | только lifecycle; нет изоляции proxy host-gateway |
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">скоро</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">скоро</span> |
 
@@ -22,11 +22,17 @@ Docker — провайдер по умолчанию. cauteum обращает�
 (`DOCKER_HOST` / сокет Desktop), создаёт внутреннюю сеть на sandbox, поднимает
 egress-sidecar, затем sandbox-контейнер.
 
-Release gate охватывает Docker Engine на Linux и Podman 6 на Linux в rootful и
-rootless режимах. Docker Desktop остаётся beta и требует прямой smoke-проверки
-на каждом поддерживаемом релизе хоста. Доступность gateway из WSL2 описана ниже,
-но пока не входит в обязательную release matrix. Kubernetes и MicroVM не
-являются production-провайдерами этого релиза.
+Минимальная версия Docker Engine — 28.0. [В инструкции OpenShell по установке]
+указаны Docker 28.0+ и Podman 5.x. Наш gateway E2E проходит на Docker 28.0,
+Driver container suite — на 28.0.4. Podman 5.x — минимальная версия по OpenShell
+и для нашего lifecycle subset; текущий тестовый образ — 5.8.7. Текущий путь изоляции
+proxy host-gateway требует Podman 6+; полная квалификация rootful/rootless
+режимов ещё не завершена. Для Docker Desktop
+нужен прямой smoke на каждом поддерживаемом релизе хоста. Доступность gateway
+из WSL2 описана ниже, но пока не входит в обязательную release matrix.
+Kubernetes и MicroVM не являются production-провайдерами этого релиза.
+
+[Инструкция OpenShell по установке]: https://github.com/NVIDIA/OpenShell/blob/main/docs/about/installation.mdx
 
 ## Схема (один sandbox)
 

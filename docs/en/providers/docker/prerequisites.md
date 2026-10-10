@@ -7,14 +7,14 @@ SPDX-License-Identifier: Apache-2.0
 
 ## Engine
 
-- Docker Engine 24+ or Docker Desktop with a working API socket.
+- Docker Engine 28.0+ or Docker Desktop with a working API socket.
 - Linux: `/var/run/docker.sock` or rootless user socket.
 - macOS / Windows: Docker Desktop; prefer the current **Docker VMM** backend for
   better memory reclaim under load.
-- Podman: version 6+ on Linux for the full proxy-backed sandbox path. Rootful
-  and rootless sockets are supported. Podman 5 can run the tested lifecycle
-  subset, while proxy-backed create fails closed because the required
-  host-gateway blocking route is unavailable.
+- Podman 5.x+ on Linux runs the lifecycle subset. Podman 6+ is required for the
+  current full proxy-backed sandbox path because older releases lack the
+  required host-gateway blocking route. Rootful and rootless modes have
+  different tested coverage; see the provider support table.
 
 ```bash
 docker version

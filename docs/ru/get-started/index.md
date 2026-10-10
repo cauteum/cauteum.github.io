@@ -14,13 +14,13 @@ cauteum — один CLI, который запускает coding-агенто�
 
 ### через установщик <small>рекомендуется</small> { #with-installer data-toc-label="через установщик" }
 
-Актуальная бета CLI — `v0.1.0-beta.2`. При установке закрепите версию,
-чтобы инструкции остались воспроизводимыми после выхода следующего релиза.
+Последняя опубликованная версия CLI — `v0.1.0-beta.3`. Закрепите её при
+установке, чтобы инструкции оставались воспроизводимыми до выхода стабильного релиза.
 Откройте терминал и выполните:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.2 sh
+  | CAUTEUM_VERSION=v0.1.0-beta.3 sh
 cauteum version
 ```
 
@@ -30,7 +30,7 @@ cauteum version
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+  | CAUTEUM_VERSION=v0.1.0-beta.3 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### из исходников
@@ -54,7 +54,7 @@ go build -C cauteum-cli -o cauteum ./cmd/cauteum
 
 === "Docker"
 
-    Docker Engine 24+ или Docker Desktop. На macOS и Windows лучше backend
+    Docker Engine 28.0+ или Docker Desktop. На macOS и Windows лучше backend
     **Docker VMM**.
 
     ```bash

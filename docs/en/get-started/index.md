@@ -14,13 +14,13 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The current CLI beta is `v0.1.0-beta.2`. Pin it when installing so this guide
-keeps working even when a newer prerelease is published.
+The latest published CLI is `v0.1.0-beta.3`. Pin it when installing so this
+guide keeps working until the next stable release is published.
 Open a terminal and run:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.2 sh
+  | CAUTEUM_VERSION=v0.1.0-beta.3 sh
 cauteum version
 ```
 
@@ -30,7 +30,7 @@ To install into another directory:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+  | CAUTEUM_VERSION=v0.1.0-beta.3 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### from source
@@ -54,7 +54,7 @@ works through the same Engine API.
 
 === "Docker"
 
-    Docker Engine 24+ or Docker Desktop. On macOS and Windows prefer the
+    Docker Engine 28.0+ or Docker Desktop. On macOS and Windows prefer the
     **Docker VMM** backend.
 
     ```bash

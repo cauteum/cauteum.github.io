@@ -10,10 +10,10 @@ proxy. It is picked with `CAUTEUM_DRIVER` and shown by `cauteum status`.
 
 | Provider | `CAUTEUM_DRIVER` | Status |
 |----------|---------------------|--------|
-| Docker Engine 24+ on Linux | `docker` | <span class="ws-badge ws-badge--ok">supported, default</span> |
+| Docker Engine 28.0+ on Linux | `docker` | <span class="ws-badge ws-badge--ok">supported, default</span> |
 | Docker Desktop on macOS/Windows | `docker` | <span class="ws-badge ws-badge--ok">beta</span> |
-| Podman 6 on Linux, rootful/rootless | `podman` | <span class="ws-badge ws-badge--ok">release target</span> |
-| Podman 5 | `podman` | lifecycle only; proxy host-gateway isolation is unavailable |
+| Podman 6+ on Linux, rootful/rootless | `podman` | minimum for proxy isolation; qualification ongoing |
+| Podman 5.x on Linux | `podman` | lifecycle subset; proxy host-gateway isolation is unavailable |
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 
@@ -21,11 +21,18 @@ Docker is the default. cauteum talks to the local Engine API
 (`DOCKER_HOST` / Desktop socket), creates an internal network per sandbox,
 starts an egress proxy sidecar, then starts the sandbox container.
 
-The release gate covers Docker Engine on Linux and Podman 6 on Linux in both
-rootful and rootless modes. Docker Desktop remains beta and requires a direct
-smoke on each supported host release. WSL2 gateway reachability is documented
-below but is not yet a release-gated platform. Kubernetes and MicroVM are not
-production providers in this release.
+The minimum Docker Engine baseline is 28.0. [OpenShell's installation guide]
+documents Docker 28.0+ and Podman 5.x. Our Docker gateway E2E passes on 28.0;
+the Driver container suite passes on 28.0.4. Podman 5.x is the upstream
+minimum and the minimum for our lifecycle subset; the current local test image
+is 5.8.7. The current proxy
+host-gateway isolation path requires Podman 6+; its full rootful/rootless
+release qualification is still open.
+Docker Desktop requires a direct smoke on each supported host release. WSL2
+gateway reachability is documented below but is not yet a release-gated
+platform. Kubernetes and MicroVM are not production providers in this release.
+
+[OpenShell's installation guide]: https://github.com/NVIDIA/OpenShell/blob/main/docs/about/installation.mdx
 
 ## Layout (one sandbox)
 
