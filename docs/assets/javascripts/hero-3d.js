@@ -274,7 +274,7 @@
 
     function tabPoint(index) {
       var rect = tabRects[index] || tabRects[0];
-      return worldPoint(rect.left + rect.width / 2, rect.top + rect.height * 0.58);
+      return worldPoint(rect.left + rect.width * 0.82, rect.top + rect.height * 0.82);
     }
 
     function animateTap(index, commit) {
@@ -286,7 +286,7 @@
       motion = {
         start: performance.now(),
         fromX: gopher.position.x,
-        targetX: point.x - 0.3,
+        targetX: point.x - 1.2,
         targetY: point.y,
         index: index,
         commit: commit,
@@ -339,7 +339,7 @@
         var press = progress > 0.48 && progress < 0.66
           ? Math.sin(((progress - 0.48) / 0.18) * Math.PI) * 0.16
           : 0;
-        var hand = new THREE.Vector3(motion.targetX + 0.3, motion.targetY + 0.2 - press, 0.82);
+        var hand = new THREE.Vector3(motion.targetX + 1.2, motion.targetY + 0.2 - press, 0.82);
         var delta = hand.clone().sub(shoulderPoint);
         reachArm.position.copy(shoulderPoint).add(hand).multiplyScalar(0.5);
         reachArm.scale.set(1, delta.length() / 1.48, 1);
