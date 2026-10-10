@@ -1,6 +1,6 @@
 # Gateway RPC API, SDKs, and UI
 
-Status: **RPC migration in progress**, updated 2026-10-09. The gateway serves the pinned OpenShell gRPC API and `cauteum.control.v1` through Connect/native gRPC. Profile CRUD, partial provider credential updates, and sandbox/global policy workflows now use Control RPC; settings, services, supervisor registration, and other gateway workflows remain to migrate.
+Status: **management RPC migration implemented; Go-first UI delivery selected**, updated 2026-10-09. The gateway serves the pinned OpenShell gRPC API and `cauteum.control.v1` through Connect/native gRPC. Gateway management REST routes have been removed; Go SDK, CLI, Python, and integration fixtures use RPC for resource workflows. The existing React console is a read-only prototype and is not the production UI foundation. Control API release/versioning remains coupled to the Gateway module.
 
 ## Recommendation
 
@@ -26,20 +26,21 @@ the public API. [Connect Go](https://connectrpc.com/docs/go/getting-started/),
 
 | Surface | Contract and consumers | Constraint |
 | --- | --- | --- |
-| OpenShell RPC | Pinned upstream `openshell.proto`; 74 methods, including runtime lifecycle, supervisor, credentials, and bidirectional streams. Gateway serves it as native gRPC on the same listener as REST. | Upstream compatibility contract; some methods are for sandbox or gateway internals. |
-| Gateway REST | `cauteum-gateway/api/openapi.yaml`; 56 remaining client operations after removing policy and profile routes. | Legacy surface to remove as clients migrate; no compatibility guarantee is required for beta. |
-| Control RPC | Source Proto in `cauteum-gateway/api/proto/cauteum/control/v1/`; 35 methods across seven services, served by Connect/native gRPC. | Cauteum-specific user-facing contract; expose only reviewed methods with per-method authorization and redaction. |
-| Go SDK / CLI | Handwritten Go facade; inventory, lifecycle, logs, providers, profiles, proposals, identity, and policy use RPC. | Finish migrating settings, services, supervisor registration, and other REST-backed facade methods. |
+| OpenShell RPC | Pinned upstream `openshell.proto`; 74 methods, including runtime lifecycle, supervisor, credentials, and bidirectional streams. Gateway serves it as native gRPC on the shared listener. | Upstream compatibility contract; some methods are for sandbox or gateway internals. |
+| Gateway HTTP | OpenAPI documents health and local/OIDC authentication bootstrap. SSH and supervisor byte streams use HTTP upgrade; operator diagnostics remain private HTTP endpoints. | No resource-oriented REST API remains; beta callers use RPC. |
+| Control RPC | Source Proto in `cauteum-gateway/api/proto/cauteum/control/v1/`; 44 methods across ten services, served by Connect/native gRPC. | Cauteum-specific user-facing contract; expose only reviewed methods with per-method authorization and redaction. |
+| Go SDK / CLI | Handwritten Go facade; resource workflows use pinned OpenShell or Control RPC. | Health probing and local auth bootstrap are the remaining SDK HTTP calls; publish the contract independently before releasing generated SDK consumers. |
 | Python SDK | Generated native gRPC clients for `cauteum.control.v1` and pinned OpenShell; HTTP is used only for health. Python `>=3.9`, with `grpcio>=1.70` and `protobuf>=5.29`. | Add typed error/domain wrappers and migrate only if additional resource workflows are introduced. |
-| Browser | Read-only React UI uses Connect-Web and OIDC PKCE. | Production same-origin proxy and stream rendering remain; bidirectional streams stay on native/desktop transports. [Connect Web](https://connectrpc.com/docs/web/getting-started/). |
+| Browser | The current read-only React prototype uses Connect-Web and OIDC PKCE. The target console is rendered by a Go web service using the Go SDK. | Production session/auth, same-origin routing, streaming and migration from the prototype remain. The browser never receives the gateway owner token. |
 
-The gateway already routes HTTP/2 `application/grpc` to `grpc-go` and other
-requests to the REST handler. A Connect handler would require explicit routing
-and an authentication adapter; adding its path to this switch alone would not
-reuse the current gRPC interceptors. The pinned OpenShell service should not be
-mounted wholesale for a browser: it includes supervisor and token operations
-that need different principals and authorization rules. These conclusions are
-from `internal/httpapi/gateway.go`, `grpc_auth.go`, and `openshell_rpc.go`.
+The gateway routes HTTP/2 `application/grpc` to `grpc-go`, Connect requests to
+the explicitly mounted Control handlers, and the remaining HTTP paths to health,
+authentication bootstrap, or byte-stream transports. Control handlers resolve
+their own principal and enforce workspace/resource permissions. The pinned
+OpenShell service is not mounted wholesale for a browser: it includes supervisor
+and token operations that need different principals and authorization rules.
+These boundaries are implemented in `internal/httpapi/gateway.go`,
+`control_api.go`, `grpc_auth.go`, and `openshell_rpc.go`.
 
 ## Contract ownership
 
@@ -73,7 +74,7 @@ timeouts, retries, pagination, streaming cleanup, or safe error messages.
 | Consumer | First client API slice | Later evolution |
 | --- | --- | --- |
 | Go | Existing facade mixes REST and generated Connect. Migrate each workflow to generated native gRPC clients for Control RPC or the pinned OpenShell SDK, following the latter's resource sub-client and typed error patterns. | Remove direct REST calls; expose domain types, typed errors, cancellation, pagination, and watches. |
-| Browser TypeScript | Generate Proto types and use Connect Web for the new UI API. Use the existing REST contract only for a capability that has not migrated into the client API; do not hand-copy server DTOs. [Connect Web client](https://connectrpc.com/docs/web/getting-started/). | Add typed server streams for status and logs after browser/proxy validation. |
+| Browser UI | A Go console service uses the Go SDK and renders HTML with `html/template`; minimal browser JavaScript handles live updates and interaction. Generated TypeScript bindings remain available for external clients and the existing prototype. | Add bounded server streams for status and logs after browser/proxy validation. Keep resource rules in the gateway. |
 | Python | Sandbox inventory/lifecycle and overview use generated `cauteum.control.v1`; command execution uses pinned OpenShell `ExecSandbox`. Generated stubs are checked in and reproducibly generated from the workspace pins. | Expose domain exceptions and add further curated workflows as needed; keep HTTP for health and browser-specific bootstrap only. |
 
 Use local, pinned generation in the build pipeline initially. Buf can generate
@@ -84,13 +85,16 @@ Do not require the registry for reproducible source builds.
 
 ## Browser and desktop delivery
 
-Start with one TypeScript web UI and a small read-only workflow. Serve it from
-the same origin as the gateway or through a dedicated backend-for-frontend
-(BFF). The browser must not read the gateway's owner token from disk or expose
-supervisor credentials. A BFF can hold server-side credentials and use a
-Secure, HttpOnly session cookie with CSRF protection; cross-origin deployments
-instead need an explicit CORS and browser auth design.
-[Connect CORS](https://connectrpc.com/docs/cors/).
+The production console is a small Go HTTP service using the Go SDK as its
+client of the gateway. It renders HTML with `html/template`, CSS, and only the
+JavaScript needed for live updates or interaction. Browser requests reach the
+console through a same-origin reverse proxy; the console calls curated Control
+RPCs with the signed-in user's identity. It holds a server-side session behind
+a Secure, HttpOnly, SameSite cookie and validates CSRF tokens and request
+origins on mutations. The gateway remains the authorization authority; a
+hidden control in HTML is never an access check. The console cannot use an
+owner or supervisor token as a shared backend credential. CLI/TUI call the
+same gateway through the Go SDK directly. [Go HTML templates](https://pkg.go.dev/html/template).
 
 For status and log updates, use server streaming where the transport and
 deployment support it. Keep interactive exec, SSH, and bidirectional relay on
@@ -99,13 +103,18 @@ bidirectional streams reliably. A browser terminal would need a separately
 designed authenticated bridge and should not determine the general API
 contract. [Connect Web streaming](https://connectrpc.com/docs/web/getting-started/).
 
-If a desktop application is needed, reuse the web UI and place local-only
-operations (credential storage, SSH/PTY, file access) behind a narrow Go
-bridge. Wails is a plausible Go-based shell with web frontend and generated
-TypeScript bindings, but choose it only after a prototype checks packaging,
-WebView behavior on supported systems, updates, and accessibility. The bridge
-must not become a second implementation of gateway policy or resource rules.
-[Wails architecture](https://wails.io/docs/introduction/).
+Desktop reuses the same Go console handlers, HTML templates, CSS, and small JS
+assets in a system WebView. A Go shell such as Wails can start the console on
+loopback and open it in its window; it must not add a second implementation of
+policy or resources. Keep native bindings minimal and never expose them to
+remote content. This is a prototype decision until OIDC code+PKCE return, TLS,
+stream behavior (including Windows), packaging, and updates are proven on all
+supported desktop systems. [Wails architecture](https://wails.io/docs/introduction/),
+[asset-server limitations](https://wails.io/docs/reference/options/).
+
+The existing React/Vite implementation remains only as a migration reference
+until the Go console reaches feature parity and passes browser E2E. It is then
+removed so there is one maintained UI source.
 
 ## UI client API plan
 
@@ -124,8 +133,8 @@ gateway/backend summary; multi-gateway aggregation is a separate design.
 Method names below are Proto RPCs or proposals as marked in the migration plan. The initial P0 read-only methods,
 `WatchSandboxes`, `GetSandboxLogs`, `WatchSandboxLogs`, `CreateSandbox`, `StartSandbox`,
 `StopSandbox`, and `DeleteSandbox` are implemented in the
-gateway. A private generated TypeScript Connect client and read-only UI live in
-`cauteum-gateway/api/typescript` and `cauteum-gateway/ui`. Other names are
+gateway. A private generated TypeScript Connect client and read-only prototype
+live in `cauteum-gateway/api/typescript` and `cauteum-gateway/ui`. Other names are
 design proposals unless marked implemented in the migration plan. Each method
 needs a specific permission, request/response schema, and documented error
 codes before release.
@@ -191,17 +200,18 @@ Security and contract rules for every phase:
 3. Add `WatchSandboxes` and validate browser streaming, cursor/reconnect,
    cancellation, and proxy behavior. Then add lifecycle actions and logs only
    after the runtime/registry distinction and operation states are correct.
-4. Generate Go and TypeScript clients from the same Proto. Check browser auth,
-   cancellation, deadlines, CORS or same-origin delivery, streaming through the
-   real reverse proxy, and error mapping. Python gRPC bindings and the current
-   Python resource facade are implemented; Python package/release validation remains.
+4. Generate the Go SDK from the same Proto and use it in a Go console service.
+   Check server-side browser sessions, CSRF, cancellation, deadlines,
+   same-origin delivery, streaming through the real reverse proxy, and error
+   mapping. Generated TypeScript remains an external client contract, not a
+   requirement for the product UI. Python package/release validation remains.
 5. Compare generated-client ergonomics, package size, dependency resolution,
    and independent consumer builds with the current SDKs. Validate that
    authorization and audit behavior are identical across transports.
 6. Deliver P1 workflows by vertical slice, then P2 after storage and security
-   requirements are met. Publish one versioned Proto contract and generated
-   TypeScript client for the UI. Remove legacy REST routes and OpenAPI after
-   every supported CLI, SDK, and UI workflow has an RPC implementation.
+   requirements are met. Publish one versioned Proto contract and the Go SDK
+   used by the console and TUI. Remove the React prototype after the Go console
+   reaches feature parity and passes browser E2E.
 
 No REST compatibility adapter is planned for beta. The pinned OpenShell RPC
 contract remains authoritative for upstream workflows; the Cauteum control

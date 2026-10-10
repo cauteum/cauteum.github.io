@@ -10,14 +10,22 @@ proxy. It is picked with `CAUTEUM_DRIVER` and shown by `cauteum status`.
 
 | Provider | `CAUTEUM_DRIVER` | Status |
 |----------|---------------------|--------|
-| Docker | `docker` | <span class="ws-badge ws-badge--ok">default</span> |
-| Podman | `podman` | <span class="ws-badge ws-badge--ok">supported</span> |
+| Docker Engine 24+ on Linux | `docker` | <span class="ws-badge ws-badge--ok">supported, default</span> |
+| Docker Desktop on macOS/Windows | `docker` | <span class="ws-badge ws-badge--ok">beta</span> |
+| Podman 6 on Linux, rootful/rootless | `podman` | <span class="ws-badge ws-badge--ok">release target</span> |
+| Podman 5 | `podman` | lifecycle only; proxy host-gateway isolation is unavailable |
 | [Kubernetes](../kubernetes.md) | `kubernetes` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 | [MicroVM](../microvm.md) | `vm` | <span class="ws-badge ws-badge--soon">coming soon</span> |
 
 Docker is the default. cauteum talks to the local Engine API
 (`DOCKER_HOST` / Desktop socket), creates an internal network per sandbox,
 starts an egress proxy sidecar, then starts the sandbox container.
+
+The release gate covers Docker Engine on Linux and Podman 6 on Linux in both
+rootful and rootless modes. Docker Desktop remains beta and requires a direct
+smoke on each supported host release. WSL2 gateway reachability is documented
+below but is not yet a release-gated platform. Kubernetes and MicroVM are not
+production providers in this release.
 
 ## Layout (one sandbox)
 
@@ -39,6 +47,37 @@ cauteum status
 ```
 
 Expect `driver: docker` in status output.
+
+## Private registries
+
+After `docker login registry.example`, image pulls use the Docker CLI
+credential config for the user running the gateway (including configured
+credential helpers). The credentials are sent only with the Engine image-pull
+request; they are not copied into sandbox configuration or environment.
+
+## Private-CA HTTPS endpoints
+
+Set `egress_ca_bundle` in the Docker compute-driver configuration to a PEM
+bundle containing operator-managed roots for inspected HTTPS destinations. It
+extends system trust and keeps certificate and hostname verification enabled.
+This is separate from `proxy_ca_bundle`, which trusts an HTTPS corporate
+forward proxy. Recreate the sandbox proxy after rotating the bundle.
+
+For rootless engines whose UID/GID mapping changes, `reconcile_data_ownership`
+can be enabled in the Docker compute-driver configuration. When enabled for a
+sandbox with persistent data, the privileged init process reassigns entries in
+the dedicated `/cauteum/data` volume to the sandbox user at startup. This is
+off by default, can take time on large volumes, and does not touch the workspace
+bind mount.
+
+### Docker Desktop on WSL2
+
+The gateway rewrites its loopback listener to `host.docker.internal` for the
+sandbox supervisor. If a WSL2 sandbox still cannot reach the gateway, set the
+Docker compute driver's `grpc_endpoint` explicitly, for example
+`https://host.docker.internal:17670`. For HTTPS, configure `guest_tls_ca`,
+`guest_tls_cert`, and `guest_tls_key` together. The endpoint must be reachable
+from Docker Desktop's container network.
 
 !!! tip "Not the same as credential providers"
     `--provider github`, `--provider cursor` and friends attach secrets and

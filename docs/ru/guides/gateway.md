@@ -33,17 +33,16 @@ loopback-сервис другим машинам — учитывайте эт�
 |-------------|------|
 | Secrets | AES-GCM store; KEK через `CAUTEUM_SECRETS_KEK` или `secrets.kek` |
 | Providers | Именованные инстансы + метаданные composition |
-| Sandboxes | Registry upsert/delete; log ring; proposals |
+| Sandboxes | Управление реестром и жизненным циклом через RPC; ограниченный буфер логов |
 | Sidecar | Resolve секретов через `host.cauteum.internal` |
 
 ## Справка по HTTP API
 
 [Спецификация OpenAPI](https://github.com/cauteum/cauteum-gateway/blob/main/api/openapi.yaml)
-описывает оставшуюся часть REST API: метаданные gateway, записи реестра sandbox
-и логи. Policy, profiles и частичное обновление credentials используют Control
-RPC. Это пока не полный список маршрутов. Запись в реестр
-не создаёт и не останавливает runtime; его жизненный цикл описан в Proto API
-OpenShell.
+описывает только health и bootstrap-аутентификацию. Операции управления
+используют `cauteum.control.v1` или закреплённый OpenShell RPC контракт. SSH
+потоки и supervisor relay используют HTTP upgrade transport и не являются
+REST API ресурсов.
 
 ## Client API для управления
 
@@ -74,8 +73,9 @@ Go SDK. `logs --all` перечисляет доступные пользова�
 обновление credentials, чтение и запись глобальной и sandbox policy, а также
 история policy используют `cauteum.control.v1` через native gRPC. Ответы
 профилей сохраняют полную YAML-схему Cauteum. Эти REST-маршруты и записи
-OpenAPI удалены; settings, services и другие REST resource маршруты ещё
-предстоит перенести.
+OpenAPI удалены. Settings, services, workspaces, inference, identity, SSH
+session management и command execution также перешли на RPC; по HTTP остались
+bootstrap, health и relay transport.
 
 ## Когда обязателен
 
@@ -132,11 +132,11 @@ keys, отсутствующие required fields, неверные enums и data
 
 Настройки OpenShell OIDC issuer, audience, JWKS cache TTL и role claim
 передаются JWT validator. Admin role может изменять gateway resources; user role
-имеет read-only доступ; admin также удовлетворяет user role. Если указан
-`scopes_claim`, известные группы REST routes требуют соответствующий scope
-`sandbox:read/write`, `provider:read/write` или `config:read/write`; неизвестные
-routes блокируются. Это REST mapping, а не полная per-RPC descriptor matrix.
-Поддерживаются RSA, ECDSA P-256/P-384 и Ed25519 signing keys.
+имеет read-only доступ; admin также удовлетворяет user role. При указанном
+`scopes_claim` Control RPC использует группы `sandbox:read/write`,
+`provider:read/write` и `config:read/write`; конкретные handlers также проверяют
+workspace и admin permissions. Полная per-method descriptor matrix ещё не
+реализована. Поддерживаются RSA, ECDSA P-256/P-384 и Ed25519 signing keys.
 
 TLS загружает client CA и external cert/key pair из исходного gateway TOML.
 При включённом OIDC клиентский сертификат проверяется, если он предъявлен;

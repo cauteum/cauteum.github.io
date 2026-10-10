@@ -11,6 +11,10 @@ SPDX-License-Identifier: Apache-2.0
 - Linux: `/var/run/docker.sock` или rootless user socket.
 - macOS / Windows: Docker Desktop; для reclaim памяти предпочтителен текущий
   backend **Docker VMM**.
+- Podman: версия 6+ на Linux для полного пути с egress proxy. Поддерживаются
+  rootful и rootless sockets. Podman 5 запускает проверенный lifecycle subset,
+  но proxy-backed create завершается fail closed, потому что нужный блокирующий
+  маршрут host-gateway недоступен.
 
 ```bash
 docker version
