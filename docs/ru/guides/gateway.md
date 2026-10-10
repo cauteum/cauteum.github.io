@@ -38,7 +38,7 @@ loopback-сервис другим машинам — учитывайте эт�
 
 ## Справка по HTTP API
 
-[Спецификация OpenAPI](https://github.com/cauteum-haven/cauteum-gateway/blob/main/api/openapi.yaml)
+[Спецификация OpenAPI](https://github.com/cautem/cauteum-gateway/blob/main/api/openapi.yaml)
 описывает только health и bootstrap-аутентификацию. Операции управления
 используют `cauteum.control.v1` или закреплённый OpenShell RPC контракт. SSH
 потоки и supervisor relay используют HTTP upgrade transport и не являются

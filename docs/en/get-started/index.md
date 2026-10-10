@@ -14,13 +14,13 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The latest published CLI is `v0.1.4`. Pin it when installing so this
+The latest published CLI is `v0.1.5`. Pin it when installing so this
 guide keeps working until the next stable release is published.
 Open a terminal and run:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.4 sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.5 sh
 cauteum version
 ```
 
@@ -29,8 +29,8 @@ The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 To install into another directory:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.4 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.5 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### from source
@@ -89,7 +89,7 @@ Engine details: [Docker](../providers/docker/index.md) ·
 Pull the base image — it has the CLI tooling an agent needs:
 
 ```bash
-docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Building images yourself"

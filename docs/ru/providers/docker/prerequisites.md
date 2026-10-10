@@ -31,7 +31,7 @@ task runtime:image:cli          # cauteum-sandbox:local
 task docker:agent:cursor        # cauteum-sandbox:cursor
 
 # Или каталог GHCR
-docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
 ```
 
 Каталог и BYOC: [Справка по образам](../../reference/images.md).

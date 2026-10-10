@@ -38,7 +38,7 @@ forwarding in mind: they can expose a loopback listener to other machines.
 
 ## HTTP API reference
 
-The [OpenAPI document](https://github.com/cauteum-haven/cauteum-gateway/blob/main/api/openapi.yaml)
+The [OpenAPI document](https://github.com/cautem/cauteum-gateway/blob/main/api/openapi.yaml)
 covers health and authentication bootstrap only. Management operations use
 `cauteum.control.v1` or the pinned OpenShell RPC contract. SSH byte streams and
 the supervisor relay use HTTP upgrade transport and are not REST resource APIs.

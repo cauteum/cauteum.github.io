@@ -14,13 +14,13 @@ cauteum — один CLI, который запускает coding-агенто�
 
 ### через установщик <small>рекомендуется</small> { #with-installer data-toc-label="через установщик" }
 
-Последняя опубликованная версия CLI — `v0.1.4`. Закрепите её при
+Последняя опубликованная версия CLI — `v0.1.5`. Закрепите её при
 установке, чтобы инструкции оставались воспроизводимыми до выхода стабильного релиза.
 Откройте терминал и выполните:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.4 sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.5 sh
 cauteum version
 ```
 
@@ -29,8 +29,8 @@ cauteum version
 Для установки в другой каталог:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.4 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.5 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### из исходников
@@ -89,7 +89,7 @@ go build -C cauteum-cli -o cauteum ./cmd/cauteum
 Скачайте базовый образ — в нём есть всё, что нужно агенту в CLI:
 
 ```bash
-docker pull ghcr.io/cauteum-haven/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
 ```
 
 !!! tip "Собрать образы самому"

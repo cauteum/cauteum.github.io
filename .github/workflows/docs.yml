@@ -87,7 +87,7 @@ jobs:
             grep -q 'property="og:title"' "$page"
             grep -q 'property="og:description"' "$page"
             grep -q 'property="og:url"' "$page"
-            grep -q 'property="og:image" content="https://cauteum-haven.github.io/assets/images/cauteum-mascot.png"' "$page"
+            grep -q 'property="og:image" content="https://cautem.github.io/cauteum-haven.github.io/assets/images/cauteum-mascot.png"' "$page"
             grep -q 'name="twitter:card" content="summary_large_image"' "$page"
           done
           grep -q 'Start the gateway' site/get-started/index.html
@@ -105,10 +105,10 @@ jobs:
           grep -q 'mascot-cutouts/worker.png' site/providers/kubernetes/index.html
           grep -q 'mascot-cutouts/docker.png' site/get-started/first-sandbox/index.html
           grep -q 'CAUTEUM_VERSION' site/get-started/index.html
-          grep -q 'v0.1.4' site/get-started/index.html
+          grep -q 'v0.1.5' site/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/get-started/index.html
           grep -q 'CAUTEUM_VERSION' site/ru/get-started/index.html
-          grep -q 'v0.1.4' site/ru/get-started/index.html
+          grep -q 'v0.1.5' site/ru/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/ru/get-started/index.html
           python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 12; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
           python - <<'PY'
