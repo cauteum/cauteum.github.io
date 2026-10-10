@@ -37,7 +37,7 @@
 
 .ws-hero__mascot-track {
   position: relative;
-  height: 10rem;
+  height: 13rem;
   overflow: hidden;
   margin-bottom: 0.25rem;
   isolation: isolate;
@@ -57,20 +57,21 @@
 }
 
 .ws-hero__mascot-canvas { z-index: 1; }
+.ws-hero__mascot-canvas { opacity: 0; transition: opacity 240ms ease; }
 .ws-hero__mascot-fallback {
   z-index: 2;
   object-fit: contain;
   object-position: center bottom;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
 }
 
-.ws-hero__mascot-track.ws-hero__mascot-track--fallback .ws-hero__mascot-fallback {
-  opacity: 1;
+.ws-hero__mascot-track.ws-hero__mascot-track--ready .ws-hero__mascot-fallback {
+  opacity: 0;
 }
 
-.ws-hero__mascot-track.ws-hero__mascot-track--fallback .ws-hero__mascot-canvas {
-  display: none;
+.ws-hero__mascot-track.ws-hero__mascot-track--ready .ws-hero__mascot-canvas {
+  opacity: 1;
 }
 
 .ws-mac-terminal {
@@ -292,7 +293,7 @@
 }
 
 @media screen and (max-width: 42em) {
-  .ws-hero__mascot-track { height: 8rem; }
+  .ws-hero__mascot-track { height: 11rem; }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }
