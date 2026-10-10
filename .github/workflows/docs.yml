@@ -50,7 +50,7 @@ jobs:
                    assets/images/mascot-cutouts/worker.png \
                    assets/javascripts/hero.js \
                    assets/javascripts/hero-3d.js \
-                   search/search_index.json; do
+                   search/search_index.json ru/sitemap.xml; do
             test -s "site/$f"
           done
           for f in concepts guides reference providers ru/concepts ru/guides ru/reference ru/providers; do

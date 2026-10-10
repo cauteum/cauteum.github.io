@@ -39,3 +39,12 @@ def on_post_build(config):
         output.write_text(
             json.dumps(localized_index, ensure_ascii=False), encoding="utf-8"
         )
+
+    # Material's search client requests a sitemap relative to each locale URL.
+    # MkDocs emits one combined sitemap at the site root, so expose that same
+    # index under /ru/ as well to avoid a missing sitemap request on Russian pages.
+    sitemap = Path(config.site_dir) / "sitemap.xml"
+    localized_sitemap = Path(config.site_dir) / "ru" / "sitemap.xml"
+    if sitemap.is_file():
+        localized_sitemap.parent.mkdir(parents=True, exist_ok=True)
+        localized_sitemap.write_bytes(sitemap.read_bytes())
