@@ -27,6 +27,19 @@
   z-index: 3;
   width: min(100%, 33rem);
   margin: 0 auto 1.5rem;
+  padding-top: 13.2rem;
+}
+
+.ws-hero__image::before {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  width: min(70%, 23rem);
+  height: 13rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(16 121 255 / 18%), transparent 68%);
+  content: "";
+  pointer-events: none;
 }
 
 .ws-hero__image img {
@@ -36,16 +49,38 @@
 }
 
 .ws-hero__mascot-track {
-  position: relative;
-  height: 13rem;
-  overflow: hidden;
-  margin-bottom: 0.25rem;
+  position: absolute;
+  z-index: 2;
+  top: -0.5rem;
+  right: -1.2rem;
+  width: 22rem;
+  height: 17rem;
   isolation: isolate;
-  border-radius: 0.8rem;
-  background:
-    radial-gradient(ellipse at 50% 115%, rgb(255 159 74 / 16%), transparent 52%),
-    linear-gradient(180deg, rgb(12 13 20 / 10%), rgb(12 13 20 / 28%));
+  background: transparent;
 }
+
+.ws-hero__mascot-track--ready { cursor: pointer; }
+.ws-hero__mascot-track:focus-visible { outline: 2px solid #79dfff; outline-offset: 0.2rem; border-radius: 0.5rem; }
+
+.ws-hero__mascot-hint {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 4.5rem;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid rgb(157 204 255 / 35%);
+  border-radius: 1rem;
+  color: #d9edff;
+  background: rgb(13 20 39 / 58%);
+  font: 600 0.57rem/1.2 "IBM Plex Sans", sans-serif;
+  opacity: 0;
+  transform: translateY(0.25rem);
+  transition: opacity 250ms ease, transform 250ms ease;
+  pointer-events: none;
+}
+
+.ws-hero__mascot-track--ready .ws-hero__mascot-hint { opacity: 1; transform: none; }
+.ws-hero__mascot-track--ready:is(:hover, :focus-visible) .ws-hero__mascot-hint { opacity: 0; }
 
 .ws-hero__mascot-canvas,
 .ws-hero__mascot-fallback {
@@ -58,10 +93,12 @@
 
 .ws-hero__mascot-canvas { z-index: 1; }
 .ws-hero__mascot-canvas { opacity: 0; transition: opacity 240ms ease; }
-.ws-hero__mascot-fallback {
+.ws-hero__image .ws-hero__mascot-fallback {
   z-index: 2;
+  width: 80%;
+  height: 100%;
   object-fit: contain;
-  object-position: center bottom;
+  object-position: left bottom;
   opacity: 1;
   pointer-events: none;
 }
@@ -75,6 +112,8 @@
 }
 
 .ws-mac-terminal {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
   border: 1px solid rgb(218 205 245 / 32%);
   border-radius: 0.7rem;
@@ -293,7 +332,9 @@
 }
 
 @media screen and (max-width: 42em) {
-  .ws-hero__mascot-track { height: 11rem; }
+  .ws-hero__image { padding-top: 11.2rem; }
+  .ws-hero__mascot-track { top: -0.2rem; right: -0.3rem; width: 15rem; height: 13rem; }
+  .ws-hero__mascot-hint { top: 0; right: 0.1rem; }
   .ws-flow__screen { min-height: 11.4rem; padding-right: 0.65rem; padding-left: 0.65rem; }
   .ws-flow__note { text-align: left; }
 }

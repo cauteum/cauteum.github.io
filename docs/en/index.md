@@ -15,6 +15,8 @@ hero:
     your project and reaches only the hosts you allow. Provider credentials
     stay outside the sandbox.
   mascot_alt: Blue gopher mascot for Cauteum
+  mascot_action: Cauteum gopher. Press to open Pandora's box
+  mascot_hint: Tap the gopher
   flow_label: Codex sandbox workflow preview
   tab_create: Create
   tab_run: Run Codex
