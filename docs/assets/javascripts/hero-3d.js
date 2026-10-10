@@ -88,6 +88,8 @@
     var black = mat(0x080a10, 0.36);
     var orange = mat(0xff642b, 0.42);
     var skin = mat(0xffbd83, 0.56);
+    var seam = mat(0x4a5361, 0.72);
+    var boot = mat(0x151923, 0.4, 0.08);
     var brass = mat(0xc78d45, 0.3, 0.72);
     var boxMat = mat(0x202532, 0.42, 0.38);
     var magicMat = mat(0x54dcff, 0.2, 0, 0x138dff, 2.1);
@@ -121,6 +123,11 @@
 
     // The black hood, blue face and orange/white sleeve marks follow the supplied mascot.
     capsule(body, hoodie, 0.39, 0.42, [0, 0.84, 0]);
+    // Small tailored details keep the hoodie readable at the hero's compact scale.
+    capsule(body, trim, 0.075, 0.24, [0, 0.87, 0.41]);
+    sphere(body, seam, [-0.16, 0.78, 0.405], [0.13, 0.055, 0.035], 16);
+    sphere(body, seam, [0.16, 0.78, 0.405], [0.13, 0.055, 0.035], 16);
+    sphere(body, blue, [0, 0.96, 0.425], [0.105, 0.08, 0.04], 16);
     sphere(body, hoodie, [0, 1.68, -0.03], [0.72, 0.76, 0.61], 32);
     sphere(body, trim, [-0.68, 1.65, -0.04], [0.19, 0.42, 0.3]);
     sphere(body, trim, [0.68, 1.65, -0.04], [0.19, 0.42, 0.3]);
@@ -153,13 +160,22 @@
 
     var legs = [];
     [-1, 1].forEach(function (side) {
-      var leg = new THREE.Group();
-      leg.position.set(side * 0.21, 0.54, 0.02);
-      body.add(leg);
-      capsule(leg, hoodie, 0.17, 0.24, [0, -0.2, 0]);
-      sphere(leg, trim, [0, -0.43, 0.12], [0.2, 0.13, 0.28]);
-      sphere(leg, skin, [0, -0.49, 0.24], [0.16, 0.075, 0.17]);
-      legs.push(leg);
+      var hip = new THREE.Group();
+      hip.position.set(side * 0.21, 0.54, 0.02);
+      body.add(hip);
+      capsule(hip, hoodie, 0.155, 0.23, [0, -0.15, 0]);
+      var knee = new THREE.Group();
+      knee.position.y = -0.23;
+      hip.add(knee);
+      sphere(knee, trim, [0, 0, 0.015], [0.145, 0.14, 0.15], 18);
+      capsule(knee, hoodie, 0.125, 0.18, [0, -0.13, 0]);
+      var foot = new THREE.Group();
+      foot.position.set(0, -0.25, 0.015);
+      knee.add(foot);
+      sphere(foot, boot, [0, -0.015, 0.075], [0.18, 0.105, 0.27], 20);
+      sphere(foot, skin, [0, -0.035, 0.245], [0.145, 0.065, 0.13], 18);
+      sphere(foot, seam, [0, 0.065, 0.07], [0.14, 0.025, 0.13], 16);
+      legs.push({ hip: hip, knee: knee, foot: foot });
     });
 
     var arms = [];
@@ -278,26 +294,32 @@
       var magic = Math.min(open, smooth((9.3 - t) / 1.1));
       var surprise = smooth((t - 6.35) / 0.8) * (1 - smooth((t - 8.3) / 0.8));
 
-      mascot.position.y = walking ? Math.abs(Math.sin(stride)) * 0.12 : surprise * Math.max(0, Math.sin((t - 6.3) * 7)) * 0.1;
-      mascot.rotation.y = walkingOut
-        ? 0.65 + (-1.1 * walkOutProgress)
-        : 0.65 * smooth(t / 4.2);
+      mascot.position.y = walking ? 0.025 + Math.sin(stride * 2) * 0.018 : surprise * Math.max(0, Math.sin((t - 6.3) * 7)) * 0.1;
+      // Face into the path while moving, then turn toward the viewer at the box.
+      var facingViewer = 0.48;
+      if (walkingOut) mascot.rotation.y = facingViewer + (-1.03 - facingViewer) * walkOutProgress;
+      else if (walkingIn) mascot.rotation.y = 1.03;
+      else mascot.rotation.y = 1.03 + (facingViewer - 1.03) * smooth((t - 3.3) / 0.9);
       body.rotation.z = walking
-        ? -0.06 + Math.sin(stride * 2) * 0.025
+        ? -0.075 + Math.sin(stride) * 0.035
         : -0.04 - reach * 0.1 + surprise * Math.sin(t * 5) * 0.025;
-      body.rotation.x = walking ? 0 : -reach * 0.13;
+      body.rotation.x = walking ? 0.075 : -reach * 0.13;
 
       legs.forEach(function (leg, index) {
         var offset = index ? Math.PI : 0;
-        leg.rotation.x = walking ? Math.sin(stride + offset) * 0.66 : -surprise * 0.12;
-        leg.rotation.z = walking ? Math.cos(stride + offset) * 0.08 : 0;
+        var phase = stride + offset;
+        var step = Math.sin(phase);
+        leg.hip.rotation.x = walking ? step * 0.72 : -surprise * 0.12;
+        leg.hip.rotation.z = walking ? Math.cos(phase) * 0.035 : 0;
+        leg.knee.rotation.x = walking ? Math.max(0, step) * 0.8 : 0;
+        leg.foot.rotation.x = walking ? -Math.max(0, step) * 0.34 : 0;
       });
       arms.forEach(function (arm, index) {
         var side = index ? 1 : -1;
         var offset = index ? 0 : Math.PI;
-        arm.rotation.x = walking ? Math.sin(stride + offset) * 0.2 : -reach * 0.58;
+        arm.rotation.x = walking ? Math.sin(stride + offset) * 0.43 : -reach * 0.58;
         arm.rotation.z = walking
-          ? side * (0.12 + Math.cos(stride + offset) * 0.3)
+          ? side * (0.035 + Math.cos(stride + offset) * 0.055)
           : side * (0.12 + reach * (index ? 0.75 : 0.45));
       });
 
