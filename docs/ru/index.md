@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Cauteum Sandbox — песочницы для coding-агентов
+title: cautem Sandbox — песочницы для coding-агентов
 description: >-
   Запускайте coding-агентов в Docker- и Podman-песочницах с сетевым доступом
   по политике и учётными данными за пределами песочницы.
@@ -18,7 +18,7 @@ hero:
   tab_create: Создание
   tab_run: Запуск Codex
   tab_observe: Мониторинг
-  flow_note: После импорта профиля codex-api и настройки credential-провайдера codex. --from codex выбирает образ агента, --provider codex подключает доступы. Статусы иллюстративные; cauteum term открывает TUI.
+  flow_note: После импорта профиля codex-api и настройки credential-провайдера codex. --from codex выбирает образ агента, --provider codex подключает доступы. Статусы иллюстративные; cautem term открывает TUI.
   primary:
     label: Быстрый старт
     link: get-started/
@@ -28,7 +28,7 @@ hero:
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -39,7 +39,7 @@ Coding-агенты запускают команды, ставят пакеты
 облачные доступы и открытый интернет. Одного неудачного промпта или
 заражённого пакета хватит, чтобы что-то утекло или сломалось.
 
-cauteum запускает агента в контейнере с ограниченным доступом к файлам и
+cautem запускает агента в контейнере с ограниченным доступом к файлам и
 **сетевым доступом по политике**. Учётные данные, которыми управляют
 провайдеры, остаются за пределами контейнера.
 
@@ -96,7 +96,7 @@ sequenceDiagram
     participant S as Песочница (агент)
     participant P as Egress-прокси
     participant U as Интернет
-    You->>S: cauteum sandbox create
+    You->>S: cautem sandbox create
     S->>P: HTTPS-запрос с заглушкой секрета
     P->>P: Проверка хоста, метода и пути по политике
     alt разрешено
@@ -105,16 +105,16 @@ sequenceDiagram
     else заблокировано
         P-->>S: 403 + причина
         S->>You: Предложение узкого правила
-        You->>P: cauteum rule approve
+        You->>P: cautem rule approve
     end
 ```
 
-1. **Создание.** `cauteum sandbox create` поднимает два контейнера в
+1. **Создание.** `cautem sandbox create` поднимает два контейнера в
    приватной сети: песочницу с агентом и вашим проектом и рядом egress-прокси.
 2. **Все запросы идут через прокси.** Другого выхода у песочницы нет, поэтому
    весь трафик проверяется по вашей политике.
 3. **Секреты подставляются на выходе.** У агента только заглушки вида
-   `cauteum:resolve:env:GITHUB_TOKEN`; настоящий токен прокси вставляет в
+   `cautem:resolve:env:GITHUB_TOKEN`; настоящий токен прокси вставляет в
    запросы, которые разрешает политика.
 4. **Блокировка с объяснением.** Запрещённый запрос получает 403 с причиной,
    и агент может попросить ровно тот доступ, который нужен.

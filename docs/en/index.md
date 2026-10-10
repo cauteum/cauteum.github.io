@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Cauteum Sandbox — Sandboxes for coding agents
+title: cautem Sandbox — Sandboxes for coding agents
 description: >-
   Run coding agents in Docker or Podman sandboxes with policy-controlled network
   access and credentials kept outside the sandbox.
@@ -18,7 +18,7 @@ hero:
   tab_create: Create
   tab_run: Run Codex
   tab_observe: Monitor
-  flow_note: After importing the codex-api profile and configuring the codex credential provider. --from codex selects the agent image; --provider codex attaches credentials. Status lines are illustrative; cauteum term opens the TUI.
+  flow_note: After importing the codex-api profile and configuring the codex credential provider. --from codex selects the agent image; --provider codex attaches credentials. Status lines are illustrative; cautem term opens the TUI.
   primary:
     label: Get started
     link: get-started/
@@ -28,7 +28,7 @@ hero:
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -39,7 +39,7 @@ them straight on your machine and they get your whole home directory, SSH
 keys, cloud credentials and an open internet connection. One bad prompt or
 poisoned package is enough to leak or break something.
 
-cauteum runs the agent in a container with a restricted workspace and
+cautem runs the agent in a container with a restricted workspace and
 **policy-controlled network access**. Credentials managed through providers
 stay outside the container.
 
@@ -96,7 +96,7 @@ sequenceDiagram
     participant S as Sandbox (agent)
     participant P as Egress proxy
     participant U as Internet
-    You->>S: cauteum sandbox create
+    You->>S: cautem sandbox create
     S->>P: HTTPS request with a secret placeholder
     P->>P: Check host, method and path against the policy
     alt allowed
@@ -105,17 +105,17 @@ sequenceDiagram
     else blocked
         P-->>S: 403 + reason
         S->>You: Propose a narrow rule
-        You->>P: cauteum rule approve
+        You->>P: cautem rule approve
     end
 ```
 
-1. **Create.** `cauteum sandbox create` starts two containers on a private
+1. **Create.** `cautem sandbox create` starts two containers on a private
    network: the sandbox with the agent and your workspace, and an egress proxy
    next to it.
 2. **Every request goes through the proxy.** The sandbox has no other way out,
    so all traffic is checked against your policy.
 3. **Secrets are swapped on the way out.** The agent only ever holds
-   placeholders like `cauteum:resolve:env:GITHUB_TOKEN`; the proxy puts the
+   placeholders like `cautem:resolve:env:GITHUB_TOKEN`; the proxy puts the
    real token into requests the policy allows.
 4. **Blocked means explained.** A denied request gets a 403 with the reason, so
    the agent can ask for exactly the access it needs.

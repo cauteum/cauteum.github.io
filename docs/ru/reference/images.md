@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 
 | Роль | По умолчанию / пример |
 |------|------------------------|
-| Sandbox base | `cauteum-sandbox:local` / `…/sandboxes/base` |
-| Cursor / Claude / Codex | `cauteum-sandbox:cursor` … или каталог GHCR |
-| Egress proxy | `debian:bookworm-slim` (`CAUTEUM_PROXY_IMAGE`) |
-| Gateway | `cauteum-gateway:local` / GHCR gateway |
+| Sandbox base | `cautem-sandbox:local` / `…/sandboxes/base` |
+| Cursor / Claude / Codex | `cautem-sandbox:cursor` … или каталог GHCR |
+| Egress proxy | `debian:bookworm-slim` (`CAUTEM_PROXY_IMAGE`) |
+| Gateway | `cautem-gateway:local` / GHCR gateway |

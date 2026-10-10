@@ -3,7 +3,7 @@ status: soon
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -19,7 +19,7 @@ SPDX-License-Identifier: Apache-2.0
 
 ## What is planned
 
-- Sandboxes run as pods, selected with `CAUTEUM_DRIVER=kubernetes`.
+- Sandboxes run as pods, selected with `CAUTEM_DRIVER=kubernetes`.
 - The gateway ships as a Helm chart: persistent storage, ServiceAccount,
   NetworkPolicy, Ingress and optional OIDC.
 - The same policy, proxy and credential providers as on Docker.

@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -9,12 +9,12 @@ SPDX-License-Identifier: Apache-2.0
 
 ```bash
 systemctl --user enable --now podman.socket
-export CAUTEUM_DRIVER=podman
-# export CAUTEUM_PODMAN_SOCKET=$XDG_RUNTIME_DIR/podman/podman.sock
+export CAUTEM_DRIVER=podman
+# export CAUTEM_PODMAN_SOCKET=$XDG_RUNTIME_DIR/podman/podman.sock
 # or: export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
 
 podman info
-cauteum status
+cautem status
 ```
 
 ## macOS (Podman Machine)
@@ -22,8 +22,8 @@ cauteum status
 ```bash
 podman machine init     # once
 podman machine start
-export CAUTEUM_DRIVER=podman
-cauteum status
+export CAUTEM_DRIVER=podman
+cautem status
 ```
 
 Discovery also checks
@@ -31,12 +31,12 @@ Discovery also checks
 
 ## Images
 
-Use the same sandbox tags as Docker (`cauteum-sandbox:local`, `:cursor`, …
+Use the same sandbox tags as Docker (`cautem-sandbox:local`, `:cursor`, …
 or GHCR catalog). Build with Docker tooling on a host that can push/load into
 Podman’s store, or `podman pull` / `podman load` equivalents.
 
 ```bash
-podman images | grep cauteum
+podman images | grep cautem
 ```
 
 ## Gateway

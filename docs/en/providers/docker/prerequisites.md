@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -27,11 +27,11 @@ Pull or build at least one sandbox image before create:
 
 ```bash
 # Local workspace build
-task runtime:image:cli          # cauteum-sandbox:local
-task docker:agent:cursor        # cauteum-sandbox:cursor
+task runtime:image:cli          # cautem-sandbox:local
+task docker:agent:cursor        # cautem-sandbox:cursor
 
 # Or GHCR catalog
-docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cautem/sandboxes/base:latest
 ```
 
 Catalog and BYOC: [Images reference](../../reference/images.md).
@@ -41,12 +41,12 @@ Catalog and BYOC: [Images reference](../../reference/images.md).
 Proxy, secrets, and provider attach require a reachable gateway:
 
 ```bash
-cauteum gateway ensure
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
+cautem gateway ensure
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
 ```
 
-Gateway Compose file: `cauteum-gateway/compose/docker-compose.yml`.
+Gateway Compose file: `cautem-gateway/compose/docker-compose.yml`.
 
 ## Desktop memory
 
@@ -54,7 +54,7 @@ Uncapped agent containers and unbounded container logs inflate the Desktop VM.
 Set soft defaults (optional) and keep log rotation enabled (default):
 
 ```yaml
-# ~/.config/cauteum/config.yaml
+# ~/.config/cautem/config.yaml
 defaults:
   memory: 2g
   cpu: 2

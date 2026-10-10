@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -7,18 +7,18 @@ SPDX-License-Identifier: Apache-2.0
 
 | Variable | Purpose |
 |----------|---------|
-| `CAUTEUM_DRIVER` | `docker` (default) \| `podman` |
-| `CAUTEUM_PODMAN_SOCKET` | Explicit Podman API socket |
+| `CAUTEM_DRIVER` | `docker` (default) \| `podman` |
+| `CAUTEM_PODMAN_SOCKET` | Explicit Podman API socket |
 | `DOCKER_HOST` | Engine API endpoint |
-| `CAUTEUM_DEFAULT_MEMORY` | Soft create default when `--memory` unset |
-| `CAUTEUM_DEFAULT_CPU` | Soft create default when `--cpu` unset |
-| `CAUTEUM_DEFAULT_PIDS_LIMIT` | Soft create default when `--pids-limit` unset |
-| `CAUTEUM_SANDBOX_PIDS_LIMIT` | Driver PIDs default (`0` = unlimited) |
-| `CAUTEUM_PROXY_IMAGE` | Slim proxy base image |
-| `CAUTEUM_DOCKER_LOG_DRIVER` | `json-file` \| `none` |
-| `CAUTEUM_DOCKER_LOG_MAX_SIZE` | json-file `max-size` (default `10m`) |
-| `CAUTEUM_DOCKER_LOG_MAX_FILE` | json-file `max-file` (default `3`) |
-| `CAUTEUM_SECRETS_KEK` | Gateway secrets key |
-| `CAUTEUM_LOG_LEVEL` | Process log level (slogx) |
+| `CAUTEM_DEFAULT_MEMORY` | Soft create default when `--memory` unset |
+| `CAUTEM_DEFAULT_CPU` | Soft create default when `--cpu` unset |
+| `CAUTEM_DEFAULT_PIDS_LIMIT` | Soft create default when `--pids-limit` unset |
+| `CAUTEM_SANDBOX_PIDS_LIMIT` | Driver PIDs default (`0` = unlimited) |
+| `CAUTEM_PROXY_IMAGE` | Slim proxy base image |
+| `CAUTEM_DOCKER_LOG_DRIVER` | `json-file` \| `none` |
+| `CAUTEM_DOCKER_LOG_MAX_SIZE` | json-file `max-size` (default `10m`) |
+| `CAUTEM_DOCKER_LOG_MAX_FILE` | json-file `max-file` (default `3`) |
+| `CAUTEM_SECRETS_KEK` | Gateway secrets key |
+| `CAUTEM_LOG_LEVEL` | Process log level (slogx) |
 
-Config file: `~/.config/cauteum/config.yaml` (`defaults:`, `images:`, gateways).
+Config file: `~/.config/cautem/config.yaml` (`defaults:`, `images:`, gateways).

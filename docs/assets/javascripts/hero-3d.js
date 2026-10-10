@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+// SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 // SPDX-License-Identifier: Apache-2.0
 
 (function () {
@@ -28,7 +28,7 @@
       }
       createScene(THREE);
     } catch (error) {
-      console.error("Cauteum 3D mascot could not be loaded", error);
+      console.error("cautem 3D mascot could not be loaded", error);
       fallback();
     }
   }
@@ -86,7 +86,7 @@
 
     var hood = material(0x151923, 0.76);
     var hoodLight = material(0x262c38, 0.58);
-    var sleeve = material(0x465366, 0.62);
+    var sleeve = material(0x252a34, 0.62);
     var blue = material(0x0879ff, 0.34);
     var blueDeep = material(0x064cba, 0.42);
     var white = material(0xf8f8ff, 0.3);
@@ -104,7 +104,7 @@
       return mesh;
     }
 
-    function addBox(parent, mat, position, scale, radius) {
+    function addBox(parent, mat, position, scale) {
       var geometry = new THREE.BoxGeometry(scale[0], scale[1], scale[2]);
       var mesh = new THREE.Mesh(geometry, mat);
       mesh.position.set(position[0], position[1], position[2]);
@@ -125,32 +125,56 @@
     restingArm.rotation.z = 0.28;
     gopher.add(restingArm);
     var restingPaw = new THREE.Group();
-    addSphere(restingPaw, blue, [0, 0, 0], [0.22, 0.17, 0.15], 18);
-    [-1, 0, 1].forEach(function (finger) {
-      addSphere(restingPaw, blue, [finger * 0.11, 0.11, 0.04], [0.07, 0.1, 0.07], 14);
-    });
+    addSphere(restingPaw, muzzle, [0, 0, 0], [0.2, 0.16, 0.14], 18);
+    addSphere(restingPaw, muzzle, [0.14, 0.01, 0.045], [0.075, 0.095, 0.07], 16);
     restingPaw.position.set(-0.78, -1.12, 0.62);
     gopher.add(restingPaw);
 
     var head = new THREE.Group();
     gopher.add(head);
     // A rounded hood frames the blue face; no handheld props are part of this scene.
-    addSphere(head, hood, [0, 0, 0], [1.04, 1.02, 0.68], 32);
-    addSphere(head, hoodLight, [0, 0.62, 0.11], [0.87, 0.35, 0.58], 28);
+    addSphere(head, hood, [0, 0, 0], [1.12, 1.05, 0.7], 32);
+    addSphere(head, hoodLight, [0, 0.62, 0.11], [0.94, 0.36, 0.59], 28);
     [-1, 1].forEach(function (side) {
-      addSphere(head, hood, [side * 0.88, 0.49, -0.01], [0.3, 0.35, 0.28], 22);
-      addSphere(head, blue, [side * 0.9, 0.51, 0.12], [0.18, 0.22, 0.12], 20);
-      addSphere(head, blueDeep, [side * 0.9, 0.51, 0.22], [0.1, 0.14, 0.04], 16);
+      addSphere(head, hood, [side * 0.94, 0.43, -0.01], [0.34, 0.38, 0.29], 22);
+      addSphere(head, blue, [side * 0.97, 0.45, 0.12], [0.21, 0.24, 0.12], 20);
+      addSphere(head, blueDeep, [side * 0.97, 0.45, 0.22], [0.11, 0.15, 0.04], 16);
     });
-    addSphere(head, blue, [0, -0.12, 0.48], [0.79, 0.72, 0.34], 32);
+    addSphere(head, blue, [0, -0.12, 0.48], [0.87, 0.76, 0.36], 32);
+
+    var markCanvas = document.createElement("canvas");
+    markCanvas.width = 96;
+    markCanvas.height = 96;
+    var markContext = markCanvas.getContext("2d");
+    var mark = [
+      "001111100", "011111110", "111111111", "110110110", "111111111",
+      "011101110", "011101110", "001101100", "001001000",
+    ];
+    markContext.fillStyle = "#fff";
+    mark.forEach(function (row, y) {
+      Array.prototype.forEach.call(row, function (pixel, x) {
+        if (pixel === "1") markContext.fillRect(x * 10 + 1, y * 10 + 1, 8, 8);
+      });
+    });
+    var markTexture = new THREE.CanvasTexture(markCanvas);
+    markTexture.colorSpace = THREE.SRGBColorSpace;
+    var logoMark = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.54, 0.54),
+      new THREE.MeshBasicMaterial({ map: markTexture, transparent: true, toneMapped: false }),
+    );
+    logoMark.position.set(0, 0.64, 0.69);
+    logoMark.rotation.x = -0.1;
+    head.add(logoMark);
 
     var eyes = [];
     var pupils = [];
     var glints = [];
     [-1, 1].forEach(function (side) {
-      var eye = addSphere(head, white, [side * 0.31, 0.26, 0.76], [0.25, 0.29, 0.12], 24);
-      var eyePupil = addSphere(head, pupil, [side * 0.31, 0.25, 0.87], [0.105, 0.13, 0.055], 20);
-      var glint = addSphere(head, white, [side * 0.31 - 0.035, 0.3, 0.92], [0.035, 0.04, 0.018], 12);
+      var eyeX = side * 0.34;
+      var eyeY = side > 0 ? 0.22 : 0.27;
+      var eye = addSphere(head, white, [eyeX, eyeY, 0.76], [side > 0 ? 0.35 : 0.32, side > 0 ? 0.39 : 0.36, 0.13], 24);
+      var eyePupil = addSphere(head, pupil, [eyeX, eyeY, 0.88], [0.14, 0.16, 0.055], 20);
+      var glint = addSphere(head, white, [eyeX - 0.04, eyeY + 0.06, 0.93], [0.035, 0.04, 0.018], 12);
       eyes.push(eye);
       pupils.push(eyePupil);
       glints.push(glint);
@@ -161,23 +185,18 @@
     addBox(head, white, [-0.055, -0.29, 0.81], [0.09, 0.2, 0.07]);
     addBox(head, white, [0.055, -0.29, 0.81], [0.09, 0.2, 0.07]);
 
-    var upperArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.23, 1, 5, 16), sleeve);
-    var lowerArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.21, 1, 5, 16), sleeve);
-    var armJoint = new THREE.Mesh(new THREE.SphereGeometry(0.27, 20, 16), sleeve);
-    var cuff = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.065, 10, 20), orange);
+    var reachArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.17, 1, 5, 16), sleeve);
+    var orangeCuff = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.045, 10, 20), orange);
+    var whiteCuff = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.035, 10, 20), white);
     var paw = new THREE.Group();
-    addSphere(paw, blue, [0, 0, 0], [0.31, 0.25, 0.21], 20);
-    [-1, 0, 1].forEach(function (finger) {
-      addSphere(paw, blue, [finger * 0.15, 0.17, 0.06], [0.1, 0.14, 0.1], 16);
-    });
-    scene.add(upperArm, lowerArm, armJoint, cuff, paw);
-    upperArm.visible = false;
-    lowerArm.visible = false;
-    armJoint.visible = false;
-    cuff.visible = false;
+    addSphere(paw, muzzle, [0, 0, 0], [0.19, 0.15, 0.14], 20);
+    addSphere(paw, muzzle, [0.13, 0.015, 0.055], [0.07, 0.085, 0.065], 16);
+    scene.add(reachArm, orangeCuff, whiteCuff, paw);
+    reachArm.visible = false;
+    orangeCuff.visible = false;
+    whiteCuff.visible = false;
     paw.visible = false;
 
-    var clock = new THREE.Clock();
     var raf = 0;
     var running = false;
     var lastFrame = 0;
@@ -236,7 +255,7 @@
       motion = {
         start: performance.now(),
         fromX: gopher.position.x,
-        targetX: point.x - 0.42,
+        targetX: point.x - 0.3,
         targetY: point.y,
         index: index,
         commit: commit,
@@ -271,7 +290,7 @@
         : 0;
       var targetX = motion ? motion.targetX : 0;
       gopher.position.x += (targetX - gopher.position.x) * (motion ? 0.12 : 0.045);
-      gopher.position.y = edgeY - 0.1 + rise * 1.65 + Math.sin(time * 2.2) * 0.015;
+      gopher.position.y = edgeY - 0.1 + rise * 0.8 + Math.sin(time * 2.2) * 0.015;
       gopher.rotation.y += (pointerX * 0.18 - gopher.rotation.y) * 0.08;
       gopher.rotation.z += (-pointerX * 0.025 - gopher.rotation.z) * 0.08;
       head.rotation.x += (pointerY * 0.08 - head.rotation.x) * 0.08;
@@ -280,36 +299,26 @@
       torso.position.y = gopher.position.y - 0.72;
 
       var reach = motion ? smooth((progress - 0.2) / 0.2) * (1 - smooth((progress - 0.8) / 0.18)) : 0;
-      upperArm.visible = reach > 0.02;
-      lowerArm.visible = reach > 0.02;
-      armJoint.visible = reach > 0.02;
-      cuff.visible = reach > 0.02;
+      reachArm.visible = reach > 0.02;
+      orangeCuff.visible = reach > 0.02;
+      whiteCuff.visible = reach > 0.02;
       paw.visible = reach > 0.02;
       if (motion && reach > 0.02) {
-        var shoulderPoint = new THREE.Vector3(gopher.position.x + 0.63, gopher.position.y - 0.7, 0.54);
-        var elbowPoint = new THREE.Vector3(
-          (shoulderPoint.x + motion.targetX) / 2 + 0.34,
-          (shoulderPoint.y + motion.targetY) / 2 + 0.08,
-          0.72,
-        );
+        var shoulderPoint = new THREE.Vector3(gopher.position.x + 0.48, gopher.position.y - 0.42, 0.62);
         var press = progress > 0.48 && progress < 0.66
           ? Math.sin(((progress - 0.48) / 0.18) * Math.PI) * 0.16
           : 0;
-        var hand = new THREE.Vector3(motion.targetX, motion.targetY + 0.22 - press, 0.82);
-        function placeSegment(segment, start, end, length) {
-          var delta = end.clone().sub(start);
-          segment.position.copy(start).add(end).multiplyScalar(0.5);
-          segment.scale.set(1, delta.length() / length, 1);
-          segment.rotation.z = Math.atan2(delta.x, delta.y);
-          return delta;
-        }
-        placeSegment(upperArm, shoulderPoint, elbowPoint, 1.46);
-        var lowerDelta = placeSegment(lowerArm, elbowPoint, hand, 1.42);
-        armJoint.position.copy(elbowPoint);
-        cuff.position.copy(hand).add(lowerDelta.clone().normalize().multiplyScalar(-0.18));
-        cuff.rotation.set(0, 0, lowerArm.rotation.z);
+        var hand = new THREE.Vector3(motion.targetX + 0.3, motion.targetY + 0.2 - press, 0.82);
+        var delta = hand.clone().sub(shoulderPoint);
+        reachArm.position.copy(shoulderPoint).add(hand).multiplyScalar(0.5);
+        reachArm.scale.set(1, delta.length() / 1.34, 1);
+        reachArm.rotation.z = Math.atan2(delta.x, delta.y);
+        orangeCuff.position.copy(hand).add(delta.clone().normalize().multiplyScalar(-0.15));
+        whiteCuff.position.copy(hand).add(delta.clone().normalize().multiplyScalar(-0.25));
+        orangeCuff.rotation.set(0, 0, reachArm.rotation.z);
+        whiteCuff.rotation.set(0, 0, reachArm.rotation.z);
         paw.position.copy(hand);
-        paw.rotation.z = lowerArm.rotation.z * 0.35 + (press ? 0.18 : 0);
+        paw.rotation.z = reachArm.rotation.z * 0.25 + (press ? 0.18 : 0);
         if (progress >= 0.56 && !motion.committed) {
           motion.committed = true;
           if (motion.commit) motion.commit();
@@ -320,25 +329,24 @@
       else stage.classList.remove("ws-hero__mascot-track--foreground");
       if (motion && progress >= 1) {
         motion = null;
-        upperArm.visible = false;
-        lowerArm.visible = false;
-        armJoint.visible = false;
-        cuff.visible = false;
+        reachArm.visible = false;
+        orangeCuff.visible = false;
+        whiteCuff.visible = false;
         paw.visible = false;
         stage.classList.remove("ws-hero__mascot-track--foreground");
       }
 
       pupils.forEach(function (eye, index) {
         var side = index ? 1 : -1;
-        eye.position.x = side * 0.31 + pointerX * 0.07;
-        eye.position.y = 0.25 + pointerY * 0.05;
+        eye.position.x = side * 0.34 + pointerX * 0.07;
+        eye.position.y = (side > 0 ? 0.22 : 0.27) + pointerY * 0.05;
         glints[index].position.x = eye.position.x - 0.035;
-        glints[index].position.y = eye.position.y + 0.05;
+        glints[index].position.y = eye.position.y + 0.06;
       });
       var blink = Math.max(0, 1 - Math.abs((time % 4.6) - 4.05) / 0.12);
       eyes.forEach(function (eye, index) {
-        eye.scale.y = 0.29 * (1 - blink * 0.85);
-        pupils[index].scale.y = 0.13 * (1 - blink * 0.85);
+        eye.scale.y = (index ? 0.39 : 0.36) * (1 - blink * 0.85);
+        pupils[index].scale.y = 0.16 * (1 - blink * 0.85);
         glints[index].visible = blink < 0.7;
       });
     }

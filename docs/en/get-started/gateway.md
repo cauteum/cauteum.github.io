@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -14,8 +14,8 @@ run it.
 One command starts a local gateway container and selects it:
 
 ```bash
-cauteum gateway ensure
-cauteum gateway info
+cautem gateway ensure
+cautem gateway info
 ```
 
 ### with Docker Compose
@@ -24,16 +24,16 @@ Use Compose when you want a durable setup next to other services:
 
 ```bash
 # optional durable key for the secrets store:
-# export CAUTEUM_SECRETS_KEK="$(openssl rand -base64 32)"
+# export CAUTEM_SECRETS_KEK="$(openssl rand -base64 32)"
 
-docker compose -f cauteum-gateway/compose/docker-compose.yml up -d --build
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
-cauteum gateway info
+docker compose -f cautem-gateway/compose/docker-compose.yml up -d --build
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
+cautem gateway info
 ```
 
 !!! warning "Keep the key"
-    Without `CAUTEUM_SECRETS_KEK` the gateway generates `secrets.kek` in its
+    Without `CAUTEM_SECRETS_KEK` the gateway generates `secrets.kek` in its
     data volume. Lose the volume and stored secrets can no longer be decrypted.
 
 ### with a local binary
@@ -41,12 +41,12 @@ cauteum gateway info
 Handy while developing the gateway itself:
 
 ```bash
-go build -C cauteum-gateway -o cauteum-gateway ./cmd/cauteum-gateway
-./cauteum-gateway --listen 127.0.0.1:7443 &
+go build -C cautem-gateway -o cautem-gateway ./cmd/cautem-gateway
+./cautem-gateway --listen 127.0.0.1:7443 &
 
-cauteum gateway add http://127.0.0.1:7443 --local --name local
-cauteum gateway select local
-cauteum gateway info
+cautem gateway add http://127.0.0.1:7443 --local --name local
+cautem gateway select local
+cautem gateway info
 ```
 
 `gateway info` should report the selected gateway as reachable. More options:

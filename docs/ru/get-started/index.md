@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
 # Быстрый старт
 
-cauteum — один CLI, который запускает coding-агентов в песочницах с
+cautem — один CLI, который запускает coding-агентов в песочницах с
 политикой на Docker или Podman. Установите CLI, убедитесь, что контейнерный
 движок работает, и скачайте образ песочницы — затем
 [запустите gateway](gateway.md) и [создайте первую песочницу](first-sandbox.md).
@@ -14,14 +14,14 @@ cauteum — один CLI, который запускает coding-агенто�
 
 ### через установщик <small>рекомендуется</small> { #with-installer data-toc-label="через установщик" }
 
-Последняя опубликованная версия CLI — `v0.1.5`. Закрепите её при
+Последняя опубликованная версия CLI — `v0.1.6`. Закрепите её при
 установке, чтобы инструкции оставались воспроизводимыми до выхода стабильного релиза.
 Откройте терминал и выполните:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.5 sh
-cauteum version
+curl -LsSf https://raw.githubusercontent.com/cautem/cautem-cli/main/install.sh \
+  | CAUTEM_VERSION=v0.1.6 sh
+cautem version
 ```
 
 Бинарь ставится в `~/.local/bin` — этот каталог должен быть в `PATH`.
@@ -29,22 +29,22 @@ cauteum version
 Для установки в другой каталог:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cautem/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.5 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cautem/cautem-cli/main/install.sh \
+  | CAUTEM_VERSION=v0.1.6 CAUTEM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### из исходников
 
 Сборка из checkout workspace — если нужен свежий `main` или вы разрабатываете
-cauteum:
+cautem:
 
 ```bash
-cd /path/to/cauteum
+cd /path/to/cautem
 export GOWORK=$PWD/go.work
 
-go build -C cauteum-cli -o cauteum ./cmd/cauteum
-./cauteum-cli/cauteum install
-./cauteum-cli/cauteum version
+go build -C cautem-cli -o cautem ./cmd/cautem
+./cautem-cli/cautem install
+./cautem-cli/cautem version
 ```
 
 ## Контейнерный движок
@@ -59,8 +59,8 @@ go build -C cauteum-cli -o cauteum ./cmd/cauteum
 
     ```bash
     docker info
-    cauteum doctor
-    cauteum status
+    cautem doctor
+    cautem status
     ```
 
 === "Podman на macOS"
@@ -68,19 +68,19 @@ go build -C cauteum-cli -o cauteum ./cmd/cauteum
     ```bash
     podman machine init     # один раз
     podman machine start
-    export CAUTEUM_DRIVER=podman
-    cauteum status
+    export CAUTEM_DRIVER=podman
+    cautem status
     ```
 
 === "Podman на Linux"
 
     ```bash
     systemctl --user enable --now podman.socket
-    export CAUTEUM_DRIVER=podman
-    cauteum status
+    export CAUTEM_DRIVER=podman
+    cautem status
     ```
 
-`cauteum status` должен показать выбранный драйвер (`docker` или `podman`).
+`cautem status` должен показать выбранный драйвер (`docker` или `podman`).
 Подробнее о движках: [Docker](../providers/docker/index.md) ·
 [Podman](../providers/podman/index.md).
 
@@ -89,7 +89,7 @@ go build -C cauteum-cli -o cauteum ./cmd/cauteum
 Скачайте базовый образ — в нём есть всё, что нужно агенту в CLI:
 
 ```bash
-docker pull ghcr.io/cautem/cauteum/sandboxes/base:latest
+docker pull ghcr.io/cautem/cautem/sandboxes/base:latest
 ```
 
 !!! tip "Собрать образы самому"

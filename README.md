@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: Copyright (c) 2026 cauteum
+SPDX-FileCopyrightText: Copyright (c) 2026 cautem
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# cauteum documentation
+# cautem documentation
 
-Shared documentation for all cauteum modules, built with
+Shared documentation for all cautem modules, built with
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) (EN / RU).
 
 **Site:** https://cautem.github.io/sandbox.dev/
