@@ -44,6 +44,9 @@ jobs:
                    assets/images/mascot-cutouts/containers.png \
                    assets/images/mascot-cutouts/remote.png assets/images/mascot-cutouts/fast.png \
                    assets/images/mascot-cutouts/flexible.png assets/images/mascot-cutouts/happy.png \
+                   assets/images/mascot-cutouts/docker.png assets/images/mascot-cutouts/podman.png \
+                   assets/images/mascot-cutouts/security.png assets/images/mascot-cutouts/gateway.png \
+                   assets/images/mascot-cutouts/worker.png \
                    assets/javascripts/hero.js \
                    search/search_index.json; do
             test -s "site/$f"
@@ -62,8 +65,8 @@ jobs:
           done
           grep -q 'Sandboxes for coding agents' site/index.html
           grep -q 'Песочницы для coding-агентов' site/ru/index.html
-          grep -q 'property="og:title" content="Cauteum — Sandboxes for coding agents"' site/index.html
-          grep -q 'property="og:title" content="Cauteum — песочницы для coding-агентов"' site/ru/index.html
+          grep -q 'property="og:title" content="Cauteum Sandbox — Sandboxes for coding agents"' site/index.html
+          grep -q 'property="og:title" content="Cauteum Sandbox — песочницы для coding-агентов"' site/ru/index.html
           grep -q 'property="og:locale" content="en_US"' site/index.html
           grep -q 'property="og:locale" content="ru_RU"' site/ru/index.html
           grep -q 'cauteum-mascot.png' site/index.html
@@ -90,17 +93,19 @@ jobs:
           grep -q 'ws-badge--soon' site/ru/providers/docker/index.html
           grep -q 'under-construction.svg' site/ru/providers/microvm/index.html
           grep -q 'class="mermaid"' site/concepts/architecture/index.html
-          grep -q 'mascot-cutouts/containers.png' site/concepts/architecture/index.html
-          grep -q 'mascot-cutouts/flexible.png' site/ru/concepts/security/index.html
-          grep -q 'mascot-cutouts/containers.png' site/providers/docker/index.html
-          grep -q 'mascot-cutouts/remote.png' site/get-started/first-sandbox/index.html
+          grep -q 'mascot-cutouts/gateway.png' site/concepts/architecture/index.html
+          grep -q 'mascot-cutouts/security.png' site/ru/concepts/security/index.html
+          grep -q 'mascot-cutouts/docker.png' site/providers/docker/index.html
+          grep -q 'mascot-cutouts/podman.png' site/providers/podman/index.html
+          grep -q 'mascot-cutouts/worker.png' site/providers/kubernetes/index.html
+          grep -q 'mascot-cutouts/docker.png' site/get-started/first-sandbox/index.html
           grep -q 'CAUTEUM_VERSION' site/get-started/index.html
           grep -q 'v0.1.4' site/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/get-started/index.html
           grep -q 'CAUTEUM_VERSION' site/ru/get-started/index.html
           grep -q 'v0.1.4' site/ru/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/ru/get-started/index.html
-          python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 7; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
+          python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 12; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'cauteum-mascot.png' site/assets/images/mascot-violet.svg
           test ! -e site/assets/images/mascot-violet-atlas.png
