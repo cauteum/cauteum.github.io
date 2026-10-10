@@ -14,13 +14,13 @@ pull a sandbox image — then [start the gateway](gateway.md) and
 
 ### with the installer <small>recommended</small> { #with-installer data-toc-label="with the installer" }
 
-The latest published CLI is `v0.1.0-beta.3`. Pin it when installing so this
+The latest published CLI is `v0.1.2`. Pin it when installing so this
 guide keeps working until the next stable release is published.
 Open a terminal and run:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.3 sh
+curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.2 sh
 cauteum version
 ```
 
@@ -29,8 +29,8 @@ The binary goes to `~/.local/bin` — make sure it is on your `PATH`.
 To install into another directory:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.3 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### from source

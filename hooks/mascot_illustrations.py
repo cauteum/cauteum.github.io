@@ -44,7 +44,8 @@ def on_page_content(html, page, config, files):
         return html
 
     variant = _illustration(source)
-    width, height = (720, 647) if variant == "clean" else (720, 443)
+    # Every cutout now uses the same transparent gopher artwork.
+    width, height = (720, 658)
     illustration = (
         f'<figure class="ws-doc-mascot ws-doc-mascot--{variant}" aria-hidden="true">'
         f'<img class="ws-doc-mascot__art" src="/assets/images/mascot-cutouts/{variant}.png" '

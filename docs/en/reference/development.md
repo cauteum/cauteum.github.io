@@ -11,7 +11,7 @@ file, not in published `go.mod` files. Replacements for workspace modules must
 include the dependency version:
 
 ```bash
-go work edit -replace=github.com/cauteum/cauteum-core@v0.1.0-beta.1=./cauteum-core
+go work edit -replace=github.com/cauteum-haven/cauteum-core@v0.1.0-beta.1=./cauteum-core
 git -C cauteum-cli status
 ```
 
@@ -28,7 +28,7 @@ Modules use semantic version tags. Alpha, beta, and release candidate tags are p
 
 The currently published set uses prerelease tags; existing tags stay immutable. The next coordinated release is planned as stable `v0.1.2`, followed by patch releases such as `v0.1.3`. Do not create new alpha, beta, or release-candidate tags. Create stable tags only after the release gates pass, and keep each module's dependency DAG and package metadata aligned. The Python package uses the corresponding stable version (for example, `0.1.2`) when it is included in that release; it is not currently published on PyPI. Until the stable release is published, installation instructions must use an existing published CLI tag. Use each checkout's `go.mod` rather than assuming all independent modules always share one tag.
 
-The logging checkout is locally named `cauteum-slogx`, while its published module path is still `github.com/cauteum/slogx`. Change the public path only together with a new repository and a tested consumer migration.
+The logging checkout is locally named `cauteum-slogx`, while its published module path is still `github.com/cauteum-haven/slogx`. Change the public path only together with a new repository and a tested consumer migration.
 
 ## Review conventions
 

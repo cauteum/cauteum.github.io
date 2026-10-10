@@ -14,7 +14,7 @@ hero:
     Run Cursor, Claude, Codex or any agent you bring in a container that sees
     your project and reaches only the hosts you allow. Provider credentials
     stay outside the sandbox.
-  mascot_alt: Orange pangolin mascot for Cauteum
+  mascot_alt: Blue gopher mascot for Cauteum
   flow_label: Codex sandbox workflow preview
   tab_create: Create
   tab_run: Run Codex

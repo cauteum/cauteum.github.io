@@ -14,13 +14,13 @@ cauteum — один CLI, который запускает coding-агенто�
 
 ### через установщик <small>рекомендуется</small> { #with-installer data-toc-label="через установщик" }
 
-Последняя опубликованная версия CLI — `v0.1.0-beta.3`. Закрепите её при
+Последняя опубликованная версия CLI — `v0.1.2`. Закрепите её при
 установке, чтобы инструкции оставались воспроизводимыми до выхода стабильного релиза.
 Откройте терминал и выполните:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.3 sh
+curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.2 sh
 cauteum version
 ```
 
@@ -29,8 +29,8 @@ cauteum version
 Для установки в другой каталог:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/cauteum/cauteum-cli/main/install.sh \
-  | CAUTEUM_VERSION=v0.1.0-beta.3 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
+curl -LsSf https://raw.githubusercontent.com/cauteum-haven/cauteum-cli/main/install.sh \
+  | CAUTEUM_VERSION=v0.1.2 CAUTEUM_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### из исходников

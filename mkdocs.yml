@@ -3,8 +3,8 @@
 
 site_name: cauteum
 site_description: Policy-bound sandboxes for coding agents on Docker and Podman
-site_url: https://cauteum.github.io/
-repo_url: https://github.com/cauteum/cauteum.github.io
+site_url: https://cauteum-haven.github.io/
+repo_url: https://github.com/cauteum-haven/cauteum-haven.github.io
 repo_name: GitHub
 edit_uri: edit/main/docs/
 copyright: Copyright &copy; 2026 cauteum &middot; Apache-2.0 License
@@ -12,8 +12,8 @@ copyright: Copyright &copy; 2026 cauteum &middot; Apache-2.0 License
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/images/cauteum-mascot.png
-  favicon: assets/images/cauteum-mascot.png
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon.svg
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -116,8 +116,8 @@ extra:
     soon: Coming soon
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/cauteum
-      name: cauteum on GitHub
+      link: https://github.com/cauteum-haven
+      name: Cauteum Haven on GitHub
 
 markdown_extensions:
   - abbr
