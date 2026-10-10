@@ -3,8 +3,8 @@
 
 site_name: Cauteum Sandbox
 site_description: Policy-bound sandboxes for coding agents on Docker and Podman
-site_url: https://cautem.github.io/cauteum-haven.github.io/
-repo_url: https://github.com/cautem/cauteum-haven.github.io
+site_url: https://cautem.github.io/sandbox.dev/
+repo_url: https://github.com/cautem/sandbox.dev
 repo_name: GitHub
 edit_uri: edit/main/docs/
 copyright: Copyright &copy; 2026 cauteum &middot; Apache-2.0 License

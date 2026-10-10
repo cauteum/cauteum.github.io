@@ -8,7 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 Shared documentation for all cauteum modules, built with
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) (EN / RU).
 
-**Site:** https://cautem.github.io/cauteum-haven.github.io/
+**Site:** https://cautem.github.io/sandbox.dev/
 
 ## Layout
 

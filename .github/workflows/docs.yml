@@ -88,7 +88,7 @@ jobs:
             grep -q 'property="og:title"' "$page"
             grep -q 'property="og:description"' "$page"
             grep -q 'property="og:url"' "$page"
-            grep -q 'property="og:image" content="https://cautem.github.io/cauteum-haven.github.io/assets/images/cauteum-mascot.png"' "$page"
+            grep -q 'property="og:image" content="https://cautem.github.io/sandbox.dev/assets/images/cauteum-mascot.png"' "$page"
             grep -q 'name="twitter:card" content="summary_large_image"' "$page"
           done
           grep -q 'Start the gateway' site/get-started/index.html
