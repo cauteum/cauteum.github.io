@@ -111,7 +111,29 @@ jobs:
           grep -q 'v0.1.4' site/ru/get-started/index.html
           ! grep -q 'v0.1.0-beta.1' site/ru/get-started/index.html
           python -c 'from pathlib import Path; files = list(Path("site/assets/images/mascot-cutouts").glob("*.png")); assert len(files) == 12; assert all(p.read_bytes()[25] == 6 for p in files), "Mascot cutouts must be RGBA PNGs"'
-          python -c 'from PIL import Image; im = Image.open("site/assets/images/cauteum-app-icon.png"); assert im.mode == "RGBA" and im.getpixel((0, 0))[3] == 0, "App icon must have a transparent background"'
+          python - <<'PY'
+          from pathlib import Path
+          import struct
+          import zlib
+
+          data = Path("site/assets/images/cauteum-app-icon.png").read_bytes()
+          assert data[:8] == b"\x89PNG\r\n\x1a\n", "App icon must be a PNG"
+          offset = 8
+          compressed = bytearray()
+          while offset < len(data):
+              size = struct.unpack(">I", data[offset:offset + 4])[0]
+              name = data[offset + 4:offset + 8]
+              chunk = data[offset + 8:offset + 8 + size]
+              if name == b"IHDR":
+                  assert chunk[8] == 8 and chunk[9] == 6 and chunk[12] == 0, "App icon must be non-interlaced RGBA"
+              elif name == b"IDAT":
+                  compressed.extend(chunk)
+              elif name == b"IEND":
+                  break
+              offset += size + 12
+          first_row = zlib.decompress(compressed)
+          assert first_row[0] <= 4 and first_row[4] == 0, "App icon's outer corner must be transparent"
+          PY
           grep -q 'class="ws-mascot-illustration"' site/assets/images/mascot-violet.svg
           grep -q 'cauteum-mascot.png' site/assets/images/mascot-violet.svg
           test ! -e site/assets/images/mascot-violet-atlas.png
